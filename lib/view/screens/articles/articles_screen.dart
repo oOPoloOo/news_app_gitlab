@@ -38,9 +38,7 @@ class _buildBody extends StatelessWidget {
     List<Articles> articles = Articles.articlesMap;
     return Container(
       color: Colors.green,
-      child: Center(
-        child: _buildSourceCardsListView(articles: articles),
-      ),
+      child: _buildSourceCardsListView(articles: articles),
     );
   }
 }
@@ -55,17 +53,16 @@ class _buildSourceCardsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-          shrinkWrap: true,
-          physics: AlwaysScrollableScrollPhysics(),
-          children: articles
-              .map(
-                (article) => ArticleCard(
-                  articleInfo: article,
-                ),
-              )
-              .toList()),
+    return ListView(
+      shrinkWrap: true,
+      physics: AlwaysScrollableScrollPhysics(),
+      children: articles
+          .map(
+            (article) => ArticleCard(
+              articleInfo: article,
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -77,42 +74,21 @@ class BuildText extends StatelessWidget {
     required this.fieldLabel,
     this.constraint,
     required this.textStyle,
-    // this.isHome = false,
   }) : super(key: key);
-
-  // const BuildText.home({
-  //   Key? key,
-  //   required this.flex,
-  //   required this.fieldLabel,
-  //   this.constraint,
-  //   required this.textStyle,
-  //   this.isHome = true,
-  // }) : super(key: key);
 
   final int flex;
   final String fieldLabel;
   final BoxConstraints? constraint;
   final TextStyle textStyle;
-  //final bool isHome;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
         flex: flex,
-        child:
-            //  isHome
-            //     ?
-            Text(
+        child: Text(
           fieldLabel,
           style: textStyle,
-        )
-        // : Container(
-        //     width: constraint!.biggest.width * 0.85,
-        //     height: constraint!.biggest.height * 0.2,
-        //     alignment: Alignment.topLeft,
-        //     child: Text(fieldLabel, style: textStyle),
-        //   ),
-        );
+        ));
   }
 }
 
@@ -167,25 +143,19 @@ class ArticleCard extends StatelessWidget {
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-                    child: Expanded(
-                      flex: 1,
-                      child: Text(
-                        '${articleInfo.date}',
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                      ),
+                    child: Text(
+                      '${articleInfo.date}',
+                      style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: Expanded(
-                      flex: 4,
-                      child: Text(
-                        articleInfo.title,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
+                    child: Text(
+                      articleInfo.title,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   articleInfo.description.isNotEmpty
@@ -195,14 +165,10 @@ class ArticleCard extends StatelessWidget {
                             right: 10.0,
                             top: 5.0,
                           ),
-                          child: Expanded(
-                            flex: 6,
-                            child: Text(
-                              articleInfo.description,
-                              textAlign: TextAlign.justify,
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.black),
-                            ),
+                          child: Text(
+                            articleInfo.description,
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 18, color: Colors.black),
                           ),
                         )
                       : const SizedBox(

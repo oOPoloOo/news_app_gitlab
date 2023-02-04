@@ -37,10 +37,8 @@ class _buildBody extends StatelessWidget {
     List<Sources> sources = Sources.sourcesMap;
     return Container(
       color: Colors.grey,
-      child: Center(
-        child: _buildSourceCardsListView(
-          sources: sources,
-        ),
+      child: _buildSourceCardsListView(
+        sources: sources,
       ),
     );
   }
@@ -56,18 +54,21 @@ class _buildSourceCardsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-          shrinkWrap: true,
-          physics: AlwaysScrollableScrollPhysics(),
-          children: sources
-              .map(
-                (source) => SourceCard(
-                  sourceInfo: source,
-                ),
-              )
-              .toList()),
+    return
+        // Expanded(
+        //   child:
+        ListView(
+      shrinkWrap: true,
+      physics: AlwaysScrollableScrollPhysics(),
+      children: sources
+          .map(
+            (source) => SourceCard(
+              sourceInfo: source,
+            ),
+          )
+          .toList(),
     );
+    //);
   }
 }
 
