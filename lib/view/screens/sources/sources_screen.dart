@@ -46,6 +46,7 @@ class _buildBody extends StatelessWidget {
   }
 }
 
+//Make one custom class
 class _buildSourceCardsListView extends StatelessWidget {
   final List<Sources> sources;
   const _buildSourceCardsListView({
@@ -62,7 +63,7 @@ class _buildSourceCardsListView extends StatelessWidget {
           children: sources
               .map(
                 (source) => SourceCard(
-                  cardSource: source,
+                  sourceInfo: source,
                 ),
               )
               .toList()),
@@ -71,10 +72,10 @@ class _buildSourceCardsListView extends StatelessWidget {
 }
 
 class SourceCard extends StatelessWidget {
-  final Sources cardSource;
+  final Sources sourceInfo;
 
   const SourceCard({
-    required this.cardSource,
+    required this.sourceInfo,
   });
 
   @override
@@ -99,11 +100,11 @@ class SourceCard extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    cardSource.title,
+                    sourceInfo.title,
                     style: TextStyle(fontSize: 22, color: Colors.black),
                   ),
                   Text(
-                    cardSource.description,
+                    sourceInfo.description,
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 18, color: Colors.black),
                   ),
