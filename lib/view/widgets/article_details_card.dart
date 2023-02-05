@@ -213,28 +213,3 @@ class _buildDate extends StatelessWidget {
     );
   }
 }
-
-// class _buildImage extends StatelessWidget {
-//   const _buildImage({
-//     super.key,
-//     required this.imageWidth,
-//     required this.imgHeight,
-//     required this.articleInfo,
-//   });
-
-//   final double imageWidth;
-//   final double imgHeight;
-//   final ArticleDetails articleInfo;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: imageWidth,
-//       height: imgHeight,
-//       child: Image.network(
-//         articleInfo.imgUrl,
-//         fit: BoxFit.cover,
-//       ),
-//     );
-//   }
-// }

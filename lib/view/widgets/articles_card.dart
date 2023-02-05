@@ -30,7 +30,7 @@ class ArticleCard extends StatelessWidget {
               articleDetailsRouteName, /*arguments: source*/
             );
           },
-          child: Container(
+          child: SizedBox(
             width: cardWidth,
             height: articleInfo.imgUrl.isNotEmpty
                 ? cardHeightAllElements
@@ -42,7 +42,7 @@ class ArticleCard extends StatelessWidget {
               margin: EdgeInsets.all(10),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(18.0),
               ),
               child: Column(
                 children: [
@@ -131,17 +131,21 @@ class _buildDateText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, left: 5.0, right: 8.0),
+      padding: const EdgeInsets.only(top: 8.0, left: 7.0, right: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const VerticalDivider(
-            thickness: 3,
-            color: Colors.black,
+          SizedBox(
+            height: 25,
+            width: 10,
+            child: Container(color: Colors.black),
           ),
-          Text(
-            '${articleInfo.date}',
-            style: Theme.of(context).textTheme.labelMedium,
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              '${articleInfo.date}',
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
           ),
         ],
       ),
