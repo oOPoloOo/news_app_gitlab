@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\lib",
+    "\\lib\\view",
+    "\\lib\\view\\screens",
+    "\\lib\\view\\screens\\sources"
   ],
+  "SelectedNode": "\\lib\\view\\screens\\sources\\sources_screen.dart",
   "PreviewInSolutionExplorer": false
 }

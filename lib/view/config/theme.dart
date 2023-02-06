@@ -5,7 +5,6 @@ ThemeData theme() {
     scaffoldBackgroundColor: Colors.white,
     fontFamily: 'Avenir',
     primaryColor: Colors.yellow[700],
-    //backgroundColor: Colors.amber[400],
     backgroundColor: Colors.black,
     textTheme: textTheme(),
   );

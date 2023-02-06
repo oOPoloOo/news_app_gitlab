@@ -1,52 +1,36 @@
-class Sources {
-  final String title;
-  final String description;
+import 'package:json_annotation/json_annotation.dart';
 
-  const Sources({
+part 'sources_model.g.dart';
+
+@JsonSerializable()
+class Sources {
+  Sources({
+    required this.id,
     required this.title,
     required this.description,
+    this.url,
+    required this.category,
+    this.language,
+    this.country,
   });
 
-  static List<Sources> sourcesMap = [
-    Sources(
-      title: 'ABC News',
-      description:
-          'Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com.',
-    ),
-    Sources(
-      title: 'Al Jazeera English',
-      description:
-          'News, analysis from the Middle East and worldwide, multimedia and interactives, opinions, documentaries, podcasts, long reads and broadcast schedule.',
-    ),
-    Sources(
-      title: 'Ars Technica',
-      description:
-          'The PC enthusiast resource. Power users and the tools they love, without computing religion.',
-    ),
-    Sources(
-      title: 'Army News',
-      description:
-          'ARY News is a Pakistani news channel committed to bring you up-to-the minute Pakistan news and featured stories from around Pakistan and all over the world.',
-    ),
-    Sources(
-      title: 'Associated Press',
-      description:
-          'The AP delivers in-depth coverage on the international, politics, lifestyle, business, and entertainment news.',
-    ),
-    Sources(
-      title: 'Associated Press',
-      description:
-          'The AP delivers in-depth coverage on the international, politics, lifestyle, business, and entertainment news.',
-    ),
-    Sources(
-      title: 'Associated Press',
-      description:
-          'The AP delivers in-depth coverage on the international, politics, lifestyle, business, and entertainment news.',
-    ),
-    Sources(
-      title: 'Associated Press',
-      description:
-          'The AP delivers in-depth coverage on the international, politics, lifestyle, business, and entertainment news.',
-    ),
-  ];
+  @JsonKey(name: "id")
+  String id;
+  @JsonKey(name: "name")
+  String title;
+  @JsonKey(name: "description")
+  String description;
+  @JsonKey(name: "url")
+  Uri? url;
+  @JsonKey(name: "category")
+  String category;
+  @JsonKey(name: "language")
+  String? language;
+  @JsonKey(name: "country")
+  String? country;
+
+  factory Sources.fromJson(Map<String, dynamic> json) =>
+      _$SourcesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SourcesToJson(this);
 }
