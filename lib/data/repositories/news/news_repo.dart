@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:news_app/data/api/api_client.dart';
 import 'package:news_app/data/models/models_export.dart';
 import 'package:news_app/data/services/api/api_service.dart';
+import 'package:news_app/data/services/api_config/api_const.dart';
 
 import 'base_news_repo.dart';
 
@@ -15,13 +16,12 @@ class NewsRepository extends BaseNewsRepository {
 
   @override
   Future<List<Sources>> getAllSourcesByTechnologyEn() async {
-    //String todaysDate = DateFormat('yyy-MM-dd').format(DateTime.now());
     Response response;
     List<Sources> sourceList;
     SourcesResponse sourcesResp;
 
     try {
-      response = await apiService.getSourcesByTechnologyEn(apiClient);
+      response = await apiService.getSourcesEn(apiClient, sourcesTechnologyEn);
       if (response.statusCode == 200) {
         sourcesResp = SourcesResponse.fromJson(response.data);
         sourceList = sourcesResp.sourceList;
@@ -30,6 +30,123 @@ class NewsRepository extends BaseNewsRepository {
     } on DioError catch (e) {
       logger.e(e.message);
     }
-    throw Exception("Somethig went wrong! StatusCode != 200 ");
+    throw Exception(
+        "Somethig went wrong! StatusCode != 200. getAllSourcesByTechnologyEn.");
+  }
+
+  @override
+  Future<List<Sources>> getAllSourcesByBusinessEn() async {
+    Response response;
+    List<Sources> sourceList;
+    SourcesResponse sourcesResp;
+    try {
+      response = await apiService.getSourcesEn(apiClient, sourcesBusinessEn);
+      if (response.statusCode == 200) {
+        sourcesResp = SourcesResponse.fromJson(response.data);
+        sourceList = sourcesResp.sourceList;
+        return sourceList;
+      }
+    } on DioError catch (e) {
+      logger.e(e.message);
+    }
+    throw Exception(
+        "Somethig went wrong! StatusCode != 200. getAllSourcesByBusinessEn. ");
+  }
+
+  @override
+  Future<List<Sources>> getAllSourcesByEntertainmentEn() async {
+    Response response;
+    List<Sources> sourceList;
+    SourcesResponse sourcesResp;
+    try {
+      response =
+          await apiService.getSourcesEn(apiClient, sourcesEntertainmentEn);
+      if (response.statusCode == 200) {
+        sourcesResp = SourcesResponse.fromJson(response.data);
+        sourceList = sourcesResp.sourceList;
+        return sourceList;
+      }
+    } on DioError catch (e) {
+      logger.e(e.message);
+    }
+    throw Exception(
+        "Somethig went wrong! StatusCode != 200. getAllSourcesByEntertainmentEn. ");
+  }
+
+  @override
+  Future<List<Sources>> getAllSourcesByGeneralEn() async {
+    Response response;
+    List<Sources> sourceList;
+    SourcesResponse sourcesResp;
+    try {
+      response = await apiService.getSourcesEn(apiClient, sourcesGeneralEn);
+      if (response.statusCode == 200) {
+        sourcesResp = SourcesResponse.fromJson(response.data);
+        sourceList = sourcesResp.sourceList;
+        return sourceList;
+      }
+    } on DioError catch (e) {
+      logger.e(e.message);
+    }
+    throw Exception(
+        "Somethig went wrong! StatusCode != 200. getAllSourcesByGeneralEn. ");
+  }
+
+  @override
+  Future<List<Sources>> getAllSourcesByHealthEn() async {
+    Response response;
+    List<Sources> sourceList;
+    SourcesResponse sourcesResp;
+    try {
+      response = await apiService.getSourcesEn(apiClient, sourcesHealthEn);
+      if (response.statusCode == 200) {
+        sourcesResp = SourcesResponse.fromJson(response.data);
+        sourceList = sourcesResp.sourceList;
+        return sourceList;
+      }
+    } on DioError catch (e) {
+      logger.e(e.message);
+    }
+    throw Exception(
+        "Somethig went wrong! StatusCode != 200. getAllSourcesByHealthEn ");
+  }
+
+  @override
+  Future<List<Sources>> getAllSourcesBySportsEn() async {
+    Response response;
+    List<Sources> sourceList;
+    SourcesResponse sourcesResp;
+    try {
+      response = await apiService.getSourcesEn(apiClient, sourcesSportsEn);
+      if (response.statusCode == 200) {
+        sourcesResp = SourcesResponse.fromJson(response.data);
+        sourceList = sourcesResp.sourceList;
+        return sourceList;
+      }
+    } on DioError catch (e) {
+      logger.e(e.message);
+    }
+    throw Exception(
+        "Somethig went wrong! StatusCode != 200. getAllSourcesBySportsEn. ");
+  }
+
+  @override
+  Future<List<Articles>> getAllArticlesByGeneral(String domain) async {
+    Response response;
+    List<Articles> articlesList;
+    ArticlesResponse articlesResp;
+    String newArticles = "$articlesGeneral&domains=$domain";
+    try {
+      response = await apiService.getArticles(apiClient, newArticles);
+      if (response.statusCode == 200) {
+        articlesResp = ArticlesResponse.fromJson(response.data);
+        articlesList = articlesResp.artileList;
+        return articlesList;
+      }
+    } on DioError catch (e) {
+      logger.e(e.message);
+    }
+    throw Exception(
+        "Somethig went wrong! StatusCode != 200. getAllSourcesBySportsEn. ");
   }
 }

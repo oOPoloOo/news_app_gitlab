@@ -32,7 +32,7 @@ class ArticleCard extends StatelessWidget {
           },
           child: SizedBox(
             width: cardWidth,
-            height: articleInfo.imgUrl.isNotEmpty
+            height: articleInfo.urlToImage.isNotEmpty
                 ? cardHeightAllElements
                 : articleInfo.description.isNotEmpty
                     ? cardHeightNoImg
@@ -46,7 +46,7 @@ class ArticleCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  articleInfo.imgUrl.isNotEmpty
+                  articleInfo.urlToImage.isNotEmpty
                       ? _buildImage(
                           cardWidth: cardWidth,
                           imgHeight: imgHeight,
@@ -143,7 +143,7 @@ class _buildDateText extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
-              '${articleInfo.date}',
+              "${articleInfo.publishedAt}",
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ),
@@ -171,7 +171,7 @@ class _buildImage extends StatelessWidget {
       width: cardWidth,
       height: imgHeight,
       child: Image.network(
-        articleInfo.imgUrl,
+        articleInfo.urlToImage,
         fit: BoxFit.fill,
       ),
     );

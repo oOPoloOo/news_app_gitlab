@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:news_app/data/models/sources/sources_model.dart';
 
-part 'sources_response.g.dart';
+part 'sources_response_model.g.dart';
 
 @JsonSerializable()
 class SourcesResponse {

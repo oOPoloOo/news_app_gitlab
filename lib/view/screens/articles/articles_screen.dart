@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/logic/bloc_export.dart';
 import 'package:news_app/view/config/constants.dart';
 import 'package:news_app/view/widgets/custom_list_view.dart';
 import 'package:news_app/view/widgets/widgets_export.dart';
@@ -38,10 +40,24 @@ class _buildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Articles> articles = Articles.articlesMap;
-    return Container(
-      color: backColor,
-      child: CustomListView.articles(articles: articles),
+    return BlocBuilder<ArticlesBloc, ArticlesState>(
+      builder: (context, state) {
+        if (state is ArticlesLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is ArticlesLoaded) {
+          return Container(
+            color: backColor,
+            child: CustomListView.articles(articles: state.articles),
+          );
+        } else {
+          return const Center(
+            child: Text('Something went wrong!'),
+          );
+        }
+      },
     );
   }
 }

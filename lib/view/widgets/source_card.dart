@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/logic/bloc_export.dart';
 import '../../data/models/models_export.dart';
 import 'package:news_app/view/config/constants.dart';
 
@@ -12,12 +14,12 @@ class SourceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    String web = 'www.bleacherreport.com';
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          articlesRouteName, /*arguments: source*/
-        );
+        Navigator.pushNamed(context, articlesRouteName);
+        BlocProvider.of<ArticlesBloc>(context)
+            .add(LoadArticles(domain: web /*sourceInfo.url!.host*/));
       },
       child: Container(
         margin: EdgeInsets.all(5.0),
