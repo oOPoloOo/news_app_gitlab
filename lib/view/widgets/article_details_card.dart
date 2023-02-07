@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:intl/intl.dart';
 import 'package:news_app/data/models/models_export.dart';
+import 'package:news_app/view/config/constants.dart';
+import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticleDetailsCard extends StatelessWidget {
@@ -12,6 +15,7 @@ class ArticleDetailsCard extends StatelessWidget {
   final double cardWidth;
 
   final double imgHeight;
+
   const ArticleDetailsCard({
     required this.articleInfo,
     required this.cardHeight,
@@ -21,6 +25,12 @@ class ArticleDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isEmptyImg = true;
+
+    if (articleInfo.imageUrl != null && isURL(articleInfo.imageUrl)) {
+      isEmptyImg = false;
+    }
+
     return Column(
       children: [
         GestureDetector(
@@ -37,13 +47,16 @@ class ArticleDetailsCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  articleInfo.imageUrl.isNotEmpty
-                      ? _buildImage(
-                          articleInfo: articleInfo,
-                          imageWidth: cardWidth,
-                          imgHeight: imgHeight,
-                        )
-                      : const SizedBox(height: 0, width: 0),
+                  _buildImage(
+                    imageUrl: !isEmptyImg ? articleInfo.imageUrl : noImgImage,
+                    imageWidth: cardWidth,
+                    imgHeight: imgHeight,
+                  ),
+                  Divider(
+                    thickness: 30,
+                    color: Colors.blueGrey[700],
+                    height: 30,
+                  ),
                   _buildDate(flex: 1, articleInfo: articleInfo),
                   _buildTitle(flex: 2, articleInfo: articleInfo),
                   _buildContent(flex: 6, articleInfo: articleInfo),
@@ -95,12 +108,12 @@ class ArticleDetailsCard extends StatelessWidget {
 class _buildImage extends StatelessWidget {
   const _buildImage({
     super.key,
-    required this.articleInfo,
+    required this.imageUrl,
     required this.imageWidth,
     required this.imgHeight,
   });
 
-  final Articles articleInfo;
+  final String imageUrl;
   final double imageWidth;
   final double imgHeight;
 
@@ -110,7 +123,7 @@ class _buildImage extends StatelessWidget {
       width: imageWidth,
       height: imgHeight,
       child: Image.network(
-        articleInfo.imageUrl,
+        imageUrl,
         fit: BoxFit.fill,
       ),
     );
@@ -192,7 +205,7 @@ class _buildDate extends StatelessWidget {
     return Expanded(
       flex: flex,
       child: Padding(
-        padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+        padding: const EdgeInsets.only(top: 15.0, left: 8.0, right: 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -201,7 +214,7 @@ class _buildDate extends StatelessWidget {
               thickness: 4,
             ),
             Text(
-              '${articleInfo.publishedAt}',
+              DateFormat('yyyy-MM-dd hh:mm').format(articleInfo.publishedAt),
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ],

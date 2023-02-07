@@ -1,28 +1,36 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:news_app/logic/article_details/article_details_bloc.dart';
 import 'package:news_app/view/config/constants.dart';
+import 'package:string_validator/string_validator.dart';
 import '../../data/models/models_export.dart';
 
 class ArticleCard extends StatelessWidget {
   final Articles articleInfo;
   final double cardWidth;
   final double cardHeightAllElements;
-  final double cardHeightNoImg;
-  final double cardHeightOnlyDateTitle;
   final double imgHeight;
 
   const ArticleCard({
     required this.articleInfo,
     required this.cardWidth,
     required this.cardHeightAllElements,
-    required this.cardHeightNoImg,
-    required this.cardHeightOnlyDateTitle,
     required this.imgHeight,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool isEmptyImg = true;
+    bool isEmptyIDes = true;
+
+    if (articleInfo.imageUrl != null && isURL(articleInfo.imageUrl)) {
+      isEmptyImg = false;
+    }
+
+    if (articleInfo.description != null) isEmptyIDes = false;
+
     return Column(
       children: [
         GestureDetector(
@@ -34,11 +42,7 @@ class ArticleCard extends StatelessWidget {
           },
           child: SizedBox(
             width: cardWidth,
-            height: articleInfo.imageUrl.isNotEmpty
-                ? cardHeightAllElements
-                : articleInfo.description.isNotEmpty
-                    ? cardHeightNoImg
-                    : cardHeightOnlyDateTitle,
+            height: cardHeightAllElements,
             child: Card(
               elevation: 5,
               margin: EdgeInsets.all(10),
@@ -48,16 +52,14 @@ class ArticleCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  articleInfo.imageUrl.isNotEmpty
-                      ? _buildImage(
-                          cardWidth: cardWidth,
-                          imgHeight: imgHeight,
-                          articleInfo: articleInfo,
-                        )
-                      : const SizedBox(height: 0, width: 0),
+                  _buildImage(
+                    cardWidth: cardWidth,
+                    imgHeight: imgHeight,
+                    imageUrl: !isEmptyImg ? articleInfo.imageUrl : noImgImage,
+                  ),
                   _buildDateText(articleInfo: articleInfo),
                   _buildTitleText(articleInfo: articleInfo),
-                  articleInfo.description.isNotEmpty
+                  !isEmptyIDes
                       ? _buildDescription(articleInfo: articleInfo)
                       : const SizedBox(
                           height: 0,
@@ -89,10 +91,11 @@ class _buildDescription extends StatelessWidget {
         right: 10.0,
         top: 10.0,
       ),
-      child: Text(
+      child: AutoSizeText(
         articleInfo.description,
         textAlign: TextAlign.justify,
         style: Theme.of(context).textTheme.bodyMedium,
+        maxLines: 8,
       ),
     );
   }
@@ -145,7 +148,7 @@ class _buildDateText extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
-              "${articleInfo.publishedAt}",
+              DateFormat('yyyy-MM-dd hh:mm').format(articleInfo.publishedAt),
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ),
@@ -158,12 +161,12 @@ class _buildDateText extends StatelessWidget {
 class _buildImage extends StatelessWidget {
   const _buildImage({
     super.key,
-    required this.articleInfo,
+    required this.imageUrl,
     required this.cardWidth,
     required this.imgHeight,
   });
 
-  final Articles articleInfo;
+  final String imageUrl;
   final double cardWidth;
   final double imgHeight;
 
@@ -173,7 +176,7 @@ class _buildImage extends StatelessWidget {
       width: cardWidth,
       height: imgHeight,
       child: Image.network(
-        articleInfo.imageUrl,
+        imageUrl,
         fit: BoxFit.fill,
       ),
     );

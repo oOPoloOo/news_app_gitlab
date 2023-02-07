@@ -24,8 +24,7 @@ class ArticleDetailsScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: const CustomAppBar(
         screen: routeName,
-        title:
-            "Kazkas ko vistiek nesimatis (Title) ir dar daug visko prirasyta ziurim kiek traukia sitas gruzovykas. Labas rytas.",
+        title: "",
       ),
       body: _buildBody(
         backColor: Theme.of(context).backgroundColor,

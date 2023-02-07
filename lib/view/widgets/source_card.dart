@@ -1,6 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/logic/bloc_export.dart';
+import 'package:string_validator/string_validator.dart';
 import '../../data/models/models_export.dart';
 import 'package:news_app/view/config/constants.dart';
 
@@ -32,14 +34,16 @@ class SourceCard extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  Text(
+                  AutoSizeText(
                     sourceInfo.title,
                     style: Theme.of(context).textTheme.titleMedium,
+                    maxLines: 1,
                   ),
-                  Text(
+                  AutoSizeText(
                     sourceInfo.description,
                     textAlign: TextAlign.justify,
                     style: Theme.of(context).textTheme.bodyMedium,
+                    maxLines: 4,
                   ),
                 ],
               ),
@@ -48,6 +52,5 @@ class SourceCard extends StatelessWidget {
         ),
       ),
     );
-    // );
   }
 }

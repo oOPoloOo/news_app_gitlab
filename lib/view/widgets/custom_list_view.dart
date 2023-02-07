@@ -1,3 +1,5 @@
+import 'package:string_validator/string_validator.dart';
+
 import 'widgets_export.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/data/models/models_export.dart';
@@ -43,12 +45,13 @@ class CustomListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+
     return isDetails
         ? ArticleDetailsCard(
             articleInfo: articleDetails!,
             cardHeight: media.height,
             cardWidth: media.width * 0.95,
-            imgHeight: media.height * 0.25,
+            imgHeight: media.height * 0.26,
           )
         : ListView(
             shrinkWrap: true,
@@ -67,8 +70,6 @@ class CustomListView extends StatelessWidget {
                           (article) => ArticleCard(
                             articleInfo: article,
                             cardHeightAllElements: media.height * 0.55,
-                            cardHeightNoImg: media.height * 0.40,
-                            cardHeightOnlyDateTitle: media.height * 0.15,
                             imgHeight: media.height * 0.20,
                             cardWidth: media.width * 0.95,
                           ),
