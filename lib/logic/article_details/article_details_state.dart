@@ -1,5 +1,19 @@
 part of 'article_details_bloc.dart';
 
-abstract class ArticleDetailsState {}
+abstract class ArticleDetailsState {
+  const ArticleDetailsState();
 
-class ArticleDetailsInitial extends ArticleDetailsState {}
+  @override
+  List<Object> get props => [];
+}
+
+class ArticleDetailsLoading extends ArticleDetailsState {}
+
+class ArticleDetailsLoaded extends ArticleDetailsState {
+  Articles articleDetails;
+
+  ArticleDetailsLoaded({required this.articleDetails});
+
+  @override
+  List<Object> get props => [articleDetails];
+}

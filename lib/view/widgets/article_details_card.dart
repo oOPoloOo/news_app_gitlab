@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:news_app/data/models/models_export.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArticleDetailsCard extends StatelessWidget {
-  final ArticleDetails articleInfo;
+  final Articles articleInfo;
 
   final double cardHeight;
 
@@ -26,6 +27,7 @@ class ArticleDetailsCard extends StatelessWidget {
           onTap: () {},
           child: SizedBox(
             height: cardHeight,
+            width: cardWidth,
             child: Card(
               elevation: 5,
               margin: const EdgeInsets.all(10),
@@ -35,11 +37,13 @@ class ArticleDetailsCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  _buildImage(
-                    articleInfo: articleInfo,
-                    imageWidth: cardWidth,
-                    imgHeight: imgHeight,
-                  ),
+                  articleInfo.imageUrl.isNotEmpty
+                      ? _buildImage(
+                          articleInfo: articleInfo,
+                          imageWidth: cardWidth,
+                          imgHeight: imgHeight,
+                        )
+                      : const SizedBox(height: 0, width: 0),
                   _buildDate(flex: 1, articleInfo: articleInfo),
                   _buildTitle(flex: 2, articleInfo: articleInfo),
                   _buildContent(flex: 6, articleInfo: articleInfo),
@@ -96,26 +100,19 @@ class _buildImage extends StatelessWidget {
     required this.imgHeight,
   });
 
-  final ArticleDetails articleInfo;
+  final Articles articleInfo;
   final double imageWidth;
   final double imgHeight;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: articleInfo.imgUrl.isNotEmpty
-          ? SizedBox(
-              width: imageWidth,
-              height: imgHeight,
-              child: Image.network(
-                articleInfo.imgUrl,
-                fit: BoxFit.cover,
-              ),
-            )
-          : const SizedBox(
-              height: 0,
-              width: 0,
-            ),
+      width: imageWidth,
+      height: imgHeight,
+      child: Image.network(
+        articleInfo.imageUrl,
+        fit: BoxFit.fill,
+      ),
     );
   }
 }
@@ -128,7 +125,7 @@ class _buildContent extends StatelessWidget {
   });
 
   final int flex;
-  final ArticleDetails articleInfo;
+  final Articles articleInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +155,7 @@ class _buildTitle extends StatelessWidget {
   });
 
   final int flex;
-  final ArticleDetails articleInfo;
+  final Articles articleInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +185,7 @@ class _buildDate extends StatelessWidget {
   });
 
   final int flex;
-  final ArticleDetails articleInfo;
+  final Articles articleInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +201,7 @@ class _buildDate extends StatelessWidget {
               thickness: 4,
             ),
             Text(
-              '${articleInfo.date}',
+              '${articleInfo.publishedAt}',
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ],

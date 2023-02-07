@@ -13,5 +13,5 @@ abstract class BaseNewsRepository {
 
   Future<List<Sources>> getAllSourcesBySportsEn();
 
-  Future<List<Articles>> getAllArticlesByGeneral(String domain);
+  Future<List<Articles>> getAllArticlesBySource(String source);
 }

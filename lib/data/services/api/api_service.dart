@@ -18,10 +18,10 @@ class ApiService extends BaseApiService {
   }
 
   @override
-  Future<Response> getArticles(Dio dio, String articleData) async {
+  Future<Response> getArticles(Dio dio, String articleHeader) async {
     Response response;
     try {
-      response = await dio.get(articleData);
+      response = await dio.get(articleHeader);
     } on DioError catch (e) {
       logger.e(e.message);
       throw Exception(e.message);

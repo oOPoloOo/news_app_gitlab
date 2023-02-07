@@ -8,11 +8,11 @@ abstract class ArticlesEvent extends Equatable {
 }
 
 class LoadArticles extends ArticlesEvent {
-  final String domain;
-  LoadArticles({required this.domain});
+  final String source;
+  LoadArticles({required this.source});
 
   @override
-  List<Object> get props => [domain];
+  List<Object> get props => [source];
 }
 
 class UpdateArticles extends ArticlesEvent {

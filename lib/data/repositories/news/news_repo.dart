@@ -131,11 +131,12 @@ class NewsRepository extends BaseNewsRepository {
   }
 
   @override
-  Future<List<Articles>> getAllArticlesByGeneral(String domain) async {
+  Future<List<Articles>> getAllArticlesBySource(String source) async {
     Response response;
     List<Articles> articlesList;
     ArticlesResponse articlesResp;
-    String newArticles = "$articlesGeneral&domains=$domain";
+    String newArticles = "$articlesTen&sources=$source";
+
     try {
       response = await apiService.getArticles(apiClient, newArticles);
       if (response.statusCode == 200) {

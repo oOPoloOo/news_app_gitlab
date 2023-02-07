@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'source/source_model.dart';
 import 'date_converter/date_converter.dart';
 
 part 'articles_model.g.dart';
@@ -7,30 +8,27 @@ part 'articles_model.g.dart';
 @CustomDateTimeConverter()
 class Articles {
   Articles({
-    required this.id,
-    required this.name,
+    required this.idAndName,
     this.author,
     required this.title,
-    required this.description,
-    required this.url,
-    required this.urlToImage,
+    this.description,
+    required this.articleUrl,
+    this.imageUrl,
     required this.publishedAt,
     required this.content,
   });
-  @JsonKey(name: "id")
-  String id;
-  @JsonKey(name: "name")
-  String name;
+  @JsonKey(name: "source")
+  Source idAndName;
   @JsonKey(name: "author")
   dynamic author;
   @JsonKey(name: "title")
   String title;
   @JsonKey(name: "description")
-  String description;
+  dynamic description;
   @JsonKey(name: "url")
-  String url;
+  String articleUrl;
   @JsonKey(name: "urlToImage")
-  String urlToImage;
+  dynamic imageUrl;
   @JsonKey(name: "publishedAt")
   DateTime publishedAt;
   @JsonKey(name: "content")

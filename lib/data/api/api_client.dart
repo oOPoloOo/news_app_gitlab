@@ -6,7 +6,7 @@ var logger = Logger();
 Dio newsClient() {
   Dio dio = Dio();
 
-  String apiKey = "8e9de83c1c9a499da06c99136f492865";
+  String apiKey = "a43c6cd50b834d7a9d69ac61cc294779";
 
   dio.options.baseUrl = "https://newsapi.org/v2/";
   dio.options.queryParameters = {'apiKey': apiKey};

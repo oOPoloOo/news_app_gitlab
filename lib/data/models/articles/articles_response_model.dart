@@ -9,7 +9,7 @@ class ArticlesResponse {
     required this.artileList,
   });
 
-  @JsonKey(name: "source")
+  @JsonKey(name: "articles")
   List<Articles> artileList;
 
   factory ArticlesResponse.fromJson(Map<String, dynamic> json) =>

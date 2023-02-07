@@ -5,7 +5,7 @@ import 'package:news_app/data/models/models_export.dart';
 class CustomListView extends StatelessWidget {
   final List<Sources>? sources;
   final List<Articles>? articles;
-  final ArticleDetails? articleDetails;
+  final Articles? articleDetails;
   final bool isSource;
   final bool isArticles;
   final bool isDetails;

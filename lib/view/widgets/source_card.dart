@@ -14,12 +14,12 @@ class SourceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    String web = 'www.bleacherreport.com';
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, articlesRouteName);
         BlocProvider.of<ArticlesBloc>(context)
-            .add(LoadArticles(domain: web /*sourceInfo.url!.host*/));
+            .add(LoadArticles(source: sourceInfo.id));
       },
       child: Container(
         margin: EdgeInsets.all(5.0),

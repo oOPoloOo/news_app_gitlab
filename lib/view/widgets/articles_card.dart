@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/logic/article_details/article_details_bloc.dart';
 import 'package:news_app/view/config/constants.dart';
 import '../../data/models/models_export.dart';
 
@@ -25,14 +27,14 @@ class ArticleCard extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              articleDetailsRouteName, /*arguments: source*/
-            );
+            Navigator.pushNamed(context, articleDetailsRouteName);
+
+            BlocProvider.of<ArticleDetailsBloc>(context)
+                .add(LoadArticleDetails(articleSelected: articleInfo));
           },
           child: SizedBox(
             width: cardWidth,
-            height: articleInfo.urlToImage.isNotEmpty
+            height: articleInfo.imageUrl.isNotEmpty
                 ? cardHeightAllElements
                 : articleInfo.description.isNotEmpty
                     ? cardHeightNoImg
@@ -46,7 +48,7 @@ class ArticleCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  articleInfo.urlToImage.isNotEmpty
+                  articleInfo.imageUrl.isNotEmpty
                       ? _buildImage(
                           cardWidth: cardWidth,
                           imgHeight: imgHeight,
@@ -171,7 +173,7 @@ class _buildImage extends StatelessWidget {
       width: cardWidth,
       height: imgHeight,
       child: Image.network(
-        articleInfo.urlToImage,
+        articleInfo.imageUrl,
         fit: BoxFit.fill,
       ),
     );

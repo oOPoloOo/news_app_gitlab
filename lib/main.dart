@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<ArticlesBloc>(
           create: (context) => ArticlesBloc(newsRepository: NewsRepository()),
         ),
-        //  BlocProvider<ArticleDetailsBloc>(
-        //   create: (context) =>
-        //       ArticleDetailsBloc(newsRepository: NewsRepository()),
-        // ),
+        BlocProvider<ArticleDetailsBloc>(
+          create: (context) =>
+              ArticleDetailsBloc(newsRepository: NewsRepository()),
+        ),
       ],
       child: MaterialApp(
         title: 'News App',

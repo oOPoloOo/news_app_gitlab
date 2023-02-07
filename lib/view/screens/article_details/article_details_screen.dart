@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_const
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/logic/bloc_export.dart';
 import 'package:news_app/view/config/constants.dart';
 import 'package:news_app/view/widgets/custom_list_view.dart';
 import 'package:news_app/view/widgets/widgets_export.dart';
@@ -42,13 +44,28 @@ class _buildBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<ArticleDetails> articleDetails = ArticleDetails.articleDetailsMap;
     var media = MediaQuery.of(context).size;
-    return Container(
-      height: media.height,
-      width: media.width,
-      color: Colors.black,
-      child: CustomListView.details(articleDetails: articleDetails[2]),
+
+    return BlocBuilder<ArticleDetailsBloc, ArticleDetailsState>(
+      builder: (context, state) {
+        if (state is ArticleDetailsLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is ArticleDetailsLoaded) {
+          return Container(
+            height: media.height,
+            width: media.width,
+            color: Colors.black,
+            child: CustomListView.details(articleDetails: state.articleDetails),
+          );
+        } else {
+          return const Center(
+            child: Text('Something went wrong!'),
+          );
+        }
+      },
     );
   }
 }
