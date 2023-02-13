@@ -1,10 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/data/api/api_client.dart';
 import 'package:news_app/data/repositories/news/news_repo.dart';
-
 import '../../data/models/models_export.dart';
-
 part 'article_details_event.dart';
 part 'article_details_state.dart';
 

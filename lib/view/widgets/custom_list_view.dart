@@ -1,5 +1,3 @@
-import 'package:string_validator/string_validator.dart';
-
 import 'widgets_export.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/data/models/models_export.dart';
