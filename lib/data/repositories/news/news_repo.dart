@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:news_app/data/api/api_client.dart';
+import 'package:news_app/data/database/local_database.dart';
 import 'package:news_app/data/models/models_export.dart';
 import 'package:news_app/data/services/api/api_service.dart';
 import 'package:news_app/data/services/api_config/api_const.dart';
@@ -9,6 +10,7 @@ import 'base_news_repo.dart';
 class NewsRepository extends BaseNewsRepository {
   late Dio apiClient;
   ApiService apiService = ApiService();
+  LocalDatabase localDatabase = LocalDatabase();
 
   NewsRepository() {
     apiClient = newsClient();
@@ -149,5 +151,27 @@ class NewsRepository extends BaseNewsRepository {
     }
     throw Exception(
         "Somethig went wrong! StatusCode != 200. getAllSourcesBySportsEn. ");
+  }
+
+  Future<void> writeSourcesToLocalDb(List<Sources> sourcesList) async {
+    //Paimu metoda is DAo
+    localDatabase.sourcesTableDao.insertMultipleEntries(sourcesList);
+
+    // TEST Tvarkoj
+    final allSources =
+        await localDatabase.select(localDatabase.sourcesTable).get();
+    logger.d(allSources);
+    // print('Sources in database: $allSources');
+  }
+
+  Future<void> writeArticlesToLocalDb(List<Articles> articleList) async {
+    //Paimu metoda is DAo
+    localDatabase.articlesTableDao.insertMultipleEntries(articleList);
+
+    //TEST Tvarkoj
+    // final allSources =
+    //     await localDatabase.select(localDatabase.sourcesTable).get();
+    // logger.d(allSources);
+    // print('Sources in database: $allSources');
   }
 }
