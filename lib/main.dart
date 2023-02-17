@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/data/database/local_database.dart';
 import 'package:news_app/data/repositories/news/news_repo.dart';
 import 'package:news_app/logic/bloc_export.dart';
 import 'package:news_app/view/config/app_router.dart';
@@ -35,10 +34,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<NetworkBloc>(
+          lazy: false,
+          create: (context) => NetworkBloc()..add(NetworkObserve()),
+        ),
         BlocProvider<SourcesBloc>(
           lazy: false,
-          create: (context) =>
-              SourcesBloc(newsRepository: NewsRepository())..add(LoadSources()),
+          create: (context) => SourcesBloc(
+              newsRepository: NewsRepository(),
+              networkBloc: context.read<NetworkBloc>())
+            ..add(LoadSources()),
         ),
         BlocProvider<ArticlesBloc>(
           create: (context) => ArticlesBloc(newsRepository: NewsRepository()),
