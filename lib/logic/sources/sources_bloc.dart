@@ -27,16 +27,14 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   }
 
   StreamSubscription<NetworkState> _monitorNetworkCubit(
-      event, Emitter<SourcesState> emit) {
+      SourcesEvent event, Emitter<SourcesState> emit) {
     return networkStreamSubscription = networkBloc.stream.listen((state) {
       // state initial neina toliau
       if (state is NetworkSuccess) {
-        _onLoadSources;
+        _onLoadSources(event, emit);
       }
       if (state is NetworkFailure) {
-        _onLoadLocalSources;
-      } else {
-        logger.d('SourcesBloc nepatenka i nei viena if');
+        _onLoadLocalSources(event, emit);
       }
     });
   }
@@ -48,20 +46,17 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
       logger.d(e);
     }
     saveDataToLocalDb(sourcesList);
-    emit(SourcesLoaded(sources: sourcesList));
+    add(UpdateSources(sourcesList));
   }
 
   void _onLoadLocalSources(event, Emitter<SourcesState> emit) async {
-    // try {
-    //   sourcesList = await newsRepository.getAllSourcesByTechnologyEn();
-    // } on DioError catch (e) {
-    //   logger.d(e);
-    // }
-    // saveDataToLocalDb(sourcesList);
-    // emit(SourcesLoaded(sources: sourcesList));
-    //emit(SourcesLoaded(sources: sourcesList));
-    logger.d('Nera interneto rysio');
-    print('Nera interneto rysio');
+    try {
+      sourcesList = await newsRepository.readAllSourcesFromLocalDb();
+    } on DioError catch (e) {
+      logger.d(e);
+    }
+
+    add(UpdateSources(sourcesList));
   }
 
   void saveDataToLocalDb(List<Sources> sourcesList) async {
@@ -74,8 +69,8 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   }
 
   @override
-  Future<void> close() {
+  Future<void> close() async {
     networkStreamSubscription.cancel();
-    return super.close();
+    return await super.close();
   }
 }

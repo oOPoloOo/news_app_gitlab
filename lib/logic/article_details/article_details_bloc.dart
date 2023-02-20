@@ -15,10 +15,8 @@ class ArticleDetailsBloc
 
   ArticleDetailsBloc({required this.newsRepository})
       : super(ArticleDetailsLoading()) {
-    on<ArticleDetailsEvent>((event, emit) {
-      on<LoadArticleDetails>(_onLoadArticlesDetails);
-      on<UpdateArticlesDetails>(_onUpdateArticlesDetails);
-    });
+    on<LoadArticleDetails>(_onLoadArticlesDetails);
+    on<UpdateArticlesDetails>(_onUpdateArticlesDetails);
   }
 
   void _onLoadArticlesDetails(
