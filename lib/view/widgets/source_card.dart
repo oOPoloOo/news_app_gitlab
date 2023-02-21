@@ -21,7 +21,6 @@ class SourceCard extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             if (state is NetworkSuccess) {
-              //NetworkSuccess islieka isjungus internet
               BlocProvider.of<ArticlesBloc>(context)
                   .add(LoadArticles(source: sourceInfo.id));
             } else {

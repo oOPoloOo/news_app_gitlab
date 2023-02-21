@@ -8,21 +8,6 @@ import 'package:news_app/view/screens/sources/sources_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // final database = LocalDatabase();
-
-  // // Simple insert:
-  // await database
-  //     .into(database.sourcesTable)
-  //     .insert(SourcesTableCompanion.insert(
-  //       sourceId: 'test-news',
-  //       title: 'Test News',
-  //       description: 'Best test news around.',
-  //       category: 'test',
-  //     ));
-
-  // // Simple select:
-  // final allSources = await database.select(database.sourcesTable).get();
-  // print('Sources in database: $allSources');
 
   runApp(const MyApp());
 }
@@ -37,20 +22,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<NetworkBloc>(
           create: (context) => NetworkBloc()..add(NetworkObserve()),
         ),
-        // BlocProvider<SourcesBloc>(
-        //   // lazy: false,
-        //   create: (context) => SourcesBloc(
-        //       newsRepository: NewsRepository(),
-        //       networkBloc: context.read<NetworkBloc>())
-        //     ..add(LoadSources()),
-        // ),
-        // BlocProvider<ArticlesBloc>(
-        //   lazy: false,
-        //   create: (context) => ArticlesBloc(
-        //     newsRepository: NewsRepository(),
-        //     networkBloc: context.read<NetworkBloc>(),
-        //   ),
-        // ),
         BlocProvider<SourcesBloc>(
           lazy: false,
           create: (context) => SourcesBloc(
@@ -59,7 +30,6 @@ class MyApp extends StatelessWidget {
           )..add(LoadSources()),
         ),
         BlocProvider<ArticlesBloc>(
-          // lazy: false,
           create: (context) => ArticlesBloc(
             newsRepository: NewsRepository(),
           ),

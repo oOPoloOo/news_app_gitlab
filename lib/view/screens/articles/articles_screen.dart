@@ -5,8 +5,6 @@ import 'package:news_app/view/config/constants.dart';
 import 'package:news_app/view/widgets/custom_list_view.dart';
 import 'package:news_app/view/widgets/widgets_export.dart';
 
-import '../../../data/models/models_export.dart';
-
 class ArticlesScreen extends StatelessWidget {
   static const String routeName = articlesRouteName;
 

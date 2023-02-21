@@ -13,7 +13,6 @@ class ArticleDetails {
     required this.articleUrl,
   });
 
-// DateFormat('yyy-MM-dd HH:mm').format(DateTime.parse('2023-02-04T09:02:11Z'))
   static List<ArticleDetails> articleDetailsMap = [
     ArticleDetails(
       title: 'Rally Signals Its No Bear Run; Musk Not Liable For Tweets',

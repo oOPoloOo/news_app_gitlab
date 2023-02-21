@@ -1,8 +1,6 @@
 import 'package:drift/drift.dart';
 
 class SourcesTable extends Table {
-  // IntColumn get id => integer().autoIncrement()();
-
   TextColumn get sourceId => text().named('source_id')();
   TextColumn get title => text().named('name')();
   TextColumn get description => text().named('description')();

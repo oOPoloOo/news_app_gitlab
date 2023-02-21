@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:drift/drift.dart';
 import 'package:news_app/data/api/api_client.dart';
 import 'package:news_app/data/database/local_database.dart';
 import 'package:news_app/data/models/models_export.dart';
@@ -160,11 +159,6 @@ class NewsRepository extends BaseNewsRepository {
 
   Future<void> writeArticlesToLocalDb(List<Articles> articleList) async {
     await localDatabase.articlesTableDao.insertMultipleArticles(articleList);
-
-    //TEST - NEATEINA ?
-    // final dbArticles =
-    //     await localDatabase.select(localDatabase.articlesTable).get();
-    // logger.d(dbArticles);
   }
 
   Future<List<Sources>> readAllSourcesFromLocalDb() async {

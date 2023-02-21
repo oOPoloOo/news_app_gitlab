@@ -22,16 +22,6 @@ class NetworkBloc extends Bloc<NetworkEvent, NetworkState> {
     NetworkConnectionHelper.observeNetwork();
   }
 
-  // void _observe(event, emit) {
-  //   Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-  //     if (result == ConnectivityResult.none) {
-  //       add(NetworkNotify());
-  //     } else {
-  //       add(NetworkNotify(isConnected: true));
-  //     }
-  //   });
-  // }
-
   void _notifyStatus(NetworkNotify event, emit) {
     logger.d("_notifyStatus ${event.isConnected}");
     event.isConnected ? emit(NetworkSuccess()) : emit(NetworkFailure());

@@ -11,33 +11,15 @@ part 'articles_event.dart';
 part 'articles_state.dart';
 
 class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
-  // NetworkBloc networkBloc;
   NewsRepository newsRepository;
   List<Articles> articleList = <Articles>[];
   late StreamSubscription networkStreamSubscription;
 
-  ArticlesBloc({required this.newsRepository /*, required this.networkBloc*/})
-      : super(ArticlesLoading()) {
+  ArticlesBloc({required this.newsRepository}) : super(ArticlesLoading()) {
     on<LoadArticles>(_onLoadArticles);
     on<LoadLocalArticles>(_onLoadLocalArticles);
     on<UpdateArticles>(_onUpdateArticles);
   }
-
-  // _monitorNetworkCubit(event, Emitter<ArticlesState> emit) {
-  //   logger.d("_monitorNetworkCubit ");
-
-  //   networkStreamSubscription = networkBloc.stream.listen((state) {
-  //     // neturi state jokio negauna. Praskippina logika visa
-
-  //     if (state is NetworkSuccess) {
-  //       _onLoadArticles(event, emit);
-  //     }
-  //     if (state is NetworkFailure) {
-  //       _onLoadLocalArticles(event, emit);
-  //     }
-  //     logger.d("Buvo _monitorNetworkCubit");
-  //   });
-  // }
 
   void _onLoadArticles(LoadArticles event, Emitter<ArticlesState> emit) async {
     try {
@@ -53,7 +35,6 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   void _onLoadLocalArticles(
       LoadLocalArticles event, Emitter<ArticlesState> emit) async {
     try {
-      // perduoda gerai
       articleList =
           await newsRepository.readAllArticlesFromLocalDb(event.source);
     } on DioError catch (e) {
