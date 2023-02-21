@@ -58,24 +58,23 @@ class NewsRepository extends BaseNewsRepository {
   }
 
   Future<void> writeSourcesToLocalDb(List<Sources> sourcesList) async {
-    //Paimu metoda is DAo
-    localDatabase.sourcesTableDao.insertMultipleEntries(sourcesList);
-
-    // TEST Tvarkoj
-    final allSources =
-        await localDatabase.select(localDatabase.sourcesTable).get();
-    logger.d(allSources);
-    // print('Sources in database: $allSources');
+    localDatabase.sourcesTableDao.insertMultipleSources(sourcesList);
   }
 
   Future<void> writeArticlesToLocalDb(List<Articles> articleList) async {
-    //Paimu metoda is DAo
-    localDatabase.articlesTableDao.insertMultipleEntries(articleList);
+    await localDatabase.articlesTableDao.insertMultipleArticles(articleList);
+  }
 
-    //TEST Tvarkoj
-    // final allSources =
-    //     await localDatabase.select(localDatabase.sourcesTable).get();
-    // logger.d(allSources);
-    // print('Sources in database: $allSources');
+  Future<List<Sources>> readAllSourcesFromLocalDb() async {
+    final allSources = await localDatabase.sourcesTableDao.retrieveAllSources();
+
+    return allSources;
+  }
+
+  Future<List<Articles>> readAllArticlesFromLocalDb(String source) async {
+    final articlesList =
+        await localDatabase.articlesTableDao.retrieveAllArticles(source);
+
+    return articlesList;
   }
 }

@@ -413,6 +413,12 @@ class $ArticlesTableTable extends ArticlesTable
   late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
       'urlToImage', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _publishedAtMeta =
+      const VerificationMeta('publishedAt');
+  @override
+  late final GeneratedColumn<String> publishedAt = GeneratedColumn<String>(
+      'publishedAt', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _contentMeta =
       const VerificationMeta('content');
   @override
@@ -428,6 +434,7 @@ class $ArticlesTableTable extends ArticlesTable
         description,
         articleUrl,
         imageUrl,
+        publishedAt,
         content
       ];
   @override
@@ -479,6 +486,14 @@ class $ArticlesTableTable extends ArticlesTable
       context.handle(_imageUrlMeta,
           imageUrl.isAcceptableOrUnknown(data['urlToImage']!, _imageUrlMeta));
     }
+    if (data.containsKey('publishedAt')) {
+      context.handle(
+          _publishedAtMeta,
+          publishedAt.isAcceptableOrUnknown(
+              data['publishedAt']!, _publishedAtMeta));
+    } else if (isInserting) {
+      context.missing(_publishedAtMeta);
+    }
     if (data.containsKey('content')) {
       context.handle(_contentMeta,
           content.isAcceptableOrUnknown(data['content']!, _contentMeta));
@@ -508,6 +523,8 @@ class $ArticlesTableTable extends ArticlesTable
           .read(DriftSqlType.string, data['${effectivePrefix}url'])!,
       imageUrl: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}urlToImage']),
+      publishedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}publishedAt'])!,
       content: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
     );
@@ -528,6 +545,7 @@ class ArticlesTableData extends DataClass
   final String? description;
   final String articleUrl;
   final String? imageUrl;
+  final String publishedAt;
   final String content;
   const ArticlesTableData(
       {required this.sourceId,
@@ -537,6 +555,7 @@ class ArticlesTableData extends DataClass
       this.description,
       required this.articleUrl,
       this.imageUrl,
+      required this.publishedAt,
       required this.content});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -554,6 +573,7 @@ class ArticlesTableData extends DataClass
     if (!nullToAbsent || imageUrl != null) {
       map['urlToImage'] = Variable<String>(imageUrl);
     }
+    map['publishedAt'] = Variable<String>(publishedAt);
     map['content'] = Variable<String>(content);
     return map;
   }
@@ -572,6 +592,7 @@ class ArticlesTableData extends DataClass
       imageUrl: imageUrl == null && nullToAbsent
           ? const Value.absent()
           : Value(imageUrl),
+      publishedAt: Value(publishedAt),
       content: Value(content),
     );
   }
@@ -587,6 +608,7 @@ class ArticlesTableData extends DataClass
       description: serializer.fromJson<String?>(json['description']),
       articleUrl: serializer.fromJson<String>(json['articleUrl']),
       imageUrl: serializer.fromJson<String?>(json['imageUrl']),
+      publishedAt: serializer.fromJson<String>(json['publishedAt']),
       content: serializer.fromJson<String>(json['content']),
     );
   }
@@ -601,6 +623,7 @@ class ArticlesTableData extends DataClass
       'description': serializer.toJson<String?>(description),
       'articleUrl': serializer.toJson<String>(articleUrl),
       'imageUrl': serializer.toJson<String?>(imageUrl),
+      'publishedAt': serializer.toJson<String>(publishedAt),
       'content': serializer.toJson<String>(content),
     };
   }
@@ -613,6 +636,7 @@ class ArticlesTableData extends DataClass
           Value<String?> description = const Value.absent(),
           String? articleUrl,
           Value<String?> imageUrl = const Value.absent(),
+          String? publishedAt,
           String? content}) =>
       ArticlesTableData(
         sourceId: sourceId ?? this.sourceId,
@@ -622,6 +646,7 @@ class ArticlesTableData extends DataClass
         description: description.present ? description.value : this.description,
         articleUrl: articleUrl ?? this.articleUrl,
         imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
+        publishedAt: publishedAt ?? this.publishedAt,
         content: content ?? this.content,
       );
   @override
@@ -634,6 +659,7 @@ class ArticlesTableData extends DataClass
           ..write('description: $description, ')
           ..write('articleUrl: $articleUrl, ')
           ..write('imageUrl: $imageUrl, ')
+          ..write('publishedAt: $publishedAt, ')
           ..write('content: $content')
           ..write(')'))
         .toString();
@@ -641,7 +667,7 @@ class ArticlesTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(sourceId, sourceName, author, title,
-      description, articleUrl, imageUrl, content);
+      description, articleUrl, imageUrl, publishedAt, content);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -653,6 +679,7 @@ class ArticlesTableData extends DataClass
           other.description == this.description &&
           other.articleUrl == this.articleUrl &&
           other.imageUrl == this.imageUrl &&
+          other.publishedAt == this.publishedAt &&
           other.content == this.content);
 }
 
@@ -664,6 +691,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
   final Value<String?> description;
   final Value<String> articleUrl;
   final Value<String?> imageUrl;
+  final Value<String> publishedAt;
   final Value<String> content;
   const ArticlesTableCompanion({
     this.sourceId = const Value.absent(),
@@ -673,6 +701,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
     this.description = const Value.absent(),
     this.articleUrl = const Value.absent(),
     this.imageUrl = const Value.absent(),
+    this.publishedAt = const Value.absent(),
     this.content = const Value.absent(),
   });
   ArticlesTableCompanion.insert({
@@ -683,11 +712,13 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
     this.description = const Value.absent(),
     required String articleUrl,
     this.imageUrl = const Value.absent(),
+    required String publishedAt,
     required String content,
   })  : sourceId = Value(sourceId),
         sourceName = Value(sourceName),
         title = Value(title),
         articleUrl = Value(articleUrl),
+        publishedAt = Value(publishedAt),
         content = Value(content);
   static Insertable<ArticlesTableData> custom({
     Expression<String>? sourceId,
@@ -697,6 +728,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
     Expression<String>? description,
     Expression<String>? articleUrl,
     Expression<String>? imageUrl,
+    Expression<String>? publishedAt,
     Expression<String>? content,
   }) {
     return RawValuesInsertable({
@@ -707,6 +739,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
       if (description != null) 'description': description,
       if (articleUrl != null) 'url': articleUrl,
       if (imageUrl != null) 'urlToImage': imageUrl,
+      if (publishedAt != null) 'publishedAt': publishedAt,
       if (content != null) 'content': content,
     });
   }
@@ -719,6 +752,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
       Value<String?>? description,
       Value<String>? articleUrl,
       Value<String?>? imageUrl,
+      Value<String>? publishedAt,
       Value<String>? content}) {
     return ArticlesTableCompanion(
       sourceId: sourceId ?? this.sourceId,
@@ -728,6 +762,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
       description: description ?? this.description,
       articleUrl: articleUrl ?? this.articleUrl,
       imageUrl: imageUrl ?? this.imageUrl,
+      publishedAt: publishedAt ?? this.publishedAt,
       content: content ?? this.content,
     );
   }
@@ -756,6 +791,9 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
     if (imageUrl.present) {
       map['urlToImage'] = Variable<String>(imageUrl.value);
     }
+    if (publishedAt.present) {
+      map['publishedAt'] = Variable<String>(publishedAt.value);
+    }
     if (content.present) {
       map['content'] = Variable<String>(content.value);
     }
@@ -772,6 +810,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
           ..write('description: $description, ')
           ..write('articleUrl: $articleUrl, ')
           ..write('imageUrl: $imageUrl, ')
+          ..write('publishedAt: $publishedAt, ')
           ..write('content: $content')
           ..write(')'))
         .toString();
