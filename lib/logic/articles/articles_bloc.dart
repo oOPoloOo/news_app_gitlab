@@ -45,7 +45,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     } on DioError catch (e) {
       logger.d(e);
     }
-    logger.d("Buvo _onLoadArticles");
+
     saveDataToLocalDb(articleList);
     add(UpdateArticles(articleList));
   }
@@ -53,6 +53,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   void _onLoadLocalArticles(
       LoadLocalArticles event, Emitter<ArticlesState> emit) async {
     try {
+      // perduoda gerai
       articleList =
           await newsRepository.readAllArticlesFromLocalDb(event.source);
     } on DioError catch (e) {

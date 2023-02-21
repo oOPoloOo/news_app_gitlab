@@ -169,14 +169,14 @@ class NewsRepository extends BaseNewsRepository {
 
   Future<List<Sources>> readAllSourcesFromLocalDb() async {
     final allSources = await localDatabase.sourcesTableDao.retrieveAllSources();
-    logger.d(allSources);
+
     return allSources;
   }
 
   Future<List<Articles>> readAllArticlesFromLocalDb(String source) async {
     final articlesList =
         await localDatabase.articlesTableDao.retrieveAllArticles(source);
-    logger.d(articlesList);
+
     return articlesList;
   }
 }

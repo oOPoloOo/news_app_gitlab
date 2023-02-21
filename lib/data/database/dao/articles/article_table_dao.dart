@@ -42,6 +42,8 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
         .get();
 
     dbData.forEach((o) {
+      // antra karta iki cia ateina ir skippina
+
       sourceList.add(
         Articles(
           idAndName: Source(id: o.sourceId, name: o.sourceName),
@@ -49,7 +51,7 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
           title: o.title,
           description: o.description,
           articleUrl: o.articleUrl,
-          imageUrl: o.imageUrl!, //Uri.parse(o.imageUrl!),
+          imageUrl: o.imageUrl, //Uri.parse(o.imageUrl!),
           publishedAt: DateTime.parse(o.publishedAt),
           content: o.content,
         ),

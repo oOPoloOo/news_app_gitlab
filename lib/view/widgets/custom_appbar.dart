@@ -96,7 +96,9 @@ class ArticlesAppBar extends StatelessWidget {
             centerTitle: true,
             backgroundColor: Theme.of(context).backgroundColor,
             title: Text(
-              state.articles[0].idAndName.id,
+              state.articles.isNotEmpty
+                  ? state.articles[0].idAndName.id
+                  : title,
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Colors.white,
                   ),

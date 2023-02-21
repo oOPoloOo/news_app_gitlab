@@ -48,10 +48,24 @@ class _buildBody extends StatelessWidget {
           );
         }
         if (state is ArticlesLoaded) {
-          return Container(
-            color: backColor,
-            child: CustomListView.articles(articles: state.articles),
-          );
+          if (state.articles.length != 0) {
+            return Container(
+              color: backColor,
+              child: CustomListView.articles(articles: state.articles),
+            );
+          } else {
+            return Container(
+              color: backColor,
+              child: Center(
+                child: Text(
+                  "No data in local database about this source.",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
+              ),
+            );
+          }
         } else {
           return const Center(
             child: Text('Something went wrong!'),

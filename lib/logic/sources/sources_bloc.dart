@@ -62,7 +62,6 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   }
 
   void _onUpdateSources(UpdateSources event, Emitter<SourcesState> emit) {
-    logger.d("Atejo i _onUpdateSources");
     emit(SourcesLoaded(sources: event.sources));
   }
 
