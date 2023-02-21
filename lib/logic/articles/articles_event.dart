@@ -15,6 +15,14 @@ class LoadArticles extends ArticlesEvent {
   List<Object> get props => [source];
 }
 
+class LoadLocalArticles extends ArticlesEvent {
+  final String source;
+  LoadLocalArticles({required this.source});
+
+  @override
+  List<Object> get props => [source];
+}
+
 class UpdateArticles extends ArticlesEvent {
   final List<Articles> articles;
 

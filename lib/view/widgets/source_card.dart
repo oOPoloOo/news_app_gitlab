@@ -16,40 +16,51 @@ class SourceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, articlesRouteName);
-        BlocProvider.of<ArticlesBloc>(context)
-            .add(LoadArticles(source: sourceInfo.id));
-      },
-      child: Container(
-        margin: EdgeInsets.all(5.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+    return BlocBuilder<NetworkBloc, NetworkState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () {
+            if (state is NetworkSuccess) {
+              //NetworkSuccess islieka isjungus internet
+              BlocProvider.of<ArticlesBloc>(context)
+                  .add(LoadArticles(source: sourceInfo.id));
+            } else {
+              BlocProvider.of<ArticlesBloc>(context)
+                  .add(LoadLocalArticles(source: sourceInfo.id));
+            }
+
+            Navigator.pushNamed(context, articlesRouteName);
+          },
           child: Container(
-            color: Colors.grey[400],
-            height: media.height * 0.15,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  AutoSizeText(
-                    sourceInfo.title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                    maxLines: 1,
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              child: Container(
+                color: Colors.grey[400],
+                height: media.height * 0.15,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      AutoSizeText(
+                        sourceInfo.title,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 1,
+                      ),
+                      AutoSizeText(
+                        sourceInfo.description,
+                        textAlign: TextAlign.justify,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        maxLines: 4,
+                      ),
+                    ],
                   ),
-                  AutoSizeText(
-                    sourceInfo.description,
-                    textAlign: TextAlign.justify,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    maxLines: 4,
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

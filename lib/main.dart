@@ -35,18 +35,34 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<NetworkBloc>(
-          lazy: false,
           create: (context) => NetworkBloc()..add(NetworkObserve()),
         ),
+        // BlocProvider<SourcesBloc>(
+        //   // lazy: false,
+        //   create: (context) => SourcesBloc(
+        //       newsRepository: NewsRepository(),
+        //       networkBloc: context.read<NetworkBloc>())
+        //     ..add(LoadSources()),
+        // ),
+        // BlocProvider<ArticlesBloc>(
+        //   lazy: false,
+        //   create: (context) => ArticlesBloc(
+        //     newsRepository: NewsRepository(),
+        //     networkBloc: context.read<NetworkBloc>(),
+        //   ),
+        // ),
         BlocProvider<SourcesBloc>(
           lazy: false,
           create: (context) => SourcesBloc(
-              newsRepository: NewsRepository(),
-              networkBloc: context.read<NetworkBloc>())
-            ..add(LoadSources()),
+            newsRepository: NewsRepository(),
+            networkBloc: context.read<NetworkBloc>(),
+          )..add(LoadSources()),
         ),
         BlocProvider<ArticlesBloc>(
-          create: (context) => ArticlesBloc(newsRepository: NewsRepository()),
+          // lazy: false,
+          create: (context) => ArticlesBloc(
+            newsRepository: NewsRepository(),
+          ),
         ),
         BlocProvider<ArticleDetailsBloc>(
           create: (context) =>

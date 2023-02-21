@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/logic/article_details/article_details_bloc.dart';
+import 'package:news_app/logic/bloc_export.dart';
 import 'package:news_app/view/config/constants.dart';
 import 'package:string_validator/string_validator.dart';
 import '../../data/models/models_export.dart';
@@ -172,13 +173,28 @@ class _buildImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: cardWidth,
-      height: imgHeight,
-      child: Image.network(
-        imageUrl,
-        fit: BoxFit.fill,
-      ),
+    return BlocBuilder<NetworkBloc, NetworkState>(
+      builder: (context, state) {
+        if (state is NetworkSuccess) {
+          return SizedBox(
+            width: cardWidth,
+            height: imgHeight,
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,
+            ),
+          );
+        } else {
+          return SizedBox(
+            width: cardWidth,
+            height: imgHeight,
+            child: Image.asset(
+              'assets/no_nwtwork_egg.png',
+              fit: BoxFit.fill,
+            ),
+          );
+        }
+      },
     );
   }
 }

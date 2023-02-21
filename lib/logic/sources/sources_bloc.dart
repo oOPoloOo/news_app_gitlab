@@ -4,10 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:news_app/data/api/api_client.dart';
-import 'package:news_app/data/database/local_database.dart';
 import 'package:news_app/data/models/models_export.dart';
 import 'package:news_app/data/repositories/news/news_repo.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:news_app/logic/connectivity_check/network_bloc.dart';
 
 part 'sources_event.dart';
@@ -29,7 +28,6 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   StreamSubscription<NetworkState> _monitorNetworkCubit(
       SourcesEvent event, Emitter<SourcesState> emit) {
     return networkStreamSubscription = networkBloc.stream.listen((state) {
-      // state initial neina toliau
       if (state is NetworkSuccess) {
         _onLoadSources(event, emit);
       }

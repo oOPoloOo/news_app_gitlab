@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:news_app/data/api/api_client.dart';
 import 'package:news_app/data/database/local_database.dart';
 import 'package:news_app/data/models/models_export.dart';
@@ -154,16 +155,28 @@ class NewsRepository extends BaseNewsRepository {
   }
 
   Future<void> writeSourcesToLocalDb(List<Sources> sourcesList) async {
-    localDatabase.sourcesTableDao.insertMultipleEntries(sourcesList);
+    localDatabase.sourcesTableDao.insertMultipleSources(sourcesList);
   }
 
   Future<void> writeArticlesToLocalDb(List<Articles> articleList) async {
-    localDatabase.articlesTableDao.insertMultipleEntries(articleList);
+    await localDatabase.articlesTableDao.insertMultipleArticles(articleList);
+
+    //TEST - NEATEINA ?
+    // final dbArticles =
+    //     await localDatabase.select(localDatabase.articlesTable).get();
+    // logger.d(dbArticles);
   }
 
   Future<List<Sources>> readAllSourcesFromLocalDb() async {
     final allSources = await localDatabase.sourcesTableDao.retrieveAllSources();
     logger.d(allSources);
     return allSources;
+  }
+
+  Future<List<Articles>> readAllArticlesFromLocalDb(String source) async {
+    final articlesList =
+        await localDatabase.articlesTableDao.retrieveAllArticles(source);
+    logger.d(articlesList);
+    return articlesList;
   }
 }

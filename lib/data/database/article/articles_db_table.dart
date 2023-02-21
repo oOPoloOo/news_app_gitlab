@@ -9,6 +9,7 @@ class ArticlesTable extends Table {
   TextColumn get description => text().named('description').nullable()();
   TextColumn get articleUrl => text().named('url')();
   TextColumn get imageUrl => text().named('urlToImage').nullable()();
+  TextColumn get publishedAt => text().named('publishedAt')();
   TextColumn get content => text().named('content')();
 
   @override
