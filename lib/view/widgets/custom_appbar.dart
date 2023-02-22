@@ -18,29 +18,54 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return (screen == articlesRouteName)
-        ? ArticlesAppBar(
-            title: title,
+        ? _articlesAppBar(
+            context,
+            title,
           )
         : (screen == articleDetailsRouteName)
-            ? ArticleDetailsAppBar(
-                title: title,
+            ? _articleDetailsAppBar(
+                context,
               )
-            : ScourcesAppBar(
-                title: title,
+            : _scourcesAppBar(
+                context,
+                title,
               );
   }
-}
 
-class ArticleDetailsAppBar extends StatelessWidget {
-  final String title;
+  Widget _articlesAppBar(BuildContext context, String barTitle) {
+    return BlocBuilder<ArticlesBloc, ArticlesState>(
+      builder: (context, state) {
+        if (state is ArticlesLoaded) {
+          return AppBar(
+            elevation: 0,
+            centerTitle: true,
+            backgroundColor: Theme.of(context).backgroundColor,
+            title: Text(
+              state.articles.isNotEmpty
+                  ? state.articles[0].idAndName.id
+                  : title,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Colors.white,
+                  ),
+            ),
+          );
+        } else {
+          return AppBar(
+            elevation: 0,
+            backgroundColor: Theme.of(context).backgroundColor,
+            title: Text(
+              title,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Colors.white,
+                  ),
+            ),
+          );
+        }
+      },
+    );
+  }
 
-  const ArticleDetailsAppBar({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _articleDetailsAppBar(BuildContext context) {
     return BlocBuilder<ArticleDetailsBloc, ArticleDetailsState>(
       builder: (context, state) {
         if (state is ArticleDetailsLoaded) {
@@ -76,67 +101,14 @@ class ArticleDetailsAppBar extends StatelessWidget {
       },
     );
   }
-}
 
-class ArticlesAppBar extends StatelessWidget {
-  final String title;
-
-  const ArticlesAppBar({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ArticlesBloc, ArticlesState>(
-      builder: (context, state) {
-        if (state is ArticlesLoaded) {
-          return AppBar(
-            elevation: 0,
-            centerTitle: true,
-            backgroundColor: Theme.of(context).backgroundColor,
-            title: Text(
-              state.articles.isNotEmpty
-                  ? state.articles[0].idAndName.id
-                  : title,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
-          );
-        } else {
-          return AppBar(
-            elevation: 0,
-            backgroundColor: Theme.of(context).backgroundColor,
-            title: Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
-          );
-        }
-      },
-    );
-  }
-}
-
-class ScourcesAppBar extends StatelessWidget {
-  final String title;
-
-  const ScourcesAppBar({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _scourcesAppBar(BuildContext context, String barTitle) {
     return AppBar(
       centerTitle: true,
       elevation: 0,
       backgroundColor: Theme.of(context).backgroundColor,
       title: Text(
-        title,
+        barTitle,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
               color: Colors.white,
             ),

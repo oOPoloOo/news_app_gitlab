@@ -26,22 +26,13 @@ class ArticleDetailsScreen extends StatelessWidget {
         title: "",
       ),
       body: _buildBody(
-        backColor: Theme.of(context).backgroundColor,
+        context,
+        Theme.of(context).backgroundColor,
       ),
     );
   }
-}
 
-class _buildBody extends StatelessWidget {
-  const _buildBody({
-    Key? key,
-    required this.backColor,
-  }) : super(key: key);
-
-  final Color? backColor;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildBody(BuildContext context, Color backColor) {
     var media = MediaQuery.of(context).size;
 
     return BlocBuilder<ArticleDetailsBloc, ArticleDetailsState>(
@@ -55,7 +46,7 @@ class _buildBody extends StatelessWidget {
           return Container(
             height: media.height,
             width: media.width,
-            color: Colors.black,
+            color: backColor,
             child: CustomListView.details(articleDetails: state.articleDetails),
           );
         } else {

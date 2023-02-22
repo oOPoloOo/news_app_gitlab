@@ -49,18 +49,19 @@ class ArticleDetailsCard extends StatelessWidget {
               child: Column(
                 children: [
                   _buildImage(
-                    imageUrl: !isEmptyImg ? articleInfo.imageUrl : noImgImage,
-                    imageWidth: cardWidth,
-                    imgHeight: imgHeight,
+                    context,
+                    !isEmptyImg ? articleInfo.imageUrl : noImgImage,
+                    cardWidth,
+                    imgHeight,
                   ),
                   Divider(
                     thickness: 30,
                     color: Colors.blueGrey[700],
                     height: 30,
                   ),
-                  _buildDate(flex: 1, articleInfo: articleInfo),
-                  _buildTitle(flex: 2, articleInfo: articleInfo),
-                  _buildContent(flex: 6, articleInfo: articleInfo),
+                  _buildDate(1, context, articleInfo),
+                  _buildTitle(2, context, articleInfo),
+                  _buildContent(6, context, articleInfo),
                   Expanded(
                     flex: 2,
                     child: Padding(
@@ -104,35 +105,14 @@ class ArticleDetailsCard extends StatelessWidget {
     );
   }
 
-  Future<void> _onOpen(LinkableElement link) async {
-    if (await canLaunch(link.url)) {
-      await launch(link.url);
-    } else {
-      throw 'Could not launch $link';
-    }
-  }
-}
-
-class _buildImage extends StatelessWidget {
-  const _buildImage({
-    super.key,
-    required this.imageUrl,
-    required this.imageWidth,
-    required this.imgHeight,
-  });
-
-  final String imageUrl;
-  final double imageWidth;
-  final double imgHeight;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildImage(
+      BuildContext context, String imageUrl, double iWidth, double iHeight) {
     return BlocBuilder<NetworkBloc, NetworkState>(
       builder: (context, state) {
         if (state is NetworkSuccess) {
           return SizedBox(
-            width: imageWidth,
-            height: imgHeight,
+            width: iWidth,
+            height: iHeight,
             child: Image.network(
               imageUrl,
               fit: BoxFit.fill,
@@ -140,8 +120,8 @@ class _buildImage extends StatelessWidget {
           );
         } else {
           return SizedBox(
-            width: imageWidth,
-            height: imgHeight,
+            width: iWidth,
+            height: iHeight,
             child: Image.asset(
               'assets/no_nwtwork_egg.png',
               fit: BoxFit.fill,
@@ -151,20 +131,8 @@ class _buildImage extends StatelessWidget {
       },
     );
   }
-}
 
-class _buildContent extends StatelessWidget {
-  const _buildContent({
-    super.key,
-    required this.flex,
-    required this.articleInfo,
-  });
-
-  final int flex;
-  final Articles articleInfo;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildContent(int flex, BuildContext context, Articles articleInf) {
     return Expanded(
       flex: flex,
       child: Padding(
@@ -174,27 +142,15 @@ class _buildContent extends StatelessWidget {
           top: 10.0,
         ),
         child: Text(
-          articleInfo.content,
+          articleInf.content,
           textAlign: TextAlign.justify,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
     );
   }
-}
 
-class _buildTitle extends StatelessWidget {
-  const _buildTitle({
-    super.key,
-    required this.flex,
-    required this.articleInfo,
-  });
-
-  final int flex;
-  final Articles articleInfo;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildTitle(int flex, BuildContext context, Articles articleInf) {
     return Expanded(
       flex: flex,
       child: Padding(
@@ -205,26 +161,14 @@ class _buildTitle extends StatelessWidget {
           bottom: 5.0,
         ),
         child: Text(
-          articleInfo.title,
+          articleInf.title,
           style: Theme.of(context).textTheme.titleSmall,
         ),
       ),
     );
   }
-}
 
-class _buildDate extends StatelessWidget {
-  const _buildDate({
-    super.key,
-    required this.flex,
-    required this.articleInfo,
-  });
-
-  final int flex;
-  final Articles articleInfo;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildDate(int flex, BuildContext context, Articles articleInf) {
     return Expanded(
       flex: flex,
       child: Padding(
@@ -237,12 +181,20 @@ class _buildDate extends StatelessWidget {
               thickness: 4,
             ),
             Text(
-              DateFormat('yyyy-MM-dd hh:mm').format(articleInfo.publishedAt),
+              DateFormat('yyyy-MM-dd hh:mm').format(articleInf.publishedAt),
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _onOpen(LinkableElement link) async {
+    if (await canLaunch(link.url)) {
+      await launch(link.url);
+    } else {
+      throw 'Could not launch $link';
+    }
   }
 }

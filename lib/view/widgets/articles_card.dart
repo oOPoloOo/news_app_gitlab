@@ -54,14 +54,15 @@ class ArticleCard extends StatelessWidget {
               child: Column(
                 children: [
                   _buildImage(
-                    cardWidth: cardWidth,
-                    imgHeight: imgHeight,
-                    imageUrl: !isEmptyImg ? articleInfo.imageUrl : noImgImage,
+                    context,
+                    !isEmptyImg ? articleInfo.imageUrl : noImgImage,
+                    cardWidth,
+                    imgHeight,
                   ),
-                  _buildDateText(articleInfo: articleInfo),
-                  _buildTitleText(articleInfo: articleInfo),
+                  _buildDateText(context, articleInfo),
+                  _buildTitleText(context, articleInfo),
                   !isEmptyIDes
-                      ? _buildDescription(articleInfo: articleInfo)
+                      ? _buildDescription(context, articleInfo)
                       : const SizedBox(
                           height: 0,
                           width: 0,
@@ -74,48 +75,8 @@ class ArticleCard extends StatelessWidget {
       ],
     );
   }
-}
 
-class _buildDescription extends StatelessWidget {
-  const _buildDescription({
-    super.key,
-    required this.articleInfo,
-  });
-
-  final Articles articleInfo;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 2,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 10.0,
-          right: 10.0,
-          top: 10.0,
-        ),
-        child: Text(
-          articleInfo.description,
-          textAlign: TextAlign.justify,
-          style: Theme.of(context).textTheme.bodyMedium,
-          overflow: TextOverflow.fade,
-          softWrap: true,
-        ),
-      ),
-    );
-  }
-}
-
-class _buildTitleText extends StatelessWidget {
-  const _buildTitleText({
-    super.key,
-    required this.articleInfo,
-  });
-
-  final Articles articleInfo;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildTitleText(BuildContext context, Articles articleInf) {
     return Expanded(
       flex: 1,
       child: Padding(
@@ -125,7 +86,7 @@ class _buildTitleText extends StatelessWidget {
           top: 8,
         ),
         child: AutoSizeText(
-          articleInfo.title,
+          articleInf.title,
           style: Theme.of(context).textTheme.titleSmall,
           maxLines: 3,
           minFontSize: 16,
@@ -134,18 +95,28 @@ class _buildTitleText extends StatelessWidget {
       ),
     );
   }
-}
 
-class _buildDateText extends StatelessWidget {
-  const _buildDateText({
-    super.key,
-    required this.articleInfo,
-  });
+  Widget _buildDescription(BuildContext context, Articles articleInf) {
+    return Expanded(
+      flex: 2,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 10.0,
+          right: 10.0,
+          top: 10.0,
+        ),
+        child: Text(
+          articleInf.description,
+          textAlign: TextAlign.justify,
+          style: Theme.of(context).textTheme.bodyMedium,
+          overflow: TextOverflow.fade,
+          softWrap: true,
+        ),
+      ),
+    );
+  }
 
-  final Articles articleInfo;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildDateText(BuildContext context, Articles articleInf) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 7.0, right: 8.0),
       child: Row(
@@ -159,7 +130,7 @@ class _buildDateText extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
-              DateFormat('yyyy-MM-dd hh:mm').format(articleInfo.publishedAt),
+              DateFormat('yyyy-MM-dd hh:mm').format(articleInf.publishedAt),
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ),
@@ -167,28 +138,19 @@ class _buildDateText extends StatelessWidget {
       ),
     );
   }
-}
 
-class _buildImage extends StatelessWidget {
-  const _buildImage({
-    super.key,
-    required this.imageUrl,
-    required this.cardWidth,
-    required this.imgHeight,
-  });
-
-  final String imageUrl;
-  final double cardWidth;
-  final double imgHeight;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildImage(
+    BuildContext context,
+    String imageUrl,
+    double cWidth,
+    double iHeight,
+  ) {
     return BlocBuilder<NetworkBloc, NetworkState>(
       builder: (context, state) {
         if (state is NetworkSuccess) {
           return SizedBox(
-            width: cardWidth,
-            height: imgHeight,
+            width: cWidth,
+            height: iHeight,
             child: Image.network(
               imageUrl,
               fit: BoxFit.fill,
@@ -196,8 +158,8 @@ class _buildImage extends StatelessWidget {
           );
         } else {
           return SizedBox(
-            width: cardWidth,
-            height: imgHeight,
+            width: cWidth,
+            height: iHeight,
             child: Image.asset(
               'assets/no_nwtwork_egg.png',
               fit: BoxFit.fill,
