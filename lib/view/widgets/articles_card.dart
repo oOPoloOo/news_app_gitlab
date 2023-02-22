@@ -86,17 +86,21 @@ class _buildDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 10.0,
-        right: 10.0,
-        top: 10.0,
-      ),
-      child: AutoSizeText(
-        articleInfo.description,
-        textAlign: TextAlign.justify,
-        style: Theme.of(context).textTheme.bodyMedium,
-        maxLines: 8,
+    return Expanded(
+      flex: 2,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 10.0,
+          right: 10.0,
+          top: 10.0,
+        ),
+        child: Text(
+          articleInfo.description,
+          textAlign: TextAlign.justify,
+          style: Theme.of(context).textTheme.bodyMedium,
+          overflow: TextOverflow.fade,
+          softWrap: true,
+        ),
       ),
     );
   }
@@ -112,15 +116,21 @@ class _buildTitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 5.0,
-        right: 5.0,
-        top: 8,
-      ),
-      child: Text(
-        articleInfo.title,
-        style: Theme.of(context).textTheme.titleSmall,
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 5.0,
+          right: 5.0,
+          top: 8,
+        ),
+        child: AutoSizeText(
+          articleInfo.title,
+          style: Theme.of(context).textTheme.titleSmall,
+          maxLines: 3,
+          minFontSize: 16,
+          overflow: TextOverflow.fade,
+        ),
       ),
     );
   }

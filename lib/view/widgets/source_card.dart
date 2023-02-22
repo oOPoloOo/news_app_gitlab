@@ -41,16 +41,19 @@ class SourceCard extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: [
-                      AutoSizeText(
+                      Text(
                         sourceInfo.title,
                         style: Theme.of(context).textTheme.titleMedium,
                         maxLines: 1,
                       ),
-                      AutoSizeText(
-                        sourceInfo.description,
-                        textAlign: TextAlign.justify,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        maxLines: 4,
+                      Expanded(
+                        child: Text(
+                          sourceInfo.description,
+                          textAlign: TextAlign.justify,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          overflow: TextOverflow.fade,
+                          softWrap: true,
+                        ),
                       ),
                     ],
                   ),

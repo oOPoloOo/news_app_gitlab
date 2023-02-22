@@ -68,21 +68,28 @@ class ArticleDetailsCard extends StatelessWidget {
                         left: 10.0,
                         right: 10.0,
                         top: 5.0,
+                        bottom: 5,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              "Link to original article:",
-                              style: Theme.of(context).textTheme.headlineSmall,
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                "Link to original article:",
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              ),
                             ),
                           ),
-                          Linkify(
-                            onOpen: _onOpen,
-                            textScaleFactor: 1,
-                            text: articleInfo.articleUrl,
+                          Expanded(
+                            child: Linkify(
+                              onOpen: _onOpen,
+                              textScaleFactor: 1,
+                              text: articleInfo.articleUrl,
+                              overflow: TextOverflow.fade,
+                            ),
                           ),
                         ],
                       ),

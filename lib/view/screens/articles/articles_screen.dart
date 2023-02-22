@@ -72,6 +72,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                       children: choiceChips(state.articles),
                     ),
                   ),
+                  SizedBox(height: 15),
                   Expanded(
                     flex: 14,
                     child: articlesFilter.isNotEmpty
