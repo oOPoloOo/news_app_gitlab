@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/data/repositories/news/news_repo.dart';
-import 'package:news_app/logic/bloc_export.dart';
-import 'package:news_app/view/config/app_router.dart';
-import 'package:news_app/view/config/theme.dart';
-import 'package:news_app/view/screens/sources/sources_screen.dart';
+import 'package:news_app/article_details/bloc/article_details_bloc.dart';
+import 'package:news_app/articles/bloc/articles_bloc.dart';
+import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
+import 'package:news_app/common/config/app_router.dart';
+import 'package:news_app/common/config/theme.dart';
+import 'package:news_app/common/repositories/news/news_repo.dart';
+import 'package:news_app/sources/bloc/sources_bloc.dart';
+
+import 'package:news_app/sources/sources_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
