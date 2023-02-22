@@ -1,13 +1,13 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:news_app/logic/article_details/article_details_bloc.dart';
-import 'package:news_app/logic/bloc_export.dart';
-import 'package:news_app/view/config/constants.dart';
+import 'package:news_app/article_details/bloc/article_details_bloc.dart';
+import 'package:news_app/articles/model/articles_model.dart';
+import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
+import 'package:news_app/common/config/constants.dart';
+
 import 'package:string_validator/string_validator.dart';
-import '../../data/models/models_export.dart';
 
 class ArticleCard extends StatelessWidget {
   final Articles articleInfo;

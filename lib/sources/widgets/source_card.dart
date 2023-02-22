@@ -1,9 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/logic/bloc_export.dart';
-import '../../data/models/models_export.dart';
-import 'package:news_app/view/config/constants.dart';
+import 'package:news_app/articles/bloc/articles_bloc.dart';
+import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
+import 'package:news_app/common/config/constants.dart';
+import 'package:news_app/sources/model/sources_model.dart';
 
 class SourceCard extends StatelessWidget {
   final Sources sourceInfo;
