@@ -1,6 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:favorite_button/favorite_button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -152,14 +154,28 @@ class ArticleCard extends StatelessWidget {
     return BlocBuilder<NetworkBloc, NetworkState>(
       builder: (context, state) {
         if (state is NetworkSuccess) {
-          return SizedBox(
-            width: cWidth,
-            height: iHeight,
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.fill,
+          return Stack(children: [
+            SizedBox(
+              width: cWidth,
+              height: iHeight,
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.fill,
+              ),
             ),
-          );
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                alignment: Alignment.topRight,
+                child: FavoriteButton(
+                  isFavorite: false,
+                  valueChanged: (_isFavorite) {
+                    //WORK IN PROGRESS
+                  },
+                ),
+              ),
+            ),
+          ]);
         } else {
           return SizedBox(
             width: cWidth,

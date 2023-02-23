@@ -6,6 +6,7 @@ import 'package:news_app/article_details/bloc/article_details_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
+import 'package:news_app/common/widgets/nav_bar.dart';
 
 class ArticleDetailsScreen extends StatelessWidget {
   static const String routeName = articleDetailsRouteName;

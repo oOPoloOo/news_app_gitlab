@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
+import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
 
 class ScourcesScreen extends StatelessWidget {
@@ -23,6 +24,7 @@ class ScourcesScreen extends StatelessWidget {
         screen: routeName,
         title: 'Sources Screen',
       ),
+      bottomNavigationBar: const NavBar(),
       body: _buildBody(
         context,
         Theme.of(context).colorScheme.background,
