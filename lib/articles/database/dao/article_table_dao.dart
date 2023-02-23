@@ -42,7 +42,7 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
           ))
         .get();
 
-    dbData.forEach((o) {
+    for (var o in dbData) {
       sourceList.add(
         Articles(
           idAndName: Source(id: o.sourceId, name: o.sourceName),
@@ -55,7 +55,7 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
           content: o.content,
         ),
       );
-    });
+    }
 
     sourceListT = sourceList;
     return sourceListT;

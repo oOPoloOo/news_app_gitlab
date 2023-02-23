@@ -1,3 +1,5 @@
+// ignore_for_file: override_on_non_overriding_member
+
 part of 'article_details_bloc.dart';
 
 abstract class ArticleDetailsEvent {

@@ -56,7 +56,7 @@ class CustomListView extends StatelessWidget {
           )
         : ListView(
             shrinkWrap: true,
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             children: isSource
                 ? sources!
                     .map(
@@ -77,7 +77,7 @@ class CustomListView extends StatelessWidget {
                         )
                         .toList()
                     : [
-                        ListTile(),
+                        const ListTile(),
                       ],
           );
   }

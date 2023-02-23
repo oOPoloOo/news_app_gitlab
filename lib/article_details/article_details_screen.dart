@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_const
+// ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +18,6 @@ class ArticleDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const CustomAppBar(
@@ -27,7 +26,7 @@ class ArticleDetailsScreen extends StatelessWidget {
       ),
       body: _buildBody(
         context,
-        Theme.of(context).backgroundColor,
+        Theme.of(context).colorScheme.background,
       ),
     );
   }

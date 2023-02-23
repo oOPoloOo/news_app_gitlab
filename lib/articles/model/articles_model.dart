@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:json_annotation/json_annotation.dart';
 import 'source/source_model.dart';
 import 'date_converter/date_converter.dart';

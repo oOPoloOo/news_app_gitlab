@@ -1,4 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
@@ -32,9 +33,9 @@ class SourceCard extends StatelessWidget {
             Navigator.pushNamed(context, articlesRouteName);
           },
           child: Container(
-            margin: EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
               child: Container(
                 color: Colors.grey[400],
                 height: media.height * 0.15,

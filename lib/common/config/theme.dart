@@ -1,14 +1,30 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 ThemeData theme() {
   return ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+    // scaffoldBackgroundColor: Colors.white,
     fontFamily: 'Avenir',
-    primaryColor: Colors.yellow[700],
-    backgroundColor: Colors.black,
+    //primaryColor: Colors.black,
     textTheme: textTheme(),
+    colorScheme: colorScheme,
   );
 }
+
+final ColorScheme colorScheme = ColorScheme(
+  primary: Color(0xFF424242),
+  secondary: Color(0xFFFFFFFF),
+  background: Colors.black,
+  surface: Color(0xFFFFFFFF),
+  onBackground: Colors.black,
+  error: Colors.redAccent,
+  onError: Colors.redAccent,
+  onPrimary: Colors.redAccent,
+  onSecondary: Color(0xFF322942),
+  onSurface: Color(0xFF241E30),
+  brightness: Brightness.light,
+);
 
 textTheme() {
   return const TextTheme(

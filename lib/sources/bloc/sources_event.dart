@@ -12,7 +12,7 @@ class LoadSources extends SourcesEvent {}
 class UpdateSources extends SourcesEvent {
   final List<Sources> sources;
 
-  UpdateSources(this.sources);
+  const UpdateSources(this.sources);
 
   @override
   List<Object> get props => [sources];

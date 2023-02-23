@@ -9,7 +9,7 @@ abstract class ArticlesEvent extends Equatable {
 
 class LoadArticles extends ArticlesEvent {
   final String source;
-  LoadArticles({required this.source});
+  const LoadArticles({required this.source});
 
   @override
   List<Object> get props => [source];
@@ -17,7 +17,7 @@ class LoadArticles extends ArticlesEvent {
 
 class LoadLocalArticles extends ArticlesEvent {
   final String source;
-  LoadLocalArticles({required this.source});
+  const LoadLocalArticles({required this.source});
 
   @override
   List<Object> get props => [source];
@@ -26,7 +26,7 @@ class LoadLocalArticles extends ArticlesEvent {
 class UpdateArticles extends ArticlesEvent {
   final List<Articles> articles;
 
-  UpdateArticles(this.articles);
+  const UpdateArticles(this.articles);
 
   @override
   List<Object> get props => [articles];

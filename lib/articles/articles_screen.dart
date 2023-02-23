@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
@@ -27,7 +29,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Color backColor = Theme.of(context).backgroundColor;
+    Color backColor = Theme.of(context).colorScheme.background;
 
     return Scaffold(
         appBar: const CustomAppBar(
@@ -46,7 +48,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           );
         }
         if (state is ArticlesLoaded) {
-          if (state.articles.length != 0) {
+          if (state.articles.isNotEmpty) {
             if (onLoad) {
               articlesFilter = state.articles;
               onLoad = false;
@@ -72,7 +74,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                       children: choiceChips(state.articles),
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Expanded(
                     flex: 14,
                     child: articlesFilter.isNotEmpty
@@ -121,11 +123,11 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         padding: const EdgeInsets.only(left: 10, right: 5),
         child: ChoiceChip(
           label: Text(choiceChipsNames[i]),
-          labelStyle: const TextStyle(color: Colors.white),
-          backgroundColor: Colors.grey[800],
+          labelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          backgroundColor: Theme.of(context).colorScheme.primary,
           selected: _selectedIndex == i,
           selectedColor: Colors.black,
-          side: BorderSide(color: Colors.white),
+          side: BorderSide(color: Theme.of(context).colorScheme.secondary),
           onSelected: (bool value) {
             setState(() {
               _selectedIndex = i;

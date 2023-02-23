@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -6,7 +8,7 @@ import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:string_validator/string_validator.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ArticleDetailsCard extends StatelessWidget {
   final Articles articleInfo;
@@ -56,7 +58,7 @@ class ArticleDetailsCard extends StatelessWidget {
                   ),
                   Divider(
                     thickness: 30,
-                    color: Colors.blueGrey[700],
+                    color: Theme.of(context).colorScheme.primary,
                     height: 30,
                   ),
                   _buildDate(1, context, articleInfo),
@@ -176,8 +178,8 @@ class ArticleDetailsCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const VerticalDivider(
-              color: Colors.black,
+            VerticalDivider(
+              color: Theme.of(context).colorScheme.background,
               thickness: 4,
             ),
             Text(
@@ -191,8 +193,8 @@ class ArticleDetailsCard extends StatelessWidget {
   }
 
   Future<void> _onOpen(LinkableElement link) async {
-    if (await canLaunch(link.url)) {
-      await launch(link.url);
+    if (await canLaunchUrlString(link.url)) {
+      await launchUrlString(link.url);
     } else {
       throw 'Could not launch $link';
     }

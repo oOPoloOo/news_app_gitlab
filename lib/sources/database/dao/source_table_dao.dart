@@ -35,7 +35,7 @@ class SourcesTableDao extends DatabaseAccessor<LocalDatabase>
     List<Sources> sourceListT = [];
     final dbData = await select(sourcesTable).get();
 
-    dbData.forEach((element) {
+    for (var element in dbData) {
       sourceList.add(
         Sources(
           id: element.sourceId,
@@ -47,7 +47,7 @@ class SourcesTableDao extends DatabaseAccessor<LocalDatabase>
           country: element.country,
         ),
       );
-    });
+    }
 
     sourceListT = sourceList;
     return sourceListT;

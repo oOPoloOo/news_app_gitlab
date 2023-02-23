@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,8 +48,9 @@ class ArticleCard extends StatelessWidget {
             width: cardWidth,
             height: cardHeightAllElements,
             child: Card(
+              color: Theme.of(context).colorScheme.secondary,
               elevation: 5,
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
@@ -126,7 +129,7 @@ class ArticleCard extends StatelessWidget {
           SizedBox(
             height: 25,
             width: 10,
-            child: Container(color: Colors.black),
+            child: Container(color: Theme.of(context).colorScheme.background),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),

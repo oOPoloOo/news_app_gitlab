@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
@@ -22,22 +24,13 @@ class ScourcesScreen extends StatelessWidget {
         title: 'Sources Screen',
       ),
       body: _buildBody(
-        backColor: Theme.of(context).backgroundColor,
+        context,
+        Theme.of(context).colorScheme.background,
       ),
     );
   }
-}
 
-class _buildBody extends StatelessWidget {
-  const _buildBody({
-    Key? key,
-    required this.backColor,
-  }) : super(key: key);
-
-  final Color? backColor;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildBody(BuildContext context, Color backColor) {
     return BlocBuilder<SourcesBloc, SourcesState>(
       builder: (context, state) {
         if (state is SourcesLoading) {
@@ -61,3 +54,37 @@ class _buildBody extends StatelessWidget {
     );
   }
 }
+
+// class _buildBody extends StatelessWidget {
+//   const _buildBody({
+//     Key? key,
+//     required this.backColor,
+//   }) : super(key: key);
+
+//   final Color? backColor;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<SourcesBloc, SourcesState>(
+//       builder: (context, state) {
+//         if (state is SourcesLoading) {
+//           return const Center(
+//             child: CircularProgressIndicator(),
+//           );
+//         }
+//         if (state is SourcesLoaded) {
+//           return Container(
+//             color: backColor,
+//             child: CustomListView.source(
+//               sources: state.sources,
+//             ),
+//           );
+//         } else {
+//           return const Center(
+//             child: Text('Something went wrong!'),
+//           );
+//         }
+//       },
+//     );
+//   }
+// }

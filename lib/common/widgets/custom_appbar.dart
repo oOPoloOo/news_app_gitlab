@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
@@ -40,7 +42,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           return AppBar(
             elevation: 0,
             centerTitle: true,
-            backgroundColor: Theme.of(context).backgroundColor,
+            iconTheme:
+                IconThemeData(color: Theme.of(context).colorScheme.secondary),
+            backgroundColor: Theme.of(context).colorScheme.background,
             title: Text(
               state.articles.isNotEmpty
                   ? state.articles[0].idAndName.id
@@ -53,7 +57,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         } else {
           return AppBar(
             elevation: 0,
-            backgroundColor: Theme.of(context).backgroundColor,
+            iconTheme:
+                IconThemeData(color: Theme.of(context).colorScheme.secondary),
+            backgroundColor: Theme.of(context).colorScheme.background,
             title: Text(
               title,
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -75,6 +81,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             leadingWidth: 60,
             elevation: 0,
             backgroundColor: Colors.transparent,
+            iconTheme:
+                IconThemeData(color: Theme.of(context).colorScheme.secondary),
             title: Text(
               state.articleDetails.title,
               maxLines: 3,
@@ -107,7 +115,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       centerTitle: true,
       elevation: 0,
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       title: Text(
         barTitle,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(

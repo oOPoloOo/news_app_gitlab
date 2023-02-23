@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:json_annotation/json_annotation.dart';
 
 class CustomDateTimeConverter implements JsonConverter<DateTime, String> {
