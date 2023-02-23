@@ -61,7 +61,8 @@ class _NavBarState extends State<NavBar> {
                 }
 
                 if (_selectedIndex == 1) {
-                  //Navigator.pushReplacementNamed(context, sourcesRouteName);
+                  Navigator.pushNamedAndRemoveUntil(context,
+                      favouritesRouteName, (Route<dynamic> route) => false);
                 }
               });
             },

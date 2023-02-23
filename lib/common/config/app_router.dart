@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/article_details/article_details_screen.dart';
 import 'package:news_app/articles/articles_screen.dart';
 import 'package:news_app/common/config/constants.dart';
+import 'package:news_app/favourites/favourites_screen.dart';
 import 'package:news_app/sources/sources_screen.dart';
 
 class AppRouter {
@@ -13,6 +14,8 @@ class AppRouter {
         return ArticlesScreen.route();
       case articleDetailsRouteName:
         return ArticleDetailsScreen.route();
+      case favouritesRouteName:
+        return FavouritesScreen.route();
 
       default:
         return _errorRoute();
