@@ -6,10 +6,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
+import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 
 import 'package:string_validator/string_validator.dart';
 
@@ -18,12 +20,21 @@ class ArticleCard extends StatelessWidget {
   final double cardWidth;
   final double cardHeightAllElements;
   final double imgHeight;
+  final bool isFavourite;
 
   const ArticleCard({
     required this.articleInfo,
     required this.cardWidth,
     required this.cardHeightAllElements,
     required this.imgHeight,
+    this.isFavourite = false,
+  });
+  const ArticleCard.favourite({
+    required this.articleInfo,
+    required this.cardWidth,
+    required this.cardHeightAllElements,
+    required this.imgHeight,
+    this.isFavourite = true,
   });
 
   @override
@@ -60,11 +71,12 @@ class ArticleCard extends StatelessWidget {
               child: Column(
                 children: [
                   _buildImage(
-                    context,
-                    !isEmptyImg ? articleInfo.imageUrl : noImgImage,
-                    cardWidth,
-                    imgHeight,
-                  ),
+                      context,
+                      !isEmptyImg ? articleInfo.imageUrl : noImgImage,
+                      cardWidth,
+                      imgHeight,
+                      articleInfo,
+                      isFavourite),
                   _buildDateText(context, articleInfo),
                   _buildTitleText(context, articleInfo),
                   !isEmptyIDes
@@ -150,6 +162,8 @@ class ArticleCard extends StatelessWidget {
     String imageUrl,
     double cWidth,
     double iHeight,
+    Articles article,
+    bool isFav,
   ) {
     return BlocBuilder<NetworkBloc, NetworkState>(
       builder: (context, state) {
@@ -167,12 +181,21 @@ class ArticleCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 alignment: Alignment.topRight,
-                child: FavoriteButton(
-                  isFavorite: false,
-                  valueChanged: (_isFavorite) {
-                    //WORK IN PROGRESS
-                  },
-                ),
+                child: isFav //Cia false pareina ĄĄĄĄĄĄĄĄĄĄĄ
+                    ? FavoriteButton(
+                        isFavorite: true,
+                        valueChanged: (_isFavorite) {
+                          BlocProvider.of<FavouritesBloc>(context)
+                              .add(RemoveFavourites(removeArticle: article));
+                        },
+                      )
+                    : FavoriteButton(
+                        isFavorite: false,
+                        valueChanged: (_isFavorite) {
+                          BlocProvider.of<FavouritesBloc>(context)
+                              .add(AddFavourites(addArticle: article));
+                        },
+                      ),
               ),
             ),
           ]);

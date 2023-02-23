@@ -16,8 +16,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
     on<UpdateFavourites>(_onUpdateFavourites);
   }
 
-  void _onAddFovourite(
-      AddFavourites event, Emitter<FavouritesState> emit) async {
+  void _onAddFovourite(AddFavourites event, Emitter<FavouritesState> emit) {
     favArticleList.add(event.addArticle);
 
     // saveDataToLocalDb(articleList);
@@ -25,7 +24,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
   }
 
   void _onRemoveFovourite(
-      RemoveFavourites event, Emitter<FavouritesState> emit) async {
+      RemoveFavourites event, Emitter<FavouritesState> emit) {
     favArticleList.remove(event.removeArticle);
 
     // saveDataToLocalDb(articleList);
