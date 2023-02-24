@@ -34,8 +34,8 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
   }
 
   Future<List<Articles>> retrieveAllArticles(String source) async {
-    List<Articles> sourceList = [];
-    List<Articles> sourceListT = [];
+    List<Articles> articleList = [];
+
     final dbData = await (select(articlesTable)
           ..where(
             (tbl) => tbl.sourceId.equals(source),
@@ -43,7 +43,56 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
         .get();
 
     for (var o in dbData) {
-      sourceList.add(
+      articleList.add(
+        Articles(
+            idAndName: Source(id: o.sourceId, name: o.sourceName),
+            author: o.author,
+            title: o.title,
+            description: o.description,
+            articleUrl: o.articleUrl,
+            imageUrl: o.imageUrl,
+            publishedAt: DateTime.parse(o.publishedAt),
+            content: o.content,
+            isFavourite: o.isFavourite),
+      );
+    }
+
+    return articleList;
+  }
+
+  Future<void> updateMultipleFavArticles(List<Articles> articlesList) async {
+    await batch(
+      (batch) => batch.insertAllOnConflictUpdate(
+        articlesTable,
+        articlesList.map(
+          (articlesModel) => ArticlesTableCompanion.insert(
+            sourceId: articlesModel.idAndName.id,
+            sourceName: articlesModel.idAndName.name,
+            author: Value(articlesModel.author),
+            title: articlesModel.title,
+            description: Value(articlesModel.description),
+            articleUrl: articlesModel.articleUrl,
+            publishedAt: articlesModel.publishedAt.toString(),
+            imageUrl: Value(articlesModel.imageUrl),
+            content: articlesModel.content,
+            isFavourite: Value(articlesModel.isFavourite!),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<List<Articles>> retrieveAllFavArticles() async {
+    List<Articles> favArticlesList = [];
+
+    final dbData = await (select(articlesTable)
+          ..where(
+            (tbl) => tbl.isFavourite,
+          ))
+        .get();
+
+    for (var o in dbData) {
+      favArticlesList.add(
         Articles(
           idAndName: Source(id: o.sourceId, name: o.sourceName),
           author: o.author,
@@ -53,11 +102,11 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
           imageUrl: o.imageUrl,
           publishedAt: DateTime.parse(o.publishedAt),
           content: o.content,
+          isFavourite: o.isFavourite,
         ),
       );
     }
 
-    sourceListT = sourceList;
-    return sourceListT;
+    return favArticlesList;
   }
 }

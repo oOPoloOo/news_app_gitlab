@@ -39,7 +39,7 @@ class FavouritesScreen extends StatelessWidget {
             return Container(
               color: backColor,
               height: media.height,
-              child: CustomListView.favourites(
+              child: CustomListView.articles(
                 articles: state.favArticles,
               ),
             );

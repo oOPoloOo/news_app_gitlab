@@ -8,54 +8,43 @@ import 'package:news_app/sources/widgets/source_card.dart';
 class CustomListView extends StatelessWidget {
   final List<Sources>? sources;
   final List<Articles>? articles;
+  final List<Articles>? favouriteArticles;
   final Articles? articleDetails;
   final bool isSource;
   final bool isArticles;
   final bool isDetails;
-  final bool isFavourites;
 
   const CustomListView.source({
     Key? key,
     required this.sources,
+    this.favouriteArticles,
     this.articles,
     this.articleDetails,
     this.isSource = true,
     this.isArticles = false,
     this.isDetails = false,
-    this.isFavourites = false,
-  }) : super(key: key);
-
-  const CustomListView.favourites({
-    Key? key,
-    this.sources,
-    required this.articles,
-    this.articleDetails,
-    this.isSource = false,
-    this.isArticles = false,
-    this.isDetails = false,
-    this.isFavourites = true,
   }) : super(key: key);
 
   const CustomListView.articles({
     Key? key,
     this.sources,
     required this.articles,
+    this.favouriteArticles,
     this.articleDetails,
     this.isSource = false,
     this.isArticles = true,
     this.isDetails = false,
-    this.isFavourites = false,
   }) : super(key: key);
 
   const CustomListView.details({
     Key? key,
     this.sources,
     this.articles,
+    this.favouriteArticles,
     required this.articleDetails,
     this.isSource = false,
     this.isArticles = false,
     this.isDetails = true,
-    this.isFavourites = false,
   }) : super(key: key);
 
   @override
@@ -91,20 +80,9 @@ class CustomListView extends StatelessWidget {
                           ),
                         )
                         .toList()
-                    : isFavourites
-                        ? articles!
-                            .map(
-                              (article) => ArticleCard.favourite(
-                                articleInfo: article,
-                                cardHeightAllElements: media.height * 0.55,
-                                imgHeight: media.height * 0.20,
-                                cardWidth: media.width * 0.95,
-                              ),
-                            )
-                            .toList()
-                        : [
-                            const ListTile(),
-                          ],
+                    : [
+                        const ListTile(),
+                      ],
           );
   }
 }

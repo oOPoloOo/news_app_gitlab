@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 
 ThemeData theme() {
   return ThemeData(
-    // scaffoldBackgroundColor: Colors.white,
     fontFamily: 'Avenir',
-    //primaryColor: Colors.black,
     textTheme: textTheme(),
     colorScheme: colorScheme,
   );

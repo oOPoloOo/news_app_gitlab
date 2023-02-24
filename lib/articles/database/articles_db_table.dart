@@ -10,6 +10,8 @@ class ArticlesTable extends Table {
   TextColumn get imageUrl => text().named('urlToImage').nullable()();
   TextColumn get publishedAt => text().named('publishedAt')();
   TextColumn get content => text().named('content')();
+  BoolColumn get isFavourite =>
+      boolean().named('isFavourite').withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {articleUrl};

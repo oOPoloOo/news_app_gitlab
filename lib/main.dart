@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
           lazy: false,
           create: (context) => FavouritesBloc(
             newsRepository: NewsRepository(),
-          ),
+          )..add(LoadFavourites()),
         ),
         BlocProvider<ArticlesBloc>(
           create: (context) => ArticlesBloc(

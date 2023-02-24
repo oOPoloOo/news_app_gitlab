@@ -18,6 +18,7 @@ class Articles {
     this.imageUrl,
     required this.publishedAt,
     required this.content,
+    this.isFavourite,
   });
   @JsonKey(name: "source")
   Source idAndName;
@@ -35,6 +36,18 @@ class Articles {
   DateTime publishedAt;
   @JsonKey(name: "content")
   String content;
+
+  static toNull(_) => null;
+  @JsonKey(toJson: toNull, includeIfNull: false)
+  bool? isFavourite;
+
+  set setIsFavourite(bool isFav) {
+    isFavourite = isFav;
+  }
+
+  bool get getIsFavourite {
+    return isFavourite!;
+  }
 
   factory Articles.fromJson(Map<String, dynamic> json) =>
       _$ArticlesFromJson(json);

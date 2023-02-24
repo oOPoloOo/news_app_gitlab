@@ -24,7 +24,7 @@ class SourceCard extends StatelessWidget {
           onTap: () {
             if (state is NetworkSuccess) {
               BlocProvider.of<ArticlesBloc>(context)
-                  .add(LoadArticles(source: sourceInfo.id));
+                  .add(LoadLocalArticles(source: sourceInfo.id));
             } else {
               BlocProvider.of<ArticlesBloc>(context)
                   .add(LoadLocalArticles(source: sourceInfo.id));

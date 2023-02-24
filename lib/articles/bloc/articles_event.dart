@@ -8,11 +8,11 @@ abstract class ArticlesEvent extends Equatable {
 }
 
 class LoadArticles extends ArticlesEvent {
-  final String source;
-  const LoadArticles({required this.source});
+  final List<Sources> sourceList;
+  const LoadArticles({required this.sourceList});
 
   @override
-  List<Object> get props => [source];
+  List<Object> get props => [sourceList];
 }
 
 class LoadLocalArticles extends ArticlesEvent {

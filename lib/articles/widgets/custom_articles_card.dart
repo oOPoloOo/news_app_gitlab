@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
+import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
@@ -20,21 +21,12 @@ class ArticleCard extends StatelessWidget {
   final double cardWidth;
   final double cardHeightAllElements;
   final double imgHeight;
-  final bool isFavourite;
 
   const ArticleCard({
     required this.articleInfo,
     required this.cardWidth,
     required this.cardHeightAllElements,
     required this.imgHeight,
-    this.isFavourite = false,
-  });
-  const ArticleCard.favourite({
-    required this.articleInfo,
-    required this.cardWidth,
-    required this.cardHeightAllElements,
-    required this.imgHeight,
-    this.isFavourite = true,
   });
 
   @override
@@ -75,8 +67,7 @@ class ArticleCard extends StatelessWidget {
                       !isEmptyImg ? articleInfo.imageUrl : noImgImage,
                       cardWidth,
                       imgHeight,
-                      articleInfo,
-                      isFavourite),
+                      articleInfo),
                   _buildDateText(context, articleInfo),
                   _buildTitleText(context, articleInfo),
                   !isEmptyIDes
@@ -163,7 +154,6 @@ class ArticleCard extends StatelessWidget {
     double cWidth,
     double iHeight,
     Articles article,
-    bool isFav,
   ) {
     return BlocBuilder<NetworkBloc, NetworkState>(
       builder: (context, state) {
@@ -181,12 +171,14 @@ class ArticleCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 alignment: Alignment.topRight,
-                child: isFav //Cia false pareina ĄĄĄĄĄĄĄĄĄĄĄ
+                child: article.isFavourite!
                     ? FavoriteButton(
                         isFavorite: true,
                         valueChanged: (_isFavorite) {
                           BlocProvider.of<FavouritesBloc>(context)
                               .add(RemoveFavourites(removeArticle: article));
+                          BlocProvider.of<ArticlesBloc>(context).add(
+                              LoadLocalArticles(source: article.idAndName.id));
                         },
                       )
                     : FavoriteButton(
@@ -200,13 +192,38 @@ class ArticleCard extends StatelessWidget {
             ),
           ]);
         } else {
-          return SizedBox(
-            width: cWidth,
-            height: iHeight,
-            child: Image.asset(
-              'assets/no_nwtwork_egg.png',
-              fit: BoxFit.fill,
-            ),
+          return Stack(
+            children: [
+              SizedBox(
+                width: cWidth,
+                height: iHeight,
+                child: Image.asset(
+                  'assets/no_nwtwork_egg.png',
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: article.isFavourite!
+                      ? FavoriteButton(
+                          isFavorite: true,
+                          valueChanged: (_isFavorite) {
+                            BlocProvider.of<FavouritesBloc>(context)
+                                .add(RemoveFavourites(removeArticle: article));
+                          },
+                        )
+                      : FavoriteButton(
+                          isFavorite: false,
+                          valueChanged: (_isFavorite) {
+                            BlocProvider.of<FavouritesBloc>(context)
+                                .add(AddFavourites(addArticle: article));
+                          },
+                        ),
+                ),
+              ),
+            ],
           );
         }
       },

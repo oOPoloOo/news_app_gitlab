@@ -80,4 +80,17 @@ class NewsRepository extends BaseNewsRepository {
 
     return articlesList;
   }
+
+  Future<List<Articles>> readAllFavArticlesFromLocalDb() async {
+    final articlesList =
+        await localDatabase.articlesTableDao.retrieveAllFavArticles();
+
+    return articlesList;
+  }
+
+  Future<void> updateAllMultipleFavArticles(
+      List<Articles> favArticleList) async {
+    await localDatabase.articlesTableDao
+        .updateMultipleFavArticles(favArticleList);
+  }
 }

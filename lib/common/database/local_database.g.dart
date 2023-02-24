@@ -425,6 +425,19 @@ class $ArticlesTableTable extends ArticlesTable
   late final GeneratedColumn<String> content = GeneratedColumn<String>(
       'content', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isFavouriteMeta =
+      const VerificationMeta('isFavourite');
+  @override
+  late final GeneratedColumn<bool> isFavourite =
+      GeneratedColumn<bool>('isFavourite', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: false,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("isFavourite" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }),
+          defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         sourceId,
@@ -435,7 +448,8 @@ class $ArticlesTableTable extends ArticlesTable
         articleUrl,
         imageUrl,
         publishedAt,
-        content
+        content,
+        isFavourite
       ];
   @override
   String get aliasedName => _alias ?? 'articles_table';
@@ -500,6 +514,12 @@ class $ArticlesTableTable extends ArticlesTable
     } else if (isInserting) {
       context.missing(_contentMeta);
     }
+    if (data.containsKey('isFavourite')) {
+      context.handle(
+          _isFavouriteMeta,
+          isFavourite.isAcceptableOrUnknown(
+              data['isFavourite']!, _isFavouriteMeta));
+    }
     return context;
   }
 
@@ -527,6 +547,8 @@ class $ArticlesTableTable extends ArticlesTable
           .read(DriftSqlType.string, data['${effectivePrefix}publishedAt'])!,
       content: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
+      isFavourite: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}isFavourite'])!,
     );
   }
 
@@ -547,6 +569,7 @@ class ArticlesTableData extends DataClass
   final String? imageUrl;
   final String publishedAt;
   final String content;
+  final bool isFavourite;
   const ArticlesTableData(
       {required this.sourceId,
       required this.sourceName,
@@ -556,7 +579,8 @@ class ArticlesTableData extends DataClass
       required this.articleUrl,
       this.imageUrl,
       required this.publishedAt,
-      required this.content});
+      required this.content,
+      required this.isFavourite});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -575,6 +599,7 @@ class ArticlesTableData extends DataClass
     }
     map['publishedAt'] = Variable<String>(publishedAt);
     map['content'] = Variable<String>(content);
+    map['isFavourite'] = Variable<bool>(isFavourite);
     return map;
   }
 
@@ -594,6 +619,7 @@ class ArticlesTableData extends DataClass
           : Value(imageUrl),
       publishedAt: Value(publishedAt),
       content: Value(content),
+      isFavourite: Value(isFavourite),
     );
   }
 
@@ -610,6 +636,7 @@ class ArticlesTableData extends DataClass
       imageUrl: serializer.fromJson<String?>(json['imageUrl']),
       publishedAt: serializer.fromJson<String>(json['publishedAt']),
       content: serializer.fromJson<String>(json['content']),
+      isFavourite: serializer.fromJson<bool>(json['isFavourite']),
     );
   }
   @override
@@ -625,6 +652,7 @@ class ArticlesTableData extends DataClass
       'imageUrl': serializer.toJson<String?>(imageUrl),
       'publishedAt': serializer.toJson<String>(publishedAt),
       'content': serializer.toJson<String>(content),
+      'isFavourite': serializer.toJson<bool>(isFavourite),
     };
   }
 
@@ -637,7 +665,8 @@ class ArticlesTableData extends DataClass
           String? articleUrl,
           Value<String?> imageUrl = const Value.absent(),
           String? publishedAt,
-          String? content}) =>
+          String? content,
+          bool? isFavourite}) =>
       ArticlesTableData(
         sourceId: sourceId ?? this.sourceId,
         sourceName: sourceName ?? this.sourceName,
@@ -648,6 +677,7 @@ class ArticlesTableData extends DataClass
         imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
         publishedAt: publishedAt ?? this.publishedAt,
         content: content ?? this.content,
+        isFavourite: isFavourite ?? this.isFavourite,
       );
   @override
   String toString() {
@@ -660,14 +690,15 @@ class ArticlesTableData extends DataClass
           ..write('articleUrl: $articleUrl, ')
           ..write('imageUrl: $imageUrl, ')
           ..write('publishedAt: $publishedAt, ')
-          ..write('content: $content')
+          ..write('content: $content, ')
+          ..write('isFavourite: $isFavourite')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(sourceId, sourceName, author, title,
-      description, articleUrl, imageUrl, publishedAt, content);
+      description, articleUrl, imageUrl, publishedAt, content, isFavourite);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -680,7 +711,8 @@ class ArticlesTableData extends DataClass
           other.articleUrl == this.articleUrl &&
           other.imageUrl == this.imageUrl &&
           other.publishedAt == this.publishedAt &&
-          other.content == this.content);
+          other.content == this.content &&
+          other.isFavourite == this.isFavourite);
 }
 
 class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
@@ -693,6 +725,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
   final Value<String?> imageUrl;
   final Value<String> publishedAt;
   final Value<String> content;
+  final Value<bool> isFavourite;
   const ArticlesTableCompanion({
     this.sourceId = const Value.absent(),
     this.sourceName = const Value.absent(),
@@ -703,6 +736,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
     this.imageUrl = const Value.absent(),
     this.publishedAt = const Value.absent(),
     this.content = const Value.absent(),
+    this.isFavourite = const Value.absent(),
   });
   ArticlesTableCompanion.insert({
     required String sourceId,
@@ -714,6 +748,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
     this.imageUrl = const Value.absent(),
     required String publishedAt,
     required String content,
+    this.isFavourite = const Value.absent(),
   })  : sourceId = Value(sourceId),
         sourceName = Value(sourceName),
         title = Value(title),
@@ -730,6 +765,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
     Expression<String>? imageUrl,
     Expression<String>? publishedAt,
     Expression<String>? content,
+    Expression<bool>? isFavourite,
   }) {
     return RawValuesInsertable({
       if (sourceId != null) 'source_id': sourceId,
@@ -741,6 +777,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
       if (imageUrl != null) 'urlToImage': imageUrl,
       if (publishedAt != null) 'publishedAt': publishedAt,
       if (content != null) 'content': content,
+      if (isFavourite != null) 'isFavourite': isFavourite,
     });
   }
 
@@ -753,7 +790,8 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
       Value<String>? articleUrl,
       Value<String?>? imageUrl,
       Value<String>? publishedAt,
-      Value<String>? content}) {
+      Value<String>? content,
+      Value<bool>? isFavourite}) {
     return ArticlesTableCompanion(
       sourceId: sourceId ?? this.sourceId,
       sourceName: sourceName ?? this.sourceName,
@@ -764,6 +802,7 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
       imageUrl: imageUrl ?? this.imageUrl,
       publishedAt: publishedAt ?? this.publishedAt,
       content: content ?? this.content,
+      isFavourite: isFavourite ?? this.isFavourite,
     );
   }
 
@@ -797,6 +836,9 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
     if (content.present) {
       map['content'] = Variable<String>(content.value);
     }
+    if (isFavourite.present) {
+      map['isFavourite'] = Variable<bool>(isFavourite.value);
+    }
     return map;
   }
 
@@ -811,7 +853,8 @@ class ArticlesTableCompanion extends UpdateCompanion<ArticlesTableData> {
           ..write('articleUrl: $articleUrl, ')
           ..write('imageUrl: $imageUrl, ')
           ..write('publishedAt: $publishedAt, ')
-          ..write('content: $content')
+          ..write('content: $content, ')
+          ..write('isFavourite: $isFavourite')
           ..write(')'))
         .toString();
   }
