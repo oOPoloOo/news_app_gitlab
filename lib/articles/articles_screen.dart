@@ -8,7 +8,6 @@ import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
 import 'package:news_app/common/widgets/nav_bar.dart';
-import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 
 class ArticlesScreen extends StatefulWidget {
   static const String routeName = articlesRouteName;

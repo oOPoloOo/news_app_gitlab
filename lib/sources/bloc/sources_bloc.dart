@@ -5,20 +5,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:news_app/common/api/api_client.dart';
 import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
-import 'package:news_app/common/repositories/news/news_repo.dart';
 import 'package:news_app/sources/model/sources_model.dart';
+import 'package:news_app/sources/use_case/sources_use_case.dart';
 
 part 'sources_event.dart';
 part 'sources_state.dart';
 
 class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
-  NewsRepository newsRepository;
+  SourcesUseCase sourcesUseCase;
   NetworkBloc networkBloc;
   List<Sources> sourcesList = <Sources>[];
   late StreamSubscription networkStreamSubscription;
 
   @override
-  SourcesBloc({required this.newsRepository, required this.networkBloc})
+  SourcesBloc({required this.sourcesUseCase, required this.networkBloc})
       : super(SourcesLoading()) {
     on<LoadSources>(_monitorNetworkCubit);
     on<UpdateSources>(_onUpdateSources);
@@ -38,7 +38,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
 
   void _onLoadSources(event, Emitter<SourcesState> emit) async {
     try {
-      sourcesList = await newsRepository.getAllSourcesByTechnologyEn();
+      sourcesList = await sourcesUseCase.getAllSourcesByTechnologyEn();
     } on DioError catch (e) {
       logger.d(e);
     }
@@ -48,7 +48,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
 
   void _onLoadLocalSources(event, Emitter<SourcesState> emit) async {
     try {
-      sourcesList = await newsRepository.readAllSourcesFromLocalDb();
+      sourcesList = await sourcesUseCase.readAllSourcesFromLocalDb();
     } on DioError catch (e) {
       logger.d(e);
     }
@@ -57,7 +57,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   }
 
   void saveDataToLocalDb(List<Sources> sourcesList) async {
-    await newsRepository.writeSourcesToLocalDb(sourcesList);
+    await sourcesUseCase.writeSourcesToLocalDb(sourcesList);
   }
 
   void _onUpdateSources(UpdateSources event, Emitter<SourcesState> emit) {

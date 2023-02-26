@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
+import 'package:news_app/articles/use_case/articles_use_case.dart';
 import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/common/config/app_router.dart';
 import 'package:news_app/common/config/theme.dart';
-import 'package:news_app/common/repositories/news/news_repo.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
 
 import 'package:news_app/sources/sources_screen.dart';
+import 'package:news_app/sources/use_case/sources_use_case.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,24 +38,23 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<SourcesBloc>(
           lazy: false,
           create: (context) => SourcesBloc(
-            newsRepository: NewsRepository(),
+            sourcesUseCase: SourcesUseCase(),
             networkBloc: context.read<NetworkBloc>(),
           )..add(LoadSources()),
         ),
         BlocProvider<FavouritesBloc>(
           lazy: false,
           create: (context) => FavouritesBloc(
-            newsRepository: NewsRepository(),
+            articlesUseCase: ArticlesUseCase(),
           )..add(LoadFavourites()),
         ),
         BlocProvider<ArticlesBloc>(
           create: (context) => ArticlesBloc(
-            newsRepository: NewsRepository(),
+            articlesUseCase: ArticlesUseCase(),
           ),
         ),
         BlocProvider<ArticleDetailsBloc>(
-          create: (context) =>
-              ArticleDetailsBloc(newsRepository: NewsRepository()),
+          create: (context) => ArticleDetailsBloc(),
         ),
       ],
       child: MaterialApp(

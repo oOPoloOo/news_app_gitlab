@@ -4,19 +4,19 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
+import 'package:news_app/articles/use_case/articles_use_case.dart';
 import 'package:news_app/common/api/api_client.dart';
-import 'package:news_app/common/repositories/news/news_repo.dart';
 import 'package:news_app/sources/model/sources_model.dart';
 
 part 'articles_event.dart';
 part 'articles_state.dart';
 
 class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
-  NewsRepository newsRepository;
+  ArticlesUseCase articlesUseCase;
   List<Articles> articleList = <Articles>[];
   late StreamSubscription networkStreamSubscription;
 
-  ArticlesBloc({required this.newsRepository}) : super(ArticlesLoading()) {
+  ArticlesBloc({required this.articlesUseCase}) : super(ArticlesLoading()) {
     on<LoadArticles>(_onLoadArticles);
     on<LoadLocalArticles>(_onLoadLocalArticles);
     on<UpdateArticles>(_onUpdateArticles);
@@ -25,7 +25,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   void _onLoadArticles(LoadArticles event, Emitter<ArticlesState> emit) async {
     try {
       for (var source in event.sourceList) {
-        articleList = await newsRepository.getAllArticlesBySource(source.id);
+        articleList = await articlesUseCase.getAllArticlesBySource(source.id);
         saveDataToLocalDb(articleList);
         logger.d('Source: ${source.id}');
       }
@@ -38,7 +38,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       LoadLocalArticles event, Emitter<ArticlesState> emit) async {
     try {
       articleList =
-          await newsRepository.readAllArticlesFromLocalDb(event.source);
+          await articlesUseCase.readAllArticlesFromLocalDb(event.source);
     } on DioError catch (e) {
       logger.d(e);
     }
@@ -50,7 +50,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   }
 
   void saveDataToLocalDb(List<Articles> articlesList) async {
-    await newsRepository.writeArticlesToLocalDb(articlesList);
+    await articlesUseCase.writeArticlesToLocalDb(articlesList);
   }
 
   @override

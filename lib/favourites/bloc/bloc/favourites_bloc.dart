@@ -2,16 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:news_app/articles/model/articles_model.dart';
+import 'package:news_app/articles/use_case/articles_use_case.dart';
 import 'package:news_app/common/api/api_client.dart';
-import 'package:news_app/common/repositories/news/news_repo.dart';
 
 part 'favourites_event.dart';
 part 'favourites_state.dart';
 
 class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
   List<Articles> favArticleList = <Articles>[];
-  NewsRepository newsRepository;
-  FavouritesBloc({required this.newsRepository}) : super(FavouritesLoading()) {
+  ArticlesUseCase articlesUseCase;
+  FavouritesBloc({required this.articlesUseCase}) : super(FavouritesLoading()) {
     on<LoadFavourites>(_onLoadFavorites);
     on<AddFavourites>(_onAddFovourite);
     on<RemoveFavourites>(_onRemoveFovourite);
@@ -24,7 +24,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
 
     favArticleList.add(event.addArticle);
     updateLocalDbFavorites(favArticleList);
-    favArticleList = await newsRepository.readAllFavArticlesFromLocalDb();
+    favArticleList = await articlesUseCase.readAllFavArticlesFromLocalDb();
     add(UpdateFavourites(favArticleList));
   }
 
@@ -36,7 +36,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
     emptList.add(removedArticle);
 
     updateLocalDbFavorites(emptList);
-    favArticleList = await newsRepository.readAllFavArticlesFromLocalDb();
+    favArticleList = await articlesUseCase.readAllFavArticlesFromLocalDb();
 
     add(UpdateFavourites(favArticleList));
   }
@@ -44,7 +44,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
   void _onLoadFavorites(
       LoadFavourites event, Emitter<FavouritesState> emit) async {
     try {
-      favArticleList = await newsRepository.readAllFavArticlesFromLocalDb();
+      favArticleList = await articlesUseCase.readAllFavArticlesFromLocalDb();
     } on DioError catch (e) {
       logger.d(e);
     }
@@ -58,7 +58,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
 
   void updateLocalDbFavorites(List<Articles> favArticlesList) async {
     try {
-      await newsRepository.updateAllMultipleFavArticles(favArticlesList);
+      await articlesUseCase.updateAllMultipleFavArticles(favArticlesList);
     } on DioError catch (e) {
       logger.d(e);
     }
