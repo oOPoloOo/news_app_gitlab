@@ -35,13 +35,6 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<NetworkBloc>(
           create: (context) => NetworkBloc()..add(NetworkObserve()),
         ),
-        BlocProvider<SourcesBloc>(
-          lazy: false,
-          create: (context) => SourcesBloc(
-            sourcesUseCase: SourcesUseCase(),
-            networkBloc: context.read<NetworkBloc>(),
-          )..add(LoadSources()),
-        ),
         BlocProvider<FavouritesBloc>(
           lazy: false,
           create: (context) => FavouritesBloc(

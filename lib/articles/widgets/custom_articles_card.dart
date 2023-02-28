@@ -168,26 +168,29 @@ class ArticleCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                alignment: Alignment.topRight,
-                child: article.isFavourite!
-                    ? FavoriteButton(
-                        isFavorite: true,
-                        valueChanged: (_isFavorite) {
-                          BlocProvider.of<FavouritesBloc>(context)
-                              .add(RemoveFavourites(removeArticle: article));
-                          BlocProvider.of<ArticlesBloc>(context).add(
-                              LoadLocalArticles(source: article.idAndName.id));
-                        },
-                      )
-                    : FavoriteButton(
-                        isFavorite: false,
-                        valueChanged: (_isFavorite) {
-                          BlocProvider.of<FavouritesBloc>(context)
-                              .add(AddFavourites(addArticle: article));
-                        },
-                      ),
-              ),
+              child: Builder(builder: (context) {
+                return Container(
+                  alignment: Alignment.topRight,
+                  child: article.isFavourite!
+                      ? FavoriteButton(
+                          isFavorite: true,
+                          valueChanged: (_isFavorite) {
+                            BlocProvider.of<FavouritesBloc>(context)
+                                .add(RemoveFavourites(removeArticle: article));
+                            BlocProvider.of<ArticlesBloc>(context).add(
+                                LoadLocalArticles(
+                                    source: article.idAndName.id));
+                          },
+                        )
+                      : FavoriteButton(
+                          isFavorite: false,
+                          valueChanged: (_isFavorite) {
+                            BlocProvider.of<FavouritesBloc>(context)
+                                .add(AddFavourites(addArticle: article));
+                          },
+                        ),
+                );
+              }),
             ),
           ]);
         } else {

@@ -9,6 +9,8 @@ abstract class SourcesEvent extends Equatable {
 
 class LoadSources extends SourcesEvent {}
 
+class WatchSources extends SourcesEvent {}
+
 class UpdateSources extends SourcesEvent {
   final List<Sources> sources;
 

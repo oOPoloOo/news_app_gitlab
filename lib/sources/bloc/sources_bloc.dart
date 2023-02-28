@@ -22,6 +22,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   SourcesBloc({required this.sourcesUseCase, required this.networkBloc})
       : super(SourcesLoading()) {
     on<LoadSources>(_monitorNetworkCubit);
+    on<WatchSources>(_onWatchLocalSources);
     on<UpdateSources>(_onUpdateSources);
   }
 
@@ -32,7 +33,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
         _onLoadSources(event, emit);
       }
 
-      _onWatchLocalSources(event, emit);
+      add(WatchSources());
     });
   }
 

@@ -16,16 +16,27 @@ Articles _$ArticlesFromJson(Map<String, dynamic> json) => Articles(
       publishedAt: const CustomDateTimeConverter()
           .fromJson(json['publishedAt'] as String),
       content: json['content'] as String,
+      isFavourite: json['isFavourite'] as bool?,
     );
 
-Map<String, dynamic> _$ArticlesToJson(Articles instance) => <String, dynamic>{
-      'source': instance.idAndName,
-      'author': instance.author,
-      'title': instance.title,
-      'description': instance.description,
-      'url': instance.articleUrl,
-      'urlToImage': instance.imageUrl,
-      'publishedAt':
-          const CustomDateTimeConverter().toJson(instance.publishedAt),
-      'content': instance.content,
-    };
+Map<String, dynamic> _$ArticlesToJson(Articles instance) {
+  final val = <String, dynamic>{
+    'source': instance.idAndName,
+    'author': instance.author,
+    'title': instance.title,
+    'description': instance.description,
+    'url': instance.articleUrl,
+    'urlToImage': instance.imageUrl,
+    'publishedAt': const CustomDateTimeConverter().toJson(instance.publishedAt),
+    'content': instance.content,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('isFavourite', Articles.toNull(instance.isFavourite));
+  return val;
+}

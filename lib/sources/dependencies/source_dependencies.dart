@@ -12,8 +12,6 @@ class SourceDependencies extends StatelessWidget {
     required Widget child,
   }) : _child = child;
 
-//Toliau neina - iskviecia load sources tik karta, bet state dingsta
-// 2 kart nueina iki source bloc ir tada cia ir stop -loading screen
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SourcesBloc>(

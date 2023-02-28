@@ -39,11 +39,6 @@ class ArticlesUseCase extends BaseArticlesUseCase {
   }
 
   @override
-  Future<void> writeArticlesToLocalDb(List<Articles> articleList) async {
-    await localDatabase.articlesTableDao.insertMultipleArticles(articleList);
-  }
-
-  @override
   Stream<List<Articles>> watch(String source) {
     return localDatabase.articlesTableDao.watchArticles(source);
   }

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
-import 'package:news_app/articles/dependencies/articles_dependencies.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
@@ -17,7 +16,6 @@ class ArticlesScreen extends StatefulWidget {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
         builder: (_) => ArticlesScreen());
-    // builder: (_) => ArticlesDependencies(child: ArticlesScreen()));
   }
 
   @override

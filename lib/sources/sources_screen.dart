@@ -10,13 +10,6 @@ import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
 import 'package:news_app/sources/dependencies/source_dependencies.dart';
 
-// class ScourcesScreenView extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return SourceDependencies(child: ScourcesScreen());
-//   }
-// }
-
 class ScourcesScreen extends StatefulWidget {
   static const String routeName = sourcesRouteName;
 
@@ -24,8 +17,6 @@ class ScourcesScreen extends StatefulWidget {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
         builder: (_) => ScourcesScreen());
-    // builder: (_) => SourceDependencies(child: ScourcesScreen()));
-    // builder: (_) => BlocProvider.value(value: _leaveBloc, child: LeaveScreen()));
   }
 
   @override
@@ -35,18 +26,20 @@ class ScourcesScreen extends StatefulWidget {
 class SourcesScreenState extends State<ScourcesScreen> {
   @override
   Widget build(BuildContext context) {
-    //BlocProvider.of<SourcesBloc>(context).add(LoadSources());
-
-    return Scaffold(
-      appBar: const CustomAppBar(
-        screen: ScourcesScreen.routeName,
-        title: 'Sources Screen',
-      ),
-      bottomNavigationBar: const NavBar(),
-      body: _buildBody(
-        context,
-        Theme.of(context).colorScheme.background,
-      ),
+    return SourceDependencies(
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: const CustomAppBar(
+            screen: ScourcesScreen.routeName,
+            title: 'Sources Screen',
+          ),
+          bottomNavigationBar: const NavBar(),
+          body: _buildBody(
+            context,
+            Theme.of(context).colorScheme.background,
+          ),
+        );
+      }),
     );
   }
 
@@ -54,6 +47,7 @@ class SourcesScreenState extends State<ScourcesScreen> {
     return BlocBuilder<SourcesBloc, SourcesState>(
       builder: (context, state) {
         if (state is SourcesLoading) {
+          BlocProvider.of<SourcesBloc>(context).add(WatchSources());
           return const Center(
             child: CircularProgressIndicator(),
           );

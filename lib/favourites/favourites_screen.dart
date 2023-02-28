@@ -22,12 +22,13 @@ class FavouritesScreen extends StatelessWidget {
     Color backColor = Theme.of(context).colorScheme.background;
 
     return Scaffold(
-        appBar: const CustomAppBar(
-          screen: favouritesRouteName,
-          title: 'Favourite Articles',
-        ),
-        bottomNavigationBar: const NavBar(),
-        body: _buidBody(backColor));
+      appBar: const CustomAppBar(
+        screen: favouritesRouteName,
+        title: 'Favourite Articles',
+      ),
+      bottomNavigationBar: const NavBar(),
+      body: _buidBody(backColor),
+    );
   }
 
   BlocBuilder<FavouritesBloc, FavouritesState> _buidBody(Color backColor) {
