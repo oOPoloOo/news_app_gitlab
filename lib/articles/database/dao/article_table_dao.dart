@@ -33,18 +33,15 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
     );
   }
 
-  Future<List<Articles>> retrieveAllArticles(String source) async {
-    List<Articles> articleList = [];
+  Stream<List<Articles>> watchArticles(String source) {
+    var query = select(articlesTable)
+      ..where(
+        (tbl) => tbl.sourceId.equals(source),
+      );
 
-    final dbData = await (select(articlesTable)
-          ..where(
-            (tbl) => tbl.sourceId.equals(source),
-          ))
-        .get();
-
-    for (var o in dbData) {
-      articleList.add(
-        Articles(
+    return query.watch().map((rows) {
+      return rows.map((o) {
+        return Articles(
             idAndName: Source(id: o.sourceId, name: o.sourceName),
             author: o.author,
             title: o.title,
@@ -53,11 +50,9 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
             imageUrl: o.imageUrl,
             publishedAt: DateTime.parse(o.publishedAt),
             content: o.content,
-            isFavourite: o.isFavourite),
-      );
-    }
-
-    return articleList;
+            isFavourite: o.isFavourite);
+      }).toList();
+    });
   }
 
   Future<void> updateMultipleFavArticles(List<Articles> articlesList) async {

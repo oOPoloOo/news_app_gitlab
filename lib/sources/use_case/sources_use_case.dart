@@ -17,7 +17,7 @@ class SourcesUseCase extends BaseSourcesUseCase {
   }
 
   @override
-  Future<List<Sources>> getAllSourcesByTechnologyEn() async {
+  Future<void> loadSources() async {
     Response response;
     List<Sources> sourceList;
     SourcesResponse sourcesResp;
@@ -28,7 +28,7 @@ class SourcesUseCase extends BaseSourcesUseCase {
       if (response.statusCode == 200) {
         sourcesResp = SourcesResponse.fromJson(response.data);
         sourceList = sourcesResp.sourceList;
-        return sourceList;
+        await localDatabase.sourcesTableDao.insertMultipleSources(sourceList);
       }
     } on DioError catch (e) {
       logger.e(e.message);
@@ -38,14 +38,12 @@ class SourcesUseCase extends BaseSourcesUseCase {
   }
 
   @override
-  Future<void> writeSourcesToLocalDb(List<Sources> sourcesList) async {
-    localDatabase.sourcesTableDao.insertMultipleSources(sourcesList);
+  Stream<List<Sources>> watch() {
+    return localDatabase.sourcesTableDao.watchSources();
   }
 
   @override
-  Future<List<Sources>> readAllSourcesFromLocalDb() async {
-    final allSources = await localDatabase.sourcesTableDao.retrieveAllSources();
-
-    return allSources;
+  Future<void> writeSourcesToLocalDb(List<Sources> sourcesList) async {
+    localDatabase.sourcesTableDao.insertMultipleSources(sourcesList);
   }
 }

@@ -30,14 +30,10 @@ class SourcesTableDao extends DatabaseAccessor<LocalDatabase>
     );
   }
 
-  Future<List<Sources>> retrieveAllSources() async {
-    List<Sources> sourceList = [];
-    List<Sources> sourceListT = [];
-    final dbData = await select(sourcesTable).get();
-
-    for (var element in dbData) {
-      sourceList.add(
-        Sources(
+  Stream<List<Sources>> watchSources() {
+    return select(sourcesTable).watch().map((rows) {
+      return rows.map((element) {
+        return Sources(
           id: element.sourceId,
           title: element.title,
           description: element.description,
@@ -45,11 +41,8 @@ class SourcesTableDao extends DatabaseAccessor<LocalDatabase>
           category: element.category,
           language: element.language,
           country: element.country,
-        ),
-      );
-    }
-
-    sourceListT = sourceList;
-    return sourceListT;
+        );
+      }).toList();
+    });
   }
 }

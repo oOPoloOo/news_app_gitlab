@@ -6,9 +6,6 @@ part 'article_details_state.dart';
 
 class ArticleDetailsBloc
     extends Bloc<ArticleDetailsEvent, ArticleDetailsState> {
-  //NewsRepository newsRepository;
-  //final articleDetails = Articles;
-
   ArticleDetailsBloc() : super(ArticleDetailsLoading()) {
     on<LoadArticleDetails>(_onLoadArticlesDetails);
     on<UpdateArticlesDetails>(_onUpdateArticlesDetails);

@@ -56,13 +56,19 @@ class _NavBarState extends State<NavBar> {
                 _selectedIndex = index;
 
                 if (_selectedIndex == 0) {
-                  Navigator.pushNamedAndRemoveUntil(context, sourcesRouteName,
-                      (Route<dynamic> route) => false);
+                  // Navigator.pushNamedAndRemoveUntil(context, sourcesRouteName,
+                  //     (Route<dynamic> route) => false);
+                  Navigator.of(context).pushNamed(
+                    sourcesRouteName,
+                  );
                 }
 
                 if (_selectedIndex == 1) {
-                  Navigator.pushNamedAndRemoveUntil(context,
-                      favouritesRouteName, (Route<dynamic> route) => false);
+                  // Navigator.pushNamedAndRemoveUntil(context,
+                  //     favouritesRouteName, (Route<dynamic> route) => false);
+                  Navigator.of(context).pushNamed(
+                    favouritesRouteName,
+                  );
                 }
               });
             },

@@ -17,7 +17,7 @@ class ArticlesUseCase extends BaseArticlesUseCase {
   }
 
   @override
-  Future<List<Articles>> getAllArticlesBySource(String source) async {
+  Future<void> loadArticlesBySource(String source) async {
     Response response;
     List<Articles> articlesList;
     ArticlesResponse articlesResp;
@@ -28,7 +28,8 @@ class ArticlesUseCase extends BaseArticlesUseCase {
       if (response.statusCode == 200) {
         articlesResp = ArticlesResponse.fromJson(response.data);
         articlesList = articlesResp.artileList;
-        return articlesList;
+        await localDatabase.articlesTableDao
+            .insertMultipleArticles(articlesList);
       }
     } on DioError catch (e) {
       logger.e(e.message);
@@ -43,11 +44,8 @@ class ArticlesUseCase extends BaseArticlesUseCase {
   }
 
   @override
-  Future<List<Articles>> readAllArticlesFromLocalDb(String source) async {
-    final articlesList =
-        await localDatabase.articlesTableDao.retrieveAllArticles(source);
-
-    return articlesList;
+  Stream<List<Articles>> watch(String source) {
+    return localDatabase.articlesTableDao.watchArticles(source);
   }
 
   @override

@@ -8,21 +8,38 @@ import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
 import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
+import 'package:news_app/sources/dependencies/source_dependencies.dart';
 
-class ScourcesScreen extends StatelessWidget {
+// class ScourcesScreenView extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return SourceDependencies(child: ScourcesScreen());
+//   }
+// }
+
+class ScourcesScreen extends StatefulWidget {
   static const String routeName = sourcesRouteName;
 
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
         builder: (_) => ScourcesScreen());
+    // builder: (_) => SourceDependencies(child: ScourcesScreen()));
+    // builder: (_) => BlocProvider.value(value: _leaveBloc, child: LeaveScreen()));
   }
 
   @override
+  State<ScourcesScreen> createState() => SourcesScreenState();
+}
+
+class SourcesScreenState extends State<ScourcesScreen> {
+  @override
   Widget build(BuildContext context) {
+    //BlocProvider.of<SourcesBloc>(context).add(LoadSources());
+
     return Scaffold(
       appBar: const CustomAppBar(
-        screen: routeName,
+        screen: ScourcesScreen.routeName,
         title: 'Sources Screen',
       ),
       bottomNavigationBar: const NavBar(),

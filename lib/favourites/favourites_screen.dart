@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
+import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
 import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
@@ -21,7 +22,12 @@ class FavouritesScreen extends StatelessWidget {
     Color backColor = Theme.of(context).colorScheme.background;
 
     return Scaffold(
-        bottomNavigationBar: const NavBar(), body: _buidBody(backColor));
+        appBar: const CustomAppBar(
+          screen: favouritesRouteName,
+          title: 'Favourite Articles',
+        ),
+        bottomNavigationBar: const NavBar(),
+        body: _buidBody(backColor));
   }
 
   BlocBuilder<FavouritesBloc, FavouritesState> _buidBody(Color backColor) {

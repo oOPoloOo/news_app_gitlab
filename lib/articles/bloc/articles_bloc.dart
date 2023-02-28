@@ -18,39 +18,29 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
 
   ArticlesBloc({required this.articlesUseCase}) : super(ArticlesLoading()) {
     on<LoadArticles>(_onLoadArticles);
-    on<LoadLocalArticles>(_onLoadLocalArticles);
+    on<LoadLocalArticles>(_onWatchLocalArticles);
     on<UpdateArticles>(_onUpdateArticles);
   }
 
   void _onLoadArticles(LoadArticles event, Emitter<ArticlesState> emit) async {
     try {
       for (var source in event.sourceList) {
-        articleList = await articlesUseCase.getAllArticlesBySource(source.id);
-        saveDataToLocalDb(articleList);
-        logger.d('Source: ${source.id}');
+        await articlesUseCase.loadArticlesBySource(source.id);
       }
     } on DioError catch (e) {
       logger.d(e);
     }
   }
 
-  void _onLoadLocalArticles(
-      LoadLocalArticles event, Emitter<ArticlesState> emit) async {
-    try {
-      articleList =
-          await articlesUseCase.readAllArticlesFromLocalDb(event.source);
-    } on DioError catch (e) {
-      logger.d(e);
-    }
-    add(UpdateArticles(articleList));
+  void _onWatchLocalArticles(event, Emitter<ArticlesState> emit) async {
+    articlesUseCase.watch(event.source).listen((event) {
+      articleList = event;
+      add(UpdateArticles(articleList));
+    });
   }
 
   void _onUpdateArticles(UpdateArticles event, Emitter<ArticlesState> emit) {
     emit(ArticlesLoaded(articles: event.articles));
-  }
-
-  void saveDataToLocalDb(List<Articles> articlesList) async {
-    await articlesUseCase.writeArticlesToLocalDb(articlesList);
   }
 
   @override

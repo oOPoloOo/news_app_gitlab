@@ -16,6 +16,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   NetworkBloc networkBloc;
   List<Sources> sourcesList = <Sources>[];
   late StreamSubscription networkStreamSubscription;
+  late StreamSubscription sourcesStreamSubscription;
 
   @override
   SourcesBloc({required this.sourcesUseCase, required this.networkBloc})
@@ -30,34 +31,25 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
       if (state is NetworkSuccess) {
         _onLoadSources(event, emit);
       }
-      if (state is NetworkFailure) {
-        _onLoadLocalSources(event, emit);
-      }
+
+      _onWatchLocalSources(event, emit);
     });
   }
 
   void _onLoadSources(event, Emitter<SourcesState> emit) async {
     try {
-      sourcesList = await sourcesUseCase.getAllSourcesByTechnologyEn();
+      await sourcesUseCase.loadSources();
     } on DioError catch (e) {
       logger.d(e);
     }
-    saveDataToLocalDb(sourcesList);
-    add(UpdateSources(sourcesList));
   }
 
-  void _onLoadLocalSources(event, Emitter<SourcesState> emit) async {
-    try {
-      sourcesList = await sourcesUseCase.readAllSourcesFromLocalDb();
-    } on DioError catch (e) {
-      logger.d(e);
-    }
-
-    add(UpdateSources(sourcesList));
-  }
-
-  void saveDataToLocalDb(List<Sources> sourcesList) async {
-    await sourcesUseCase.writeSourcesToLocalDb(sourcesList);
+  void _onWatchLocalSources(event, Emitter<SourcesState> emit) async {
+    sourcesUseCase.watch().listen((event) {
+      logger.d('Source event: ${event.length}');
+      sourcesList = event;
+      add(UpdateSources(sourcesList));
+    });
   }
 
   void _onUpdateSources(UpdateSources event, Emitter<SourcesState> emit) {

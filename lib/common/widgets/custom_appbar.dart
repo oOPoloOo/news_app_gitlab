@@ -113,6 +113,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   Widget _scourcesAppBar(BuildContext context, String barTitle) {
     return AppBar(
+      automaticallyImplyLeading: false,
       centerTitle: true,
       elevation: 0,
       backgroundColor: Theme.of(context).colorScheme.background,
