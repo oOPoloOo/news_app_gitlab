@@ -56,14 +56,11 @@ class SourcesScreenState extends State<ScourcesScreen> {
       },
       builder: (context, state) {
         if (state is SourcesLoading) {
-          // BlocProvider.of<SourcesBloc>(context).add(WatchSources());
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
         if (state is SourcesLoaded) {
-          // BlocProvider.of<ArticlesBloc>(context)
-          //     .add(LoadArticles(sourceList: state.sources));
           return Container(
             color: backColor,
             child: CustomListView.source(
