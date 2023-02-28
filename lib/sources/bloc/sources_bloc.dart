@@ -26,6 +26,8 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
     on<UpdateSources>(_onUpdateSources);
   }
 
+  // Lsitens on network status changes,
+  //to decide to take data from API or not.
   StreamSubscription<NetworkState> _monitorNetworkCubit(
       SourcesEvent event, Emitter<SourcesState> emit) {
     return networkStreamSubscription = networkBloc.stream.listen((state) {
@@ -37,6 +39,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
     });
   }
 
+  //Loads Sources from API and saves sit to local db.
   void _onLoadSources(event, Emitter<SourcesState> emit) async {
     try {
       await sourcesUseCase.loadSources();
@@ -45,14 +48,15 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
     }
   }
 
+  //On local db changes updates list in Sources state.
   void _onWatchLocalSources(event, Emitter<SourcesState> emit) async {
     sourcesUseCase.watch().listen((event) {
-      logger.d('Source event: ${event.length}');
       sourcesList = event;
       add(UpdateSources(sourcesList));
     });
   }
 
+  // Updates list in Sources state
   void _onUpdateSources(UpdateSources event, Emitter<SourcesState> emit) {
     emit(SourcesLoaded(sources: event.sources));
   }

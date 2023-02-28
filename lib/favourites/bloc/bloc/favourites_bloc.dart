@@ -18,6 +18,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
     on<UpdateFavourites>(_onUpdateFavourites);
   }
 
+  // Add favourite article to local db,
+  //then retrieves it and updates Articles state.
   void _onAddFovourite(
       AddFavourites event, Emitter<FavouritesState> emit) async {
     event.addArticle.setIsFavourite = true;
@@ -28,6 +30,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
     add(UpdateFavourites(favArticleList));
   }
 
+  // Remove favourite article from local db,
+  //then retrieves it and updates Articles state.
   void _onRemoveFovourite(
       RemoveFavourites event, Emitter<FavouritesState> emit) async {
     List<Articles> emptList = [];
@@ -41,6 +45,7 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
     add(UpdateFavourites(favArticleList));
   }
 
+  //Loads only favourite articles.
   void _onLoadFavorites(
       LoadFavourites event, Emitter<FavouritesState> emit) async {
     try {
@@ -51,11 +56,13 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
     add(UpdateFavourites(favArticleList));
   }
 
+  //Update Favourites bloc state with list.
   void _onUpdateFavourites(
       UpdateFavourites event, Emitter<FavouritesState> emit) {
     emit(FavouritesLoaded(favArticles: event.favArticles));
   }
 
+  //Update database with favourite article list, for Favourites_screen.
   void updateLocalDbFavorites(List<Articles> favArticlesList) async {
     try {
       await articlesUseCase.updateAllMultipleFavArticles(favArticlesList);

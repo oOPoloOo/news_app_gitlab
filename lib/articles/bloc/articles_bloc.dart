@@ -22,6 +22,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     on<UpdateArticles>(_onUpdateArticles);
   }
 
+  // On app start loads all articles from API amd saves to local database.
   void _onLoadArticles(LoadArticles event, Emitter<ArticlesState> emit) async {
     try {
       for (var source in event.sourceList) {
@@ -33,6 +34,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     }
   }
 
+  // When local daatabase is updated retrieves it.
   void _onWatchLocalArticles(event, Emitter<ArticlesState> emit) async {
     articlesUseCase.watch(event.source).listen((event) {
       articleList = event;
@@ -40,10 +42,12 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     });
   }
 
+  // Updates the data stored ir Articles bloc state.
   void _onUpdateArticles(UpdateArticles event, Emitter<ArticlesState> emit) {
     emit(ArticlesLoaded(articles: event.articles));
   }
 
+  // When app closes, close the stream subscription.
   @override
   Future<void> close() async {
     networkStreamSubscription.cancel();

@@ -41,9 +41,4 @@ class SourcesUseCase extends BaseSourcesUseCase {
   Stream<List<Sources>> watch() {
     return localDatabase.sourcesTableDao.watchSources();
   }
-
-  @override
-  Future<void> writeSourcesToLocalDb(List<Sources> sourcesList) async {
-    localDatabase.sourcesTableDao.insertMultipleSources(sourcesList);
-  }
 }

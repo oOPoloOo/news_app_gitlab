@@ -15,10 +15,12 @@ class NetworkBloc extends Bloc<NetworkEvent, NetworkState> {
 
   factory NetworkBloc() => _instance;
 
+  // Starts observing network status.
   void _observe(event, emit) {
     NetworkConnectionHelper.observeNetwork();
   }
 
+  // Emits network status.
   void _notifyStatus(NetworkNotify event, emit) {
     event.isConnected ? emit(NetworkSuccess()) : emit(NetworkFailure());
   }
