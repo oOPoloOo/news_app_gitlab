@@ -34,8 +34,6 @@ class ArticlesUseCase extends BaseArticlesUseCase {
     } on DioError catch (e) {
       logger.e(e.message);
     }
-    throw Exception(
-        "Somethig went wrong! StatusCode != 200. getAllSourcesBySportsEn. ");
   }
 
   @override

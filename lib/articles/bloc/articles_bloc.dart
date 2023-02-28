@@ -25,6 +25,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   void _onLoadArticles(LoadArticles event, Emitter<ArticlesState> emit) async {
     try {
       for (var source in event.sourceList) {
+        logger.d("Bloc_articles: $source");
         await articlesUseCase.loadArticlesBySource(source.id);
       }
     } on DioError catch (e) {

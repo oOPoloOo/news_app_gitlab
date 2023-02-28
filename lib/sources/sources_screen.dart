@@ -44,17 +44,26 @@ class SourcesScreenState extends State<ScourcesScreen> {
   }
 
   Widget _buildBody(BuildContext context, Color backColor) {
-    return BlocBuilder<SourcesBloc, SourcesState>(
-      builder: (context, state) {
+    return BlocConsumer<SourcesBloc, SourcesState>(
+      listener: (context, state) {
         if (state is SourcesLoading) {
           BlocProvider.of<SourcesBloc>(context).add(WatchSources());
+        }
+        if (state is SourcesLoaded) {
+          BlocProvider.of<ArticlesBloc>(context)
+              .add(LoadArticles(sourceList: state.sources));
+        }
+      },
+      builder: (context, state) {
+        if (state is SourcesLoading) {
+          // BlocProvider.of<SourcesBloc>(context).add(WatchSources());
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
         if (state is SourcesLoaded) {
-          BlocProvider.of<ArticlesBloc>(context)
-              .add(LoadArticles(sourceList: state.sources));
+          // BlocProvider.of<ArticlesBloc>(context)
+          //     .add(LoadArticles(sourceList: state.sources));
           return Container(
             color: backColor,
             child: CustomListView.source(

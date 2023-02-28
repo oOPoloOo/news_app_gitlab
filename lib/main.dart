@@ -9,10 +9,7 @@ import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/common/config/app_router.dart';
 import 'package:news_app/common/config/theme.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
-import 'package:news_app/sources/bloc/sources_bloc.dart';
-
 import 'package:news_app/sources/sources_screen.dart';
-import 'package:news_app/sources/use_case/sources_use_case.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
