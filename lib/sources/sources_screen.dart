@@ -65,6 +65,7 @@ class SourcesScreenState extends State<ScourcesScreen> {
             color: backColor,
             child: CustomListView.source(
               sources: state.sources,
+              isBig: false, //LAIKINAS
             ),
           );
         } else {

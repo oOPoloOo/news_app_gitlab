@@ -13,6 +13,7 @@ class CustomListView extends StatelessWidget {
   final bool isSource;
   final bool isArticles;
   final bool isDetails;
+  final bool isBig;
 
   const CustomListView.source({
     Key? key,
@@ -23,6 +24,7 @@ class CustomListView extends StatelessWidget {
     this.isSource = true,
     this.isArticles = false,
     this.isDetails = false,
+    required this.isBig,
   }) : super(key: key);
 
   const CustomListView.articles({
@@ -34,6 +36,7 @@ class CustomListView extends StatelessWidget {
     this.isSource = false,
     this.isArticles = true,
     this.isDetails = false,
+    required this.isBig,
   }) : super(key: key);
 
   const CustomListView.details({
@@ -45,44 +48,56 @@ class CustomListView extends StatelessWidget {
     this.isSource = false,
     this.isArticles = false,
     this.isDetails = true,
+    required this.isBig,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
 
-    return isDetails
-        ? ArticleDetailsCard(
-            articleInfo: articleDetails!,
-            cardHeight: media.height,
-            cardWidth: media.width * 0.95,
-            imgHeight: media.height * 0.26,
-          )
-        : ListView(
-            shrinkWrap: true,
-            physics: const AlwaysScrollableScrollPhysics(),
-            children: isSource
-                ? sources!
+    if (isDetails) {
+      if (isBig) {
+        return ArticleDetailsCard.bigSize(
+          articleInfo: articleDetails!,
+          cardHeight: media.height,
+          cardWidth: media.width,
+          imgHeight: media.height * 0.26,
+        );
+      } else {
+        return ArticleDetailsCard(
+          articleInfo: articleDetails!,
+          cardHeight: media.height,
+          cardWidth: media.width * 0.95,
+          imgHeight: media.height * 0.26,
+        );
+      }
+    } else {
+      return ListView(
+        shrinkWrap: true,
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: isSource
+            ? sources!
+                .map(
+                  (source) => SourceCard(
+                    sourceInfo: source,
+                  ),
+                )
+                .toList()
+            : isArticles
+                ? articles!
                     .map(
-                      (source) => SourceCard(
-                        sourceInfo: source,
+                      (article) => ArticleCard(
+                        articleInfo: article,
+                        cardHeightAllElements: media.height * 0.55,
+                        imgHeight: media.height * 0.20,
+                        cardWidth: media.width * 0.95,
                       ),
                     )
                     .toList()
-                : isArticles
-                    ? articles!
-                        .map(
-                          (article) => ArticleCard(
-                            articleInfo: article,
-                            cardHeightAllElements: media.height * 0.55,
-                            imgHeight: media.height * 0.20,
-                            cardWidth: media.width * 0.95,
-                          ),
-                        )
-                        .toList()
-                    : [
-                        const ListTile(),
-                      ],
-          );
+                : [
+                    const ListTile(),
+                  ],
+      );
+    }
   }
 }

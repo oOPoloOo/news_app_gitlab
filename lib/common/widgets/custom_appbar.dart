@@ -9,10 +9,12 @@ import 'package:news_app/common/config/constants.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String screen;
   final String title;
+  final bool? bigSize;
 
   const CustomAppBar({
     required this.screen,
     required this.title,
+    this.bigSize,
   });
 
   @override
@@ -24,10 +26,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ? _articlesAppBar(
             context,
             title,
+            bigSize!,
           )
         : (screen == articleDetailsRouteName)
             ? _articleDetailsAppBar(
                 context,
+                bigSize!,
               )
             : _scourcesAppBar(
                 context,
@@ -35,13 +39,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               );
   }
 
-  Widget _articlesAppBar(BuildContext context, String barTitle) {
+  Widget _articlesAppBar(BuildContext context, String barTitle, bool isBig) {
     return BlocBuilder<ArticlesBloc, ArticlesState>(
       builder: (context, state) {
         if (state is ArticlesLoaded) {
           return AppBar(
             elevation: 0,
             centerTitle: true,
+            automaticallyImplyLeading: isBig ? true : false,
             iconTheme:
                 IconThemeData(color: Theme.of(context).colorScheme.secondary),
             backgroundColor: Theme.of(context).colorScheme.background,
@@ -72,20 +77,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _articleDetailsAppBar(BuildContext context) {
+  Widget _articleDetailsAppBar(BuildContext context, bool bigSize) {
     return BlocBuilder<ArticleDetailsBloc, ArticleDetailsState>(
       builder: (context, state) {
         if (state is ArticleDetailsLoaded) {
           return AppBar(
             toolbarHeight: 68,
             leadingWidth: 60,
+            automaticallyImplyLeading: bigSize ? false : true,
             elevation: 0,
             backgroundColor: Colors.transparent,
             iconTheme:
                 IconThemeData(color: Theme.of(context).colorScheme.secondary),
             title: Text(
               state.articleDetails.title,
-              maxLines: 3,
+              maxLines: 2,
+              overflow: TextOverflow.fade,
               style: Theme.of(context)
                   .textTheme
                   .titleSmall!

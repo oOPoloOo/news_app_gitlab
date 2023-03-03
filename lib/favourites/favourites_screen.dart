@@ -48,6 +48,7 @@ class FavouritesScreen extends StatelessWidget {
               height: media.height,
               child: CustomListView.articles(
                 articles: state.favArticles,
+                isBig: false, //LAIKINAS
               ),
             );
           } else {

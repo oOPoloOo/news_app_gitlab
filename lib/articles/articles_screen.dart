@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
+import 'package:news_app/articles/helpers/article_responsiveness.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
@@ -15,7 +16,8 @@ class ArticlesScreen extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
-        builder: (_) => ArticlesScreen());
+        builder: (_) =>
+            ArticleResponsiveness(customSizeScreen: ArticlesScreen()));
   }
 
   @override
@@ -33,9 +35,10 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     Color backColor = Theme.of(context).colorScheme.background;
 
     return Scaffold(
-        appBar: const CustomAppBar(
+        appBar: CustomAppBar(
           screen: ArticlesScreen.routeName,
           title: "Articles Screen",
+          bigSize: ArticleResponsiveness.isSmallScreen(context) ? false : true,
         ),
         bottomNavigationBar: const NavBar(),
         body: _buidBody(backColor));
@@ -80,7 +83,10 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                   Expanded(
                     flex: 14,
                     child: articlesFilter.isNotEmpty
-                        ? CustomListView.articles(articles: articlesFilter)
+                        ? CustomListView.articles(
+                            articles: articlesFilter,
+                            isBig: false, // LAIKINAS
+                          )
                         : const Center(
                             child: Text(
                               'No articles meet requirements',

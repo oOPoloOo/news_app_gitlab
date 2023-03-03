@@ -19,11 +19,25 @@ class ArticleDetailsCard extends StatelessWidget {
 
   final double imgHeight;
 
+  final double cardMargin;
+  final double cardBorderRadius;
+
   const ArticleDetailsCard({
     required this.articleInfo,
     required this.cardHeight,
     required this.cardWidth,
     required this.imgHeight,
+    this.cardBorderRadius = 40,
+    this.cardMargin = 10,
+  });
+
+  const ArticleDetailsCard.bigSize({
+    required this.articleInfo,
+    required this.cardHeight,
+    required this.cardWidth,
+    required this.imgHeight,
+    this.cardBorderRadius = 0,
+    this.cardMargin = 0,
   });
 
   @override
@@ -43,10 +57,10 @@ class ArticleDetailsCard extends StatelessWidget {
             width: cardWidth,
             child: Card(
               elevation: 5,
-              margin: const EdgeInsets.all(10),
+              margin: EdgeInsets.all(cardMargin),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40.0),
+                borderRadius: BorderRadius.circular(cardBorderRadius),
               ),
               child: Column(
                 children: [
@@ -68,22 +82,20 @@ class ArticleDetailsCard extends StatelessWidget {
                     flex: 2,
                     child: Padding(
                       padding: const EdgeInsets.only(
-                        left: 10.0,
-                        right: 10.0,
+                        left: 15.0,
+                        right: 8.0,
                         top: 5.0,
                         bottom: 5,
                       ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Text(
-                                "Link to original article:",
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                              ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(
+                              "Link to original article:",
+                              style: Theme.of(context).textTheme.headlineSmall,
                             ),
                           ),
                           Expanded(
@@ -139,14 +151,20 @@ class ArticleDetailsCard extends StatelessWidget {
       flex: flex,
       child: Padding(
         padding: const EdgeInsets.only(
-          left: 10.0,
+          left: 15.0,
           right: 10.0,
           top: 10.0,
         ),
-        child: Text(
-          articleInf.content,
-          textAlign: TextAlign.justify,
-          style: Theme.of(context).textTheme.bodyMedium,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              articleInf.content,
+              textAlign: TextAlign.justify,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
         ),
       ),
     );
@@ -162,9 +180,16 @@ class ArticleDetailsCard extends StatelessWidget {
           right: 8.0,
           bottom: 5.0,
         ),
-        child: Text(
-          articleInf.title,
-          style: Theme.of(context).textTheme.titleSmall,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              articleInf.title,
+              maxLines: 3,
+              overflow: TextOverflow.fade,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ],
         ),
       ),
     );
