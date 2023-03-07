@@ -16,7 +16,6 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   NetworkBloc networkBloc;
   List<Sources> sourcesList = <Sources>[];
   late StreamSubscription networkStreamSubscription;
-  late StreamSubscription sourcesStreamSubscription;
 
   @override
   SourcesBloc({required this.sourcesUseCase, required this.networkBloc})

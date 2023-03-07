@@ -14,7 +14,6 @@ part 'articles_state.dart';
 class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   ArticlesUseCase articlesUseCase;
   List<Articles> articleList = <Articles>[];
-  late StreamSubscription networkStreamSubscription;
 
   ArticlesBloc({required this.articlesUseCase}) : super(ArticlesLoading()) {
     on<LoadArticles>(_onLoadArticles);
@@ -26,7 +25,6 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   void _onLoadArticles(LoadArticles event, Emitter<ArticlesState> emit) async {
     try {
       for (var source in event.sourceList) {
-        logger.d("Bloc_articles: $source");
         await articlesUseCase.loadArticlesBySource(source.id);
       }
     } on DioError catch (e) {
@@ -50,7 +48,6 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   // When app closes, close the stream subscription.
   @override
   Future<void> close() async {
-    networkStreamSubscription.cancel();
     return await super.close();
   }
 }

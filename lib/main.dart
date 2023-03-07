@@ -9,7 +9,9 @@ import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/common/config/app_router.dart';
 import 'package:news_app/common/config/theme.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
+import 'package:news_app/sources/bloc/sources_bloc.dart';
 import 'package:news_app/sources/sources_screen.dart';
+import 'package:news_app/sources/use_case/sources_use_case.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +33,13 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider<NetworkBloc>(
           create: (context) => NetworkBloc()..add(NetworkObserve()),
+        ),
+        BlocProvider<SourcesBloc>(
+          lazy: false,
+          create: (context) => SourcesBloc(
+            sourcesUseCase: SourcesUseCase(),
+            networkBloc: context.read<NetworkBloc>(),
+          )..add(LoadSources()),
         ),
         BlocProvider<FavouritesBloc>(
           lazy: false,

@@ -8,7 +8,6 @@ import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
 import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
-import 'package:news_app/sources/dependencies/source_dependencies.dart';
 
 class ScourcesScreen extends StatefulWidget {
   static const String routeName = sourcesRouteName;
@@ -26,29 +25,25 @@ class ScourcesScreen extends StatefulWidget {
 class SourcesScreenState extends State<ScourcesScreen> {
   @override
   Widget build(BuildContext context) {
-    return SourceDependencies(
-      child: Builder(builder: (context) {
-        return Scaffold(
-          appBar: const CustomAppBar(
-            screen: ScourcesScreen.routeName,
-            title: 'Sources Screen',
-          ),
-          bottomNavigationBar: const NavBar(),
-          body: _buildBody(
-            context,
-            Theme.of(context).colorScheme.background,
-          ),
-        );
-      }),
+    return Scaffold(
+      appBar: const CustomAppBar(
+        screen: ScourcesScreen.routeName,
+        title: 'Sources Screen',
+      ),
+      bottomNavigationBar: const NavBar(),
+      body: _buildBody(
+        context,
+        Theme.of(context).colorScheme.background,
+      ),
     );
   }
 
   Widget _buildBody(BuildContext context, Color backColor) {
     return BlocConsumer<SourcesBloc, SourcesState>(
+      listenWhen: (previous, current) {
+        return previous is SourcesLoading && current is SourcesLoaded;
+      },
       listener: (context, state) {
-        if (state is SourcesLoading) {
-          BlocProvider.of<SourcesBloc>(context).add(WatchSources());
-        }
         if (state is SourcesLoaded) {
           BlocProvider.of<ArticlesBloc>(context)
               .add(LoadArticles(sourceList: state.sources));
@@ -56,6 +51,7 @@ class SourcesScreenState extends State<ScourcesScreen> {
       },
       builder: (context, state) {
         if (state is SourcesLoading) {
+          BlocProvider.of<SourcesBloc>(context).add(WatchSources());
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -65,7 +61,7 @@ class SourcesScreenState extends State<ScourcesScreen> {
             color: backColor,
             child: CustomListView.source(
               sources: state.sources,
-              isBig: false, //LAIKINAS
+              isBig: false,
             ),
           );
         } else {

@@ -42,15 +42,16 @@ class ArticlesTableDao extends DatabaseAccessor<LocalDatabase>
     return query.watch().map((rows) {
       return rows.map((o) {
         return Articles(
-            idAndName: Source(id: o.sourceId, name: o.sourceName),
-            author: o.author,
-            title: o.title,
-            description: o.description,
-            articleUrl: o.articleUrl,
-            imageUrl: o.imageUrl,
-            publishedAt: DateTime.parse(o.publishedAt),
-            content: o.content,
-            isFavourite: o.isFavourite);
+          idAndName: Source(id: o.sourceId, name: o.sourceName),
+          author: o.author,
+          title: o.title,
+          description: o.description,
+          articleUrl: o.articleUrl,
+          imageUrl: o.imageUrl,
+          publishedAt: DateTime.parse(o.publishedAt),
+          content: o.content,
+          isFavourite: o.isFavourite,
+        );
       }).toList();
     });
   }

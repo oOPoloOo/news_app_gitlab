@@ -187,6 +187,9 @@ class ArticleCard extends StatelessWidget {
                           valueChanged: (_isFavorite) {
                             BlocProvider.of<FavouritesBloc>(context)
                                 .add(AddFavourites(addArticle: article));
+                            BlocProvider.of<ArticlesBloc>(context).add(
+                                LoadLocalArticles(
+                                    source: article.idAndName.id));
                           },
                         ),
                 );
