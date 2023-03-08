@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
-import 'package:news_app/article_details/helpers/article_details_responsiveness.dart';
+// import 'package:news_app/article_details/helpers/article_details_responsiveness.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
@@ -21,14 +21,15 @@ class ArticleDetailsScreen extends StatelessWidget {
     this.isBigSize = true,
   });
 
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => ArticleDetailsResponsiveness(
-              largeScreen: ArticleDetailsScreen.bigSize(),
-              smallScreen: ArticleDetailsScreen(),
-            ));
-  }
+  // static Route route() {
+  //   return MaterialPageRoute(
+  //     settings: const RouteSettings(name: routeName),
+  //     builder: (_) => ArticleDetailsResponsiveness(
+  //       largeScreen: ArticleDetailsScreen.bigSize(),
+  //       smallScreen: ArticleDetailsScreen(),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

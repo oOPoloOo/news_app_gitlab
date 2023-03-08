@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         title: 'News App',
         theme: theme(),
         onGenerateRoute: AppRouter.onGenerateRoute,
-        initialRoute: ScourcesScreen.routeName,
+        // initialRoute: ScourcesScreen.routeName,
       ),
     );
   }

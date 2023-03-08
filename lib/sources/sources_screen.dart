@@ -12,11 +12,12 @@ import 'package:news_app/sources/bloc/sources_bloc.dart';
 class ScourcesScreen extends StatefulWidget {
   static const String routeName = sourcesRouteName;
 
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => ScourcesScreen());
-  }
+  // static Route route() {
+  //   return MaterialPageRoute(
+  //     settings: const RouteSettings(name: routeName),
+  //     builder: (_) => ScourcesScreen(),
+  //   );
+  // }
 
   @override
   State<ScourcesScreen> createState() => SourcesScreenState();

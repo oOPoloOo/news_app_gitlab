@@ -9,13 +9,13 @@ import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 
 class FavouritesScreen extends StatelessWidget {
-  static const String routeName = favouritesRouteName;
+  // static cosnst String routeName = favouritesRouteName;
 
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => FavouritesScreen());
-  }
+  // static Route route() {
+  //   return MaterialPageRoute(
+  //       settings: const RouteSettings(name: routeName),
+  //       builder: (_) => FavouritesScreen());
+  // }
 
   @override
   Widget build(BuildContext context) {

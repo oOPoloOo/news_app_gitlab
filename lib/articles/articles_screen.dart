@@ -13,12 +13,12 @@ import 'package:news_app/common/widgets/nav_bar.dart';
 class ArticlesScreen extends StatefulWidget {
   static const String routeName = articlesRouteName;
 
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) =>
-            ArticleResponsiveness(customSizeScreen: ArticlesScreen()));
-  }
+  // static Route route() {
+  //   return MaterialPageRoute(
+  //       settings: const RouteSettings(name: routeName),
+  //       builder: (_) =>
+  //           ArticleResponsiveness(customSizeScreen: ArticlesScreen()));
+  // }
 
   @override
   State<ArticlesScreen> createState() => _ArticlesScreenState();
