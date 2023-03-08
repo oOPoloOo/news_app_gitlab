@@ -5,6 +5,7 @@ import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/favourites/favourites_screen.dart';
 import 'package:news_app/sources/sources_screen.dart';
 
+// Pabandyt Navigatoriaus kita var, kur pushina o ne routina.
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {

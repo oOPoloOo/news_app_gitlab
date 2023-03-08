@@ -123,6 +123,7 @@ class ArticleDetailsCard extends StatelessWidget {
       BuildContext context, String imageUrl, double iWidth, double iHeight) {
     return BlocBuilder<NetworkBloc, NetworkState>(
       builder: (context, state) {
+        //Pasidaryt su networkImage ir optional var
         if (state is NetworkSuccess) {
           return SizedBox(
             width: iWidth,

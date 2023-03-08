@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+//kur nullable model daryt optional > su ?
 class SourcesTable extends Table {
   TextColumn get sourceId => text().named('source_id')();
   TextColumn get title => text().named('name')();

@@ -9,29 +9,38 @@ import 'package:news_app/sources/use_case/base_sources_use_case.dart';
 
 class SourcesUseCase extends BaseSourcesUseCase {
   late Dio apiClient;
+  // Clientas service ikist
+  //TODO:  isidet plugina  i vs code
   SourcesService sourcesService = SourcesService();
   LocalDatabase localDatabase = LocalDatabase();
 
+  // panaikint
   SourcesUseCase() {
     apiClient = newsClient();
   }
 
+  //I usecase grizta jau apdoroti duomenys
+  //neraasyt trumpiniu kaip e, rasyt pilnai kaip error
+//Camel case visur metodai
   @override
   Future<void> loadSources() async {
     Response response;
     List<Sources> sourceList;
     SourcesResponse sourcesResp;
-
+    // ismest cia esanti konvertavima
+//  nerasyt try catch use case geriausi, nes viskas turi but serviso metode
     try {
       response =
           await sourcesService.getSourcesEn(apiClient, sourcesTechnologyEn);
       if (response.statusCode == 200) {
         sourcesResp = SourcesResponse.fromJson(response.data);
         sourceList = sourcesResp.sourceList;
+
+        //insert palikt, o konvertavima sukist i service
         await localDatabase.sourcesTableDao.insertMultipleSources(sourceList);
       }
-    } on DioError catch (e) {
-      logger.e(e.message);
+    } on DioError catch (error) {
+      logger.e(error.message);
     }
     throw Exception(
         "Somethig went wrong! StatusCode != 200. getAllSourcesByTechnologyEn.");

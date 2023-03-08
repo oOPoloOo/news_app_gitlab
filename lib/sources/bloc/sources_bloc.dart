@@ -13,7 +13,8 @@ part 'sources_state.dart';
 
 class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   SourcesUseCase sourcesUseCase;
-  NetworkBloc networkBloc;
+  NetworkBloc
+      networkBloc; // neraikia isvis pasalint is main  aktualu, jei nesaugoji sql
   List<Sources> sourcesList = <Sources>[];
   late StreamSubscription networkStreamSubscription;
 
@@ -30,19 +31,22 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   StreamSubscription<NetworkState> _monitorNetworkCubit(
       SourcesEvent event, Emitter<SourcesState> emit) {
     return networkStreamSubscription = networkBloc.stream.listen((state) {
+      add(WatchSources());
+
       if (state is NetworkSuccess) {
         _onLoadSources(event, emit);
       }
-
-      add(WatchSources());
+      // Visada pirma watch daryt, nes sukuria subscription
+      // add(WatchSources());
     });
   }
 
   //Loads Sources from API and saves sit to local db.
   void _onLoadSources(event, Emitter<SourcesState> emit) async {
+    // catch pagauna stack trace ir err geriau nei on
     try {
       await sourcesUseCase.loadSources();
-    } on DioError catch (e) {
+    } catch (e) {
       logger.d(e);
     }
   }
@@ -60,6 +64,8 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
     emit(SourcesLoaded(sources: event.sources));
   }
 
+  // visus watch ir gi uzdaryt
+  // susikurt stream controller visiem watch uzdaryt stream
   @override
   Future<void> close() async {
     networkStreamSubscription.cancel();

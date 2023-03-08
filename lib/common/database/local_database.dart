@@ -7,6 +7,7 @@ import 'package:news_app/sources/database/dao/source_table_dao.dart';
 import 'package:news_app/sources/database/sources_db_table.dart';
 part 'local_database.g.dart';
 
+//Turetu but nebutina nurodyt dao nes apsirasiau lenteles paciam dao
 @DriftDatabase(
     tables: [SourcesTable, ArticlesTable],
     daos: [SourcesTableDao, ArticlesTableDao])

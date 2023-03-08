@@ -30,19 +30,21 @@ class SourcesTableDao extends DatabaseAccessor<LocalDatabase>
     );
   }
 
-  Stream<List<Sources>> watchSources() {
-    return select(sourcesTable).watch().map((rows) {
-      return rows.map((element) {
-        return Sources(
-          id: element.sourceId,
-          title: element.title,
-          description: element.description,
-          url: element.url != null ? Uri.parse(element.url!) : null,
-          category: element.category,
-          language: element.language,
-          country: element.country,
-        );
-      }).toList();
-    });
-  }
+//nevadint rows ir element - aiskiau vadint
+//issiaiskint kaip vadint geriau
+// paziuret kaip formatuot
+  Stream<List<Sources>> watchSources() =>
+      select(sourcesTable).watch().map((rows) => rows
+          .map(
+            (element) => Sources(
+              id: element.sourceId,
+              title: element.title,
+              description: element.description,
+              url: element.url != null ? Uri.parse(element.url!) : null,
+              category: element.category,
+              language: element.language,
+              country: element.country,
+            ),
+          )
+          .toList());
 }
