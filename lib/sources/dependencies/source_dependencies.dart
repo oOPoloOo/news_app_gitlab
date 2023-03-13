@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
 import 'package:news_app/sources/use_case/sources_use_case.dart';
 
@@ -18,7 +17,6 @@ class SourceDependencies extends StatelessWidget {
       lazy: false,
       create: (context) => SourcesBloc(
         sourcesUseCase: SourcesUseCase(),
-        // networkBloc: context.read<NetworkBloc>(),
       )..add(LoadSources()),
       child: _child,
     );

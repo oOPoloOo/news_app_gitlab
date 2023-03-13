@@ -13,7 +13,6 @@ class NavBar extends StatefulWidget {
   State<NavBar> createState() => _NavBarState();
 }
 
-// pasidaryt kawd paryskintu kuriam nav bar alemente esi
 class _NavBarState extends State<NavBar> {
   int _selectedIndex = 0;
 

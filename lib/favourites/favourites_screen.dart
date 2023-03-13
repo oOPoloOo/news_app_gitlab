@@ -20,7 +20,6 @@ class FavouritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color backColor = Theme.of(context).colorScheme.background;
-    // return _buidBody(backColor);
 
     return Scaffold(
       appBar: const CustomAppBar(

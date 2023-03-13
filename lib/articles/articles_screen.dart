@@ -70,9 +70,6 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         if (state is ArticlesLoaded) {
           if (state.articles.isNotEmpty) {
             if (onLoad) {
-              // articlesFilter = state.articles;
-              // onLoad = false;
-
               //FIX: Called while buiding
               //Irgi i bloc
               // paziuret, kai keisti steita ne rankiniu budu reaction kazkas google.
