@@ -15,8 +15,6 @@ class GoToSources extends NavigationEvent {
     required this.state,
     required this.context,
   });
-
-  // List<Object> get props => [state];
 }
 
 class GoToFavourites extends NavigationEvent {

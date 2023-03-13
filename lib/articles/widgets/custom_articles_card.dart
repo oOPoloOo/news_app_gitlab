@@ -5,10 +5,9 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:news_app/article_details/article_details_screen.dart';
 
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
-import 'package:news_app/article_details/helpers/article_details_responsiveness.dart';
+
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
@@ -51,22 +50,8 @@ class ArticleCard extends StatelessWidget {
                 BlocProvider.of<ArticleDetailsBloc>(context)
                     .add(LoadArticleDetails(articleSelected: articleInfo));
 
-                // BlocListener<NavigationBloc, NavigationState>(
-                //   listener: (context, state) {
                 BlocProvider.of<NavigationBloc>(context)
                     .add(GoToArticleDetails(state: state, context: context));
-                //   },
-                // );
-
-                // Navigator.pushNamed(context, articleDetailsRouteName);
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) =>
-                //         ArticleDetailsResponsiveness.isSmallScreen(context)
-                //             ? ArticleDetailsScreen()
-                //             : ArticleDetailsScreen.bigSize(),
-                //   ),
-                // );
               },
               child: SizedBox(
                 width: cardWidth,

@@ -26,11 +26,6 @@ class ScourcesScreen extends StatefulWidget {
 class SourcesScreenState extends State<ScourcesScreen> {
   @override
   Widget build(BuildContext context) {
-    // return _buildBody(
-    //   context,
-    //   Theme.of(context).colorScheme.background,
-    // );
-
     return Scaffold(
       appBar: const CustomAppBar(
         screen: ScourcesScreen.routeName,

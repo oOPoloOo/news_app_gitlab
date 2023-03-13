@@ -9,7 +9,6 @@ import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/app_router.dart';
 import 'package:news_app/common/config/theme.dart';
-import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
 import 'package:news_app/sources/sources_screen.dart';
@@ -24,21 +23,11 @@ void main() async {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // Ant kiek blogai taip daryt?
-    // Ispejimas: Don't put any logic in 'createState'.
-    return _MyAppState(
-        //  appRouter: AppRouter(),
-        );
+    return _MyAppState();
   }
 }
 
 class _MyAppState extends State<MyApp> {
-  // final AppRouter appRouter;
-
-  // _MyAppState({
-  //   required this.appRouter,
-  // });
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -75,7 +64,6 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'News App',
         theme: theme(),
-        // home: const NavBar(),
         onGenerateRoute: AppRouter.onGenerateRoute,
         initialRoute: ScourcesScreen.routeName,
       ),

@@ -2,11 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/articles/articles_screen.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
-import 'package:news_app/articles/helpers/article_responsiveness.dart';
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
-import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/sources/model/sources_model.dart';
 
 class SourceCard extends StatelessWidget {
@@ -20,15 +17,6 @@ class SourceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
 
-    // return BlocListener<NavigationBloc, NavigationState>(
-    //   listener: (context, state) {
-    //     if (state is InArticles) {
-    //       Navigator.of(context).pushNamed(
-    //         articlesRouteName,
-    //       );
-    //     }
-    //   },
-    // child:
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         return GestureDetector(
@@ -36,20 +24,8 @@ class SourceCard extends StatelessWidget {
             BlocProvider.of<ArticlesBloc>(context)
                 .add(LoadLocalArticles(source: sourceInfo.id));
 
-            // BlocListener<NavigationBloc, NavigationState>(
-            //   listener: (context, state) {
             BlocProvider.of<NavigationBloc>(context)
                 .add(GoToArticles(state: state, context: context));
-            //   },
-            // );
-
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(
-            //     builder: (context) => ArticlesScreen(),
-            //   ),
-            // );
-
-            // Navigator.pushNamed(context, articlesRouteName);
           },
           child: Container(
             margin: const EdgeInsets.all(5.0),
