@@ -38,14 +38,6 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<NavigationBloc>(
           create: (context) => NavigationBloc(),
         ),
-        //iskel soucebloc
-        BlocProvider<SourcesBloc>(
-          lazy: false,
-          create: (context) => SourcesBloc(
-            sourcesUseCase: SourcesUseCase(),
-            networkBloc: context.read<NetworkBloc>(),
-          )..add(LoadSources()),
-        ),
         BlocProvider<FavouritesBloc>(
           lazy: false,
           create: (context) => FavouritesBloc(

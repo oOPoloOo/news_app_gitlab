@@ -8,6 +8,7 @@ import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
 import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
+import 'package:news_app/sources/dependencies/source_dependencies.dart';
 
 class ScourcesScreen extends StatefulWidget {
   static const String routeName = sourcesRouteName;
@@ -15,7 +16,7 @@ class ScourcesScreen extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => ScourcesScreen(),
+      builder: (_) => SourceDependencies(child: ScourcesScreen()),
     );
   }
 
