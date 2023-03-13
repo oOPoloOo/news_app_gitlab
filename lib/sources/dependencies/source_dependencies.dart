@@ -18,7 +18,7 @@ class SourceDependencies extends StatelessWidget {
       lazy: false,
       create: (context) => SourcesBloc(
         sourcesUseCase: SourcesUseCase(),
-        networkBloc: context.read<NetworkBloc>(),
+        // networkBloc: context.read<NetworkBloc>(),
       )..add(LoadSources()),
       child: _child,
     );

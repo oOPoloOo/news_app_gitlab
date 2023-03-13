@@ -9,10 +9,17 @@ abstract class ArticlesEvent extends Equatable {
 
 class LoadArticles extends ArticlesEvent {
   final List<Sources> sourceList;
-  const LoadArticles({required this.sourceList});
+  // final Widget df;
+  const LoadArticles({
+    required this.sourceList,
+    // required this.df,
+  });
 
   @override
-  List<Object> get props => [sourceList];
+  List<Object> get props => [
+        sourceList,
+        // df,
+      ];
 }
 
 class LoadLocalArticles extends ArticlesEvent {

@@ -9,8 +9,9 @@ part 'local_database.g.dart';
 
 //Turetu but nebutina nurodyt dao nes apsirasiau lenteles paciam dao
 @DriftDatabase(
-    tables: [SourcesTable, ArticlesTable],
-    daos: [SourcesTableDao, ArticlesTableDao])
+  tables: [SourcesTable, ArticlesTable],
+  daos: [SourcesTableDao, ArticlesTableDao],
+)
 class LocalDatabase extends _$LocalDatabase {
   LocalDatabase() : super(impl.connect());
 

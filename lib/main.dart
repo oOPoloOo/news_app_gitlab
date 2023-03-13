@@ -32,9 +32,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NetworkBloc>(
-          create: (context) => NetworkBloc()..add(NetworkObserve()),
-        ),
+        // BlocProvider<NetworkBloc>(
+        //   create: (context) => NetworkBloc()..add(NetworkObserve()),
+        // ),
         BlocProvider<NavigationBloc>(
           create: (context) => NavigationBloc(),
         ),

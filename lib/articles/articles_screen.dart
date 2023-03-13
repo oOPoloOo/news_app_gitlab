@@ -70,8 +70,8 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         if (state is ArticlesLoaded) {
           if (state.articles.isNotEmpty) {
             if (onLoad) {
-              articlesFilter = state.articles;
-              onLoad = false;
+              // articlesFilter = state.articles;
+              // onLoad = false;
 
               //FIX: Called while buiding
               //Irgi i bloc
@@ -136,7 +136,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     );
   }
 
-  //Irgi i bloc mest
+  // Irgi i bloc mest
   List<Widget> choiceChips(List<Articles> originalArticles) {
     List<Widget> chips = [];
 

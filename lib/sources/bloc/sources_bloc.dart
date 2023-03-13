@@ -13,36 +13,41 @@ part 'sources_state.dart';
 
 class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   SourcesUseCase sourcesUseCase;
-  NetworkBloc
-      networkBloc; // neraikia isvis pasalint is main  aktualu, jei nesaugoji sql
+  // NetworkBloc
+  //     networkBloc; // neraikia isvis pasalint is main  aktualu, jei nesaugoji sql
   List<Sources> sourcesList = <Sources>[];
   late StreamSubscription networkStreamSubscription;
+  late StreamSubscription watchStreamSubscription;
 
   @override
-  SourcesBloc({required this.sourcesUseCase, required this.networkBloc})
-      : super(SourcesLoading()) {
-    on<LoadSources>(_monitorNetworkCubit);
+  SourcesBloc({
+    required this.sourcesUseCase,
+    // required this.networkBloc,
+  }) : super(SourcesLoading()) {
+    on<LoadSources>(_onLoadSources);
     on<WatchSources>(_onWatchLocalSources);
     on<UpdateSources>(_onUpdateSources);
   }
 
   // Lsitens on network status changes,
   //to decide to take data from API or not.
-  StreamSubscription<NetworkState> _monitorNetworkCubit(
-      SourcesEvent event, Emitter<SourcesState> emit) {
-    return networkStreamSubscription = networkBloc.stream.listen((state) {
-      add(WatchSources());
+  // StreamSubscription<NetworkState> _monitorNetworkCubit(
+  //     SourcesEvent event, Emitter<SourcesState> emit) {
+  //   return networkStreamSubscription = networkBloc.stream.listen((state) {
+  //     add(WatchSources());
 
-      if (state is NetworkSuccess) {
-        _onLoadSources(event, emit);
-      }
-      // Visada pirma watch daryt, nes sukuria subscription
-      // add(WatchSources());
-    });
-  }
+  //     if (state is NetworkSuccess) {
+  //       _onLoadSources(event, emit);
+  //     }
+  //     // Visada pirma watch daryt, nes sukuria subscription
+  //     // add(WatchSources());
+  //   });
+  // }
 
+  // Starts Watching database.
   //Loads Sources from API and saves sit to local db.
   void _onLoadSources(event, Emitter<SourcesState> emit) async {
+    add(WatchSources());
     // catch pagauna stack trace ir err geriau nei on
     try {
       await sourcesUseCase.loadSources();
@@ -53,7 +58,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
 
   //On local db changes updates list in Sources state.
   void _onWatchLocalSources(event, Emitter<SourcesState> emit) async {
-    sourcesUseCase.watch().listen((event) {
+    watchStreamSubscription = sourcesUseCase.watch().listen((event) {
       sourcesList = event;
       add(UpdateSources(sourcesList));
     });
@@ -69,6 +74,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   @override
   Future<void> close() async {
     networkStreamSubscription.cancel();
+    watchStreamSubscription.cancel();
     return await super.close();
   }
 }
