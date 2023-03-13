@@ -6,8 +6,10 @@ import 'package:news_app/article_details/bloc/article_details_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/use_case/articles_use_case.dart';
 import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
+import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/app_router.dart';
 import 'package:news_app/common/config/theme.dart';
+import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
 import 'package:news_app/sources/sources_screen.dart';
@@ -22,17 +24,30 @@ void main() async {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _MyAppState();
+    // Ant kiek blogai taip daryt?
+    // Ispejimas: Don't put any logic in 'createState'.
+    return _MyAppState(
+        //  appRouter: AppRouter(),
+        );
   }
 }
 
 class _MyAppState extends State<MyApp> {
+  // final AppRouter appRouter;
+
+  // _MyAppState({
+  //   required this.appRouter,
+  // });
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<NetworkBloc>(
           create: (context) => NetworkBloc()..add(NetworkObserve()),
+        ),
+        BlocProvider<NavigationBloc>(
+          create: (context) => NavigationBloc(),
         ),
         //iskel soucebloc
         BlocProvider<SourcesBloc>(
@@ -60,8 +75,9 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'News App',
         theme: theme(),
+        // home: const NavBar(),
         onGenerateRoute: AppRouter.onGenerateRoute,
-        // initialRoute: ScourcesScreen.routeName,
+        initialRoute: ScourcesScreen.routeName,
       ),
     );
   }

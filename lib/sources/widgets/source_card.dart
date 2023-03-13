@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/articles/articles_screen.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
+import 'package:news_app/articles/helpers/article_responsiveness.dart';
+import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/sources/model/sources_model.dart';
 
@@ -17,44 +20,71 @@ class SourceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
 
-    return GestureDetector(
-      onTap: () {
-        BlocProvider.of<ArticlesBloc>(context)
-            .add(LoadLocalArticles(source: sourceInfo.id));
+    // return BlocListener<NavigationBloc, NavigationState>(
+    //   listener: (context, state) {
+    //     if (state is InArticles) {
+    //       Navigator.of(context).pushNamed(
+    //         articlesRouteName,
+    //       );
+    //     }
+    //   },
+    // child:
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () {
+            BlocProvider.of<ArticlesBloc>(context)
+                .add(LoadLocalArticles(source: sourceInfo.id));
 
-        Navigator.pushNamed(context, articlesRouteName);
-      },
-      child: Container(
-        margin: const EdgeInsets.all(5.0),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+            // BlocListener<NavigationBloc, NavigationState>(
+            //   listener: (context, state) {
+            BlocProvider.of<NavigationBloc>(context)
+                .add(GoToArticles(state: state, context: context));
+            //   },
+            // );
+
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(
+            //     builder: (context) => ArticlesScreen(),
+            //   ),
+            // );
+
+            // Navigator.pushNamed(context, articlesRouteName);
+          },
           child: Container(
-            color: Colors.grey[400],
-            height: media.height * 0.15,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Text(
-                    sourceInfo.title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                    maxLines: 1,
+            margin: const EdgeInsets.all(5.0),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+              child: Container(
+                color: Colors.grey[400],
+                height: media.height * 0.15,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        sourceInfo.title,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 1,
+                      ),
+                      Expanded(
+                        child: Text(
+                          sourceInfo.description,
+                          textAlign: TextAlign.justify,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          overflow: TextOverflow.fade,
+                          softWrap: true,
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Text(
-                      sourceInfo.description,
-                      textAlign: TextAlign.justify,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      overflow: TextOverflow.fade,
-                      softWrap: true,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
+    // );
   }
 }

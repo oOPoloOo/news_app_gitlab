@@ -13,6 +13,9 @@ class ArticleDetailsResponsiveness extends StatelessWidget {
     required this.smallScreen,
   });
 
+  static bool isSmallScreen(BuildContext context) =>
+      MediaQuery.of(context).size.width > largeScreenSize;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

@@ -5,11 +5,14 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app/article_details/article_details_screen.dart';
 
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
+import 'package:news_app/article_details/helpers/article_details_responsiveness.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
+import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 
@@ -41,44 +44,63 @@ class ArticleCard extends StatelessWidget {
 
     return Column(
       children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, articleDetailsRouteName);
+        BlocBuilder<NavigationBloc, NavigationState>(
+          builder: (context, state) {
+            return GestureDetector(
+              onTap: () {
+                BlocProvider.of<ArticleDetailsBloc>(context)
+                    .add(LoadArticleDetails(articleSelected: articleInfo));
 
-            BlocProvider.of<ArticleDetailsBloc>(context)
-                .add(LoadArticleDetails(articleSelected: articleInfo));
+                // BlocListener<NavigationBloc, NavigationState>(
+                //   listener: (context, state) {
+                BlocProvider.of<NavigationBloc>(context)
+                    .add(GoToArticleDetails(state: state, context: context));
+                //   },
+                // );
+
+                // Navigator.pushNamed(context, articleDetailsRouteName);
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) =>
+                //         ArticleDetailsResponsiveness.isSmallScreen(context)
+                //             ? ArticleDetailsScreen()
+                //             : ArticleDetailsScreen.bigSize(),
+                //   ),
+                // );
+              },
+              child: SizedBox(
+                width: cardWidth,
+                height: cardHeightAllElements,
+                child: Card(
+                  color: Theme.of(context).colorScheme.secondary,
+                  elevation: 5,
+                  margin: const EdgeInsets.all(10),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildImage(
+                          context,
+                          !isEmptyImg ? articleInfo.imageUrl : noImgImage,
+                          cardWidth,
+                          imgHeight,
+                          articleInfo),
+                      _buildDateText(context, articleInfo),
+                      _buildTitleText(context, articleInfo),
+                      !isEmptyIDes
+                          ? _buildDescription(context, articleInfo)
+                          : const SizedBox(
+                              height: 0,
+                              width: 0,
+                            ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           },
-          child: SizedBox(
-            width: cardWidth,
-            height: cardHeightAllElements,
-            child: Card(
-              color: Theme.of(context).colorScheme.secondary,
-              elevation: 5,
-              margin: const EdgeInsets.all(10),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              child: Column(
-                children: [
-                  _buildImage(
-                      context,
-                      !isEmptyImg ? articleInfo.imageUrl : noImgImage,
-                      cardWidth,
-                      imgHeight,
-                      articleInfo),
-                  _buildDateText(context, articleInfo),
-                  _buildTitleText(context, articleInfo),
-                  !isEmptyIDes
-                      ? _buildDescription(context, articleInfo)
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                ],
-              ),
-            ),
-          ),
         ),
       ],
     );

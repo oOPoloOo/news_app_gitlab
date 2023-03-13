@@ -12,12 +12,12 @@ import 'package:news_app/sources/bloc/sources_bloc.dart';
 class ScourcesScreen extends StatefulWidget {
   static const String routeName = sourcesRouteName;
 
-  // static Route route() {
-  //   return MaterialPageRoute(
-  //     settings: const RouteSettings(name: routeName),
-  //     builder: (_) => ScourcesScreen(),
-  //   );
-  // }
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => ScourcesScreen(),
+    );
+  }
 
   @override
   State<ScourcesScreen> createState() => SourcesScreenState();
@@ -26,6 +26,11 @@ class ScourcesScreen extends StatefulWidget {
 class SourcesScreenState extends State<ScourcesScreen> {
   @override
   Widget build(BuildContext context) {
+    // return _buildBody(
+    //   context,
+    //   Theme.of(context).colorScheme.background,
+    // );
+
     return Scaffold(
       appBar: const CustomAppBar(
         screen: ScourcesScreen.routeName,

@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -121,30 +122,42 @@ class ArticleDetailsCard extends StatelessWidget {
 
   Widget _buildImage(
       BuildContext context, String imageUrl, double iWidth, double iHeight) {
-    return BlocBuilder<NetworkBloc, NetworkState>(
-      builder: (context, state) {
-        //Pasidaryt su networkImage ir optional var
-        if (state is NetworkSuccess) {
-          return SizedBox(
-            width: iWidth,
-            height: iHeight,
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.fill,
-            ),
-          );
-        } else {
-          return SizedBox(
-            width: iWidth,
-            height: iHeight,
-            child: Image.asset(
-              'assets/no_nwtwork_egg.png',
-              fit: BoxFit.fill,
-            ),
-          );
-        }
-      },
+    return SizedBox(
+      width: iWidth,
+      height: iHeight,
+      child: CachedNetworkImage(
+        fit: BoxFit.fill,
+        imageUrl: imageUrl,
+        placeholder: (context, url) => const CircularProgressIndicator(),
+        errorWidget: (context, url, error) => Image.asset(
+          'assets/no_nwtwork_egg.png',
+        ),
+      ),
     );
+    // return BlocBuilder<NetworkBloc, NetworkState>(
+    //   builder: (context, state) {
+    //     //Pasidaryt su networkImage ir optional var
+    //     if (state is NetworkSuccess) {
+    // return SizedBox(
+    //   width: iWidth,
+    //   height: iHeight,
+    //   child: Image.network(
+    //     imageUrl,
+    //     fit: BoxFit.fill,
+    //   ),
+    // );
+    //     } else {
+    //       return SizedBox(
+    //         width: iWidth,
+    //         height: iHeight,
+    // child: Image.asset(
+    //   'assets/no_nwtwork_egg.png',
+    //   fit: BoxFit.fill,
+    // ),
+    //       );
+    //     }
+    //   },
+    // );
   }
 
   Widget _buildContent(int flex, BuildContext context, Articles articleInf) {

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/helpers/article_responsiveness.dart';
 import 'package:news_app/articles/model/articles_model.dart';
+import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/common/widgets/custom_list_view.dart';
@@ -13,12 +14,12 @@ import 'package:news_app/common/widgets/nav_bar.dart';
 class ArticlesScreen extends StatefulWidget {
   static const String routeName = articlesRouteName;
 
-  // static Route route() {
-  //   return MaterialPageRoute(
-  //       settings: const RouteSettings(name: routeName),
-  //       builder: (_) =>
-  //           ArticleResponsiveness(customSizeScreen: ArticlesScreen()));
-  // }
+  static Route route() {
+    return MaterialPageRoute(
+        settings: const RouteSettings(name: routeName),
+        builder: (_) =>
+            ArticleResponsiveness(customSizeScreen: ArticlesScreen()));
+  }
 
   @override
   State<ArticlesScreen> createState() => _ArticlesScreenState();
@@ -36,14 +37,26 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   Widget build(BuildContext context) {
     Color backColor = Theme.of(context).colorScheme.background;
 
-    return Scaffold(
-        appBar: CustomAppBar(
-          screen: ArticlesScreen.routeName,
-          title: "Articles Screen",
-          bigSize: ArticleResponsiveness.isSmallScreen(context) ? false : true,
-        ),
-        bottomNavigationBar: const NavBar(),
-        body: _buidBody(backColor));
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return WillPopScope(
+          onWillPop: () {
+            BlocProvider.of<NavigationBloc>(context)
+                .add(PopThePage(state: state, context: context));
+            return Future(() => true);
+          },
+          child: Scaffold(
+              appBar: CustomAppBar(
+                screen: ArticlesScreen.routeName,
+                title: "Articles Screen",
+                bigSize:
+                    ArticleResponsiveness.isSmallScreen(context) ? false : true,
+              ),
+              bottomNavigationBar: const NavBar(),
+              body: _buidBody(backColor)),
+        );
+      },
+    );
   }
 
   BlocBuilder<ArticlesBloc, ArticlesState> _buidBody(Color backColor) {
