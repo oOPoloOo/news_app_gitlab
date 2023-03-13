@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,84 +162,46 @@ class ArticleCard extends StatelessWidget {
     double iHeight,
     Articles article,
   ) {
-    return BlocBuilder<NetworkBloc, NetworkState>(
-      builder: (context, state) {
-        if (state is NetworkSuccess) {
-          return Stack(children: [
-            SizedBox(
-              width: cWidth,
-              height: iHeight,
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.fill,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Builder(builder: (context) {
-                return Container(
-                  alignment: Alignment.topRight,
-                  child: article.isFavourite!
-                      ? FavoriteButton(
-                          isFavorite: true,
-                          valueChanged: (_isFavorite) {
-                            BlocProvider.of<FavouritesBloc>(context)
-                                .add(RemoveFavourites(removeArticle: article));
-                            BlocProvider.of<ArticlesBloc>(context).add(
-                                LoadLocalArticles(
-                                    source: article.idAndName.id));
-                          },
-                        )
-                      : FavoriteButton(
-                          isFavorite: false,
-                          valueChanged: (_isFavorite) {
-                            BlocProvider.of<FavouritesBloc>(context)
-                                .add(AddFavourites(addArticle: article));
-                            BlocProvider.of<ArticlesBloc>(context).add(
-                                LoadLocalArticles(
-                                    source: article.idAndName.id));
-                          },
-                        ),
-                );
-              }),
-            ),
-          ]);
-        } else {
-          return Stack(
-            children: [
-              SizedBox(
-                width: cWidth,
-                height: iHeight,
-                child: Image.asset(
-                  'assets/no_nwtwork_egg.png',
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: article.isFavourite!
-                      ? FavoriteButton(
-                          isFavorite: true,
-                          valueChanged: (_isFavorite) {
-                            BlocProvider.of<FavouritesBloc>(context)
-                                .add(RemoveFavourites(removeArticle: article));
-                          },
-                        )
-                      : FavoriteButton(
-                          isFavorite: false,
-                          valueChanged: (_isFavorite) {
-                            BlocProvider.of<FavouritesBloc>(context)
-                                .add(AddFavourites(addArticle: article));
-                          },
-                        ),
-                ),
-              ),
-            ],
+    return Stack(children: [
+      SizedBox(
+        width: cWidth,
+        height: iHeight,
+        child: CachedNetworkImage(
+          fit: BoxFit.fill,
+          imageUrl: imageUrl,
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Image.asset(
+            'assets/no_nwtwork_egg.png',
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Builder(builder: (context) {
+          return Container(
+            alignment: Alignment.topRight,
+            child: article.isFavourite!
+                ? FavoriteButton(
+                    isFavorite: true,
+                    valueChanged: (_isFavorite) {
+                      BlocProvider.of<FavouritesBloc>(context)
+                          .add(RemoveFavourites(removeArticle: article));
+                      BlocProvider.of<ArticlesBloc>(context)
+                          .add(LoadLocalArticles(source: article.idAndName.id));
+                    },
+                  )
+                : FavoriteButton(
+                    isFavorite: false,
+                    valueChanged: (_isFavorite) {
+                      BlocProvider.of<FavouritesBloc>(context)
+                          .add(AddFavourites(addArticle: article));
+                      BlocProvider.of<ArticlesBloc>(context)
+                          .add(LoadLocalArticles(source: article.idAndName.id));
+                    },
+                  ),
           );
-        }
-      },
-    );
+        }),
+      ),
+    ]);
   }
 }

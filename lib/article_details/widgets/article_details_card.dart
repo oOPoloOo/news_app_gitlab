@@ -2,11 +2,9 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/articles/model/articles_model.dart';
-import 'package:news_app/common/bloc/connectivity_check/network_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -134,30 +132,6 @@ class ArticleDetailsCard extends StatelessWidget {
         ),
       ),
     );
-    // return BlocBuilder<NetworkBloc, NetworkState>(
-    //   builder: (context, state) {
-    //     //Pasidaryt su networkImage ir optional var
-    //     if (state is NetworkSuccess) {
-    // return SizedBox(
-    //   width: iWidth,
-    //   height: iHeight,
-    //   child: Image.network(
-    //     imageUrl,
-    //     fit: BoxFit.fill,
-    //   ),
-    // );
-    //     } else {
-    //       return SizedBox(
-    //         width: iWidth,
-    //         height: iHeight,
-    // child: Image.asset(
-    //   'assets/no_nwtwork_egg.png',
-    //   fit: BoxFit.fill,
-    // ),
-    //       );
-    //     }
-    //   },
-    // );
   }
 
   Widget _buildContent(int flex, BuildContext context, Articles articleInf) {
