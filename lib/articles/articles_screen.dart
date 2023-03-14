@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/helpers/article_responsiveness.dart';
 import 'package:news_app/articles/model/articles_model.dart';
+import 'package:news_app/articles/widgets/choice_chips.dart';
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
@@ -28,10 +29,17 @@ class ArticlesScreen extends StatefulWidget {
 class _ArticlesScreenState extends State<ArticlesScreen> {
   //TODO Visi parametrai turi eiti i bloc (saugomas), galioja visiem bloc.
   // pasiziuret bloc su kintamaisiais
-  List<String> choiceChipsNames = ["Todays", "10 days old", "All"];
-  int? _selectedIndex;
+  // List<String> choiceChipsNames = ["Todays", "10 days old", "All"];
+
   List<Articles> articlesFilter = [];
   bool onLoad = true;
+  late ArticlesBloc _articlesBloc;
+
+  @override
+  void initState() {
+    _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +81,12 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
               //FIX: Called while buiding
               //TODO Irgi i bloc
               // paziuret, kai keisti steita ne rankiniu budu reaction kazkas google.
-              Future.delayed(Duration.zero, () async {
-                setState(() {
-                  articlesFilter = state.articles;
-                  onLoad = false;
-                });
-              });
+              // Future.delayed(Duration.zero, () async {
+              //   setState(() {
+              articlesFilter = state.articles;
+              onLoad = false;
+              //   });
+              // });
             }
 
             return Container(
@@ -136,10 +144,12 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   //TODO Irgi i bloc mest
   List<Widget> choiceChips(List<Articles> originalArticles) {
     List<Widget> chips = [];
+    int? _selectedIndex;
 
     DateTime now = DateTime.now();
     var nowToday = DateTime(now.year, now.month, now.day);
     var now_10d = now.subtract(const Duration(days: 10));
+    List<String> choiceChipsNames = _articlesBloc.choiceChipsNames;
 
     for (int i = 0; i < choiceChipsNames.length; i++) {
       Widget item = Padding(
@@ -152,30 +162,33 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           selectedColor: Colors.black,
           side: BorderSide(color: Theme.of(context).colorScheme.secondary),
           onSelected: (bool value) {
-            setState(() {
-              _selectedIndex = i;
+            _selectedIndex = i;
 
-              if (_selectedIndex == 0) {
-                articlesFilter = originalArticles.where((article) {
-                  DateTime publishedAt = article.publishedAt;
-                  DateTime newPublishedAt = DateTime(
-                    publishedAt.year,
-                    publishedAt.month,
-                    publishedAt.day,
-                  );
+            if (_selectedIndex == 0) {
+              articlesFilter = originalArticles.where((article) {
+                DateTime publishedAt = article.publishedAt;
+                DateTime newPublishedAt = DateTime(
+                  publishedAt.year,
+                  publishedAt.month,
+                  publishedAt.day,
+                );
 
-                  return newPublishedAt.isAtSameMomentAs(nowToday);
-                }).toList();
-              }
-              if (_selectedIndex == 1) {
-                articlesFilter = originalArticles.where((article) {
-                  return now_10d.isBefore(article.publishedAt);
-                }).toList();
-              }
-              if (_selectedIndex == 2) {
-                articlesFilter = originalArticles;
-              }
-            });
+                return newPublishedAt.isAtSameMomentAs(nowToday);
+              }).toList();
+            }
+            if (_selectedIndex == 1) {
+              articlesFilter = originalArticles.where((article) {
+                return now_10d.isBefore(article.publishedAt);
+              }).toList();
+            }
+            if (_selectedIndex == 2) {
+              articlesFilter = originalArticles;
+            }
+
+            _articlesBloc.add(FilterArticles(
+              filteredAarticles: articlesFilter,
+              originalArticles: originalArticles,
+            ));
           },
         ),
       );

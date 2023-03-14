@@ -38,3 +38,16 @@ class UpdateArticles extends ArticlesEvent {
   @override
   List<Object> get props => [articles];
 }
+
+class FilterArticles extends ArticlesEvent {
+  final List<Articles> filteredAarticles;
+  final List<Articles> originalArticles;
+
+  const FilterArticles({
+    required this.filteredAarticles,
+    required this.originalArticles,
+  });
+
+  @override
+  List<Object> get props => [filteredAarticles, originalArticles];
+}

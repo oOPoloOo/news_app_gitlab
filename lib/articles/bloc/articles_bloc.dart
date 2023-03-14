@@ -15,10 +15,23 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   ArticlesUseCase articlesUseCase;
   List<Articles> articleList = <Articles>[];
 
-  ArticlesBloc({required this.articlesUseCase}) : super(ArticlesLoading()) {
+  // ArticlesScreen variables
+  List<String> choiceChipsNames = ["Todays", "10 days old", "All"];
+  // DateTime now = DateTime.now();
+  // DateTime nowToday = DateTime(now.year, now.month, now.day);
+  // var now_10d = now.subtract(const Duration(days: 10));
+//  final DateTime now;
+
+//   DateTime nowToday;
+//   DateTime now_10d;
+
+  ArticlesBloc({
+    required this.articlesUseCase,
+  }) : super(ArticlesLoading()) {
     on<LoadArticles>(_onLoadArticles);
     on<LoadLocalArticles>(_onWatchLocalArticles);
     on<UpdateArticles>(_onUpdateArticles);
+    on<FilterArticles>(_onFilterArticles);
   }
 
   // On app start loads all articles from API amd saves to local database.
@@ -43,6 +56,14 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   // Updates the data stored ir Articles bloc state.
   void _onUpdateArticles(UpdateArticles event, Emitter<ArticlesState> emit) {
     emit(ArticlesLoaded(articles: event.articles));
+  }
+
+  // Saves filtered and original data to Articles state.
+  void _onFilterArticles(FilterArticles event, Emitter<ArticlesState> emit) {
+    emit(ArticlesLoaded(
+      articlesFilter: event.filteredAarticles,
+      articles: event.originalArticles,
+    ));
   }
 
   // When app closes, close the stream subscription.

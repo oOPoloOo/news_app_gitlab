@@ -15,7 +15,7 @@ class ArticlesLoaded extends ArticlesState {
   final List<Articles> articles;
   // List<String> choiceChipsNames;
   // final int selectedIndex;
-  // List<Articles> articlesFilter;
+  List<Articles> articlesFilter;
   // bool onLoad;
 
   // final Widget df;
@@ -26,9 +26,7 @@ class ArticlesLoaded extends ArticlesState {
 
   ArticlesLoaded({
     this.articles = const <Articles>[],
-    // this.choiceChipsNames = const ["Todays", "10 days old", "All"],
-    // this.selectedIndex = 0,
-    // this.articlesFilter = const <Articles>[],
+    this.articlesFilter = const <Articles>[],
     // this.onLoad = true,
     // required this.df,
   });
@@ -37,7 +35,7 @@ class ArticlesLoaded extends ArticlesState {
   List<Object> get props => [
         articles,
         // selectedIndex,
-        // articlesFilter,
+        articlesFilter,
         // onLoad,
       ];
 }
