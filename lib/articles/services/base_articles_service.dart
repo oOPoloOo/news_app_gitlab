@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
+import 'package:news_app/articles/model/articles_model.dart';
 
 abstract class BaseArticlesService {
-  Future<Response> getArticles(Dio dio, String articleHeader);
+  Future<List<Articles>> getArticles(String articleHeader);
 }

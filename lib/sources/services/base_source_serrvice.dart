@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
+import 'package:news_app/sources/model/sources_model.dart';
 
 abstract class BaseSourceService {
-  Future<Response> getSourcesEn(Dio dio, String category);
+  Future<List<Sources>?> getSourcesEn(String category);
 }

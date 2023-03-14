@@ -50,8 +50,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       LoadFavourites event, Emitter<FavouritesState> emit) async {
     try {
       favArticleList = await articlesUseCase.readAllFavArticlesFromLocalDb();
-    } on DioError catch (e) {
-      logger.d(e);
+    } catch (error) {
+      logger.d(error);
     }
     add(UpdateFavourites(favArticleList));
   }
@@ -66,8 +66,8 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
   void updateLocalDbFavorites(List<Articles> favArticlesList) async {
     try {
       await articlesUseCase.updateAllMultipleFavArticles(favArticlesList);
-    } on DioError catch (e) {
-      logger.d(e);
+    } catch (error) {
+      logger.d(error);
     }
   }
 }

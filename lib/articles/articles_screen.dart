@@ -26,7 +26,7 @@ class ArticlesScreen extends StatefulWidget {
 }
 
 class _ArticlesScreenState extends State<ArticlesScreen> {
-  // Visi parametrai turi eiti i bloc (saugomas), galioja visiem bloc.
+  //TODO Visi parametrai turi eiti i bloc (saugomas), galioja visiem bloc.
   // pasiziuret bloc su kintamaisiais
   List<String> choiceChipsNames = ["Todays", "10 days old", "All"];
   int? _selectedIndex;
@@ -71,7 +71,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           if (state.articles.isNotEmpty) {
             if (onLoad) {
               //FIX: Called while buiding
-              //Irgi i bloc
+              //TODO Irgi i bloc
               // paziuret, kai keisti steita ne rankiniu budu reaction kazkas google.
               Future.delayed(Duration.zero, () async {
                 setState(() {
@@ -99,7 +99,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                     child: articlesFilter.isNotEmpty
                         ? CustomListView.articles(
                             articles: articlesFilter,
-                            isBig: false, // LAIKINAS
+                            isBig: false, // TODOLAIKINAS
                           )
                         : const Center(
                             child: Text(
@@ -133,7 +133,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     );
   }
 
-  // Irgi i bloc mest
+  //TODO Irgi i bloc mest
   List<Widget> choiceChips(List<Articles> originalArticles) {
     List<Widget> chips = [];
 
