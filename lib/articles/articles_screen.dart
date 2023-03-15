@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/helpers/article_responsiveness.dart';
 import 'package:news_app/articles/model/articles_model.dart';
-import 'package:news_app/articles/widgets/choice_chips.dart';
+
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
@@ -34,10 +34,14 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   List<Articles> articlesFilter = [];
   bool onLoad = true;
   late ArticlesBloc _articlesBloc;
+  int _selectedIndex = 2;
 
   @override
   void initState() {
     _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
+    _articlesBloc.add(
+      const FilterArticles(selectedIndex: 2),
+    );
     super.initState();
   }
 
@@ -77,17 +81,12 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         }
         if (state is ArticlesLoaded) {
           if (state.articles.isNotEmpty) {
-            if (onLoad) {
-              //FIX: Called while buiding
-              //TODO Irgi i bloc
-              // paziuret, kai keisti steita ne rankiniu budu reaction kazkas google.
-              // Future.delayed(Duration.zero, () async {
-              //   setState(() {
-              articlesFilter = state.articles;
-              onLoad = false;
-              //   });
-              // });
-            }
+            // if (onLoad) {
+            //   _articlesBloc.add(
+            //     FilterArticles(selectedIndex: 0),
+            //   );
+            //   onLoad = false;
+            // }
 
             return Container(
               color: backColor,
@@ -98,15 +97,15 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                     child: Wrap(
                       spacing: 6,
                       direction: Axis.horizontal,
-                      children: choiceChips(state.articles),
+                      children: choiceChips(),
                     ),
                   ),
                   const SizedBox(height: 15),
                   Expanded(
                     flex: 14,
-                    child: articlesFilter.isNotEmpty
+                    child: state.articlesFilter.isNotEmpty
                         ? CustomListView.articles(
-                            articles: articlesFilter,
+                            articles: state.articlesFilter,
                             isBig: false, // TODOLAIKINAS
                           )
                         : const Center(
@@ -142,20 +141,19 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   }
 
   //TODO Irgi i bloc mest
-  List<Widget> choiceChips(List<Articles> originalArticles) {
+  List<Widget> choiceChips() {
     List<Widget> chips = [];
-    int? _selectedIndex;
 
-    DateTime now = DateTime.now();
-    var nowToday = DateTime(now.year, now.month, now.day);
-    var now_10d = now.subtract(const Duration(days: 10));
-    List<String> choiceChipsNames = _articlesBloc.choiceChipsNames;
+    // DateTime now = DateTime.now();
+    // var nowToday = DateTime(now.year, now.month, now.day);
+    // var now_10d = now.subtract(const Duration(days: 10));
+    // List<String> choiceChipsNames = _articlesBloc.choiceChipsNames;
 
-    for (int i = 0; i < choiceChipsNames.length; i++) {
+    for (int i = 0; i < _articlesBloc.choiceChipsNames.length; i++) {
       Widget item = Padding(
         padding: const EdgeInsets.only(left: 10, right: 5),
         child: ChoiceChip(
-          label: Text(choiceChipsNames[i]),
+          label: Text(_articlesBloc.choiceChipsNames[i]),
           labelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
           backgroundColor: Theme.of(context).colorScheme.primary,
           selected: _selectedIndex == i,
@@ -164,31 +162,36 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           onSelected: (bool value) {
             _selectedIndex = i;
 
-            if (_selectedIndex == 0) {
-              articlesFilter = originalArticles.where((article) {
-                DateTime publishedAt = article.publishedAt;
-                DateTime newPublishedAt = DateTime(
-                  publishedAt.year,
-                  publishedAt.month,
-                  publishedAt.day,
-                );
+            // if (_selectedIndex == 0) {
+            //   articlesFilter = originalArticles.where((article) {
+            //     DateTime publishedAt = article.publishedAt;
+            //     DateTime newPublishedAt = DateTime(
+            //       publishedAt.year,
+            //       publishedAt.month,
+            //       publishedAt.day,
+            //     );
 
-                return newPublishedAt.isAtSameMomentAs(nowToday);
-              }).toList();
-            }
-            if (_selectedIndex == 1) {
-              articlesFilter = originalArticles.where((article) {
-                return now_10d.isBefore(article.publishedAt);
-              }).toList();
-            }
-            if (_selectedIndex == 2) {
-              articlesFilter = originalArticles;
-            }
-
-            _articlesBloc.add(FilterArticles(
-              filteredAarticles: articlesFilter,
-              originalArticles: originalArticles,
-            ));
+            //     return newPublishedAt.isAtSameMomentAs(nowToday);
+            //   }).toList();
+            // }
+            // if (_selectedIndex == 1) {
+            //   articlesFilter = originalArticles.where((article) {
+            //     return now_10d.isBefore(article.publishedAt);
+            //   }).toList();
+            // }
+            // if (_selectedIndex == 2) {
+            //   articlesFilter = originalArticles;
+            // }
+            // if (onLoad) {
+            //   _articlesBloc.add(
+            //     const FilterArticles(selectedIndex: 2),
+            //   );
+            //   onLoad = false;
+            // } else {
+            _articlesBloc.add(
+              FilterArticles(selectedIndex: _selectedIndex),
+            );
+            // }
           },
         ),
       );

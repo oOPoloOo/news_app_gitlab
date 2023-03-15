@@ -14,12 +14,12 @@ part 'articles_state.dart';
 class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   ArticlesUseCase articlesUseCase;
   List<Articles> articleList = <Articles>[];
+  List<Articles> articlesFilter = [];
 
   // ArticlesScreen variables
   List<String> choiceChipsNames = ["Todays", "10 days old", "All"];
-  // DateTime now = DateTime.now();
-  // DateTime nowToday = DateTime(now.year, now.month, now.day);
-  // var now_10d = now.subtract(const Duration(days: 10));
+  // bool onLoad = true;
+
 //  final DateTime now;
 
 //   DateTime nowToday;
@@ -60,9 +60,37 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
 
   // Saves filtered and original data to Articles state.
   void _onFilterArticles(FilterArticles event, Emitter<ArticlesState> emit) {
+    DateTime now = DateTime.now();
+    DateTime nowToday = DateTime(now.year, now.month, now.day);
+    var now_10d = now.subtract(const Duration(days: 10));
+
+    if (event.selectedIndex == 0) {
+      articlesFilter = articleList.where((article) {
+        DateTime publishedAt = article.publishedAt;
+        DateTime newPublishedAt = DateTime(
+          publishedAt.year,
+          publishedAt.month,
+          publishedAt.day,
+        );
+
+        return newPublishedAt.isAtSameMomentAs(nowToday);
+      }).toList();
+    }
+    if (event.selectedIndex == 1) {
+      articlesFilter = articleList.where((article) {
+        return now_10d.isBefore(article.publishedAt);
+      }).toList();
+    }
+    if (event.selectedIndex == 2) {
+      articlesFilter = articleList;
+    }
+    // if (onLoad) {
+    //   articlesFilter = articleList;
+    //   onLoad = false;
+    // }
     emit(ArticlesLoaded(
-      articlesFilter: event.filteredAarticles,
-      articles: event.originalArticles,
+      articlesFilter: articlesFilter,
+      articles: articleList,
     ));
   }
 

@@ -40,14 +40,20 @@ class UpdateArticles extends ArticlesEvent {
 }
 
 class FilterArticles extends ArticlesEvent {
-  final List<Articles> filteredAarticles;
-  final List<Articles> originalArticles;
+  // final List<Articles> filteredAarticles;
+  // final List<Articles> originalArticles;
+  final int selectedIndex;
 
   const FilterArticles({
-    required this.filteredAarticles,
-    required this.originalArticles,
+    // required this.filteredAarticles,
+    // required this.originalArticles,
+    required this.selectedIndex,
   });
 
   @override
-  List<Object> get props => [filteredAarticles, originalArticles];
+  List<Object> get props => [
+        // filteredAarticles,
+        // originalArticles,
+        selectedIndex,
+      ];
 }
