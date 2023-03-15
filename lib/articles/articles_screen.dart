@@ -90,7 +90,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                     child: state.articlesFilter.isNotEmpty
                         ? CustomListView.articles(
                             articles: state.articlesFilter,
-                            isBig: false, // TODOLAIKINAS
+                            isBig: false, // TODO LAIKINAS
                           )
                         : const Center(
                             child: Text(

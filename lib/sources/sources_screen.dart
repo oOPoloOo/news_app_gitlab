@@ -16,7 +16,9 @@ class ScourcesScreen extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => SourceDependencies(child: ScourcesScreen()),
+      builder: (_) => SourceDependencies(
+        child: ScourcesScreen(),
+      ),
     );
   }
 

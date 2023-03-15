@@ -37,7 +37,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   void _onGoToFavourites(GoToFavourites event, Emitter<NavigationState> emit) {
     if (event.state is InFavourites) {
     } else {
-      Navigator.pushNamed(event.context, favouritesRouteName);
+      Navigator.pushNamed(event.context, favouritesRouteName,
+          arguments: event.inheritedIndex);
       emit(InFavourites());
     }
   }

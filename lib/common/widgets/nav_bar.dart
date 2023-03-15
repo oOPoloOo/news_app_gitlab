@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, no_logic_in_create_state, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,14 +7,27 @@ import 'package:line_icons/line_icons.dart';
 import '../bloc/navigation/bloc/navigation_bloc.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+  final int? inheritedIndex;
+  const NavBar({this.inheritedIndex});
 
   @override
-  State<NavBar> createState() => _NavBarState();
+  State<NavBar> createState() => _NavBarState(
+        inheritedIndex: inheritedIndex,
+      );
 }
 
 class _NavBarState extends State<NavBar> {
-  int _selectedIndex = 0;
+  final int? inheritedIndex;
+  late int _selectedIndex;
+
+  _NavBarState({this.inheritedIndex});
+  @override
+  void initState() {
+    inheritedIndex == null
+        ? _selectedIndex = 0
+        : _selectedIndex = inheritedIndex!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +80,13 @@ class _NavBarState extends State<NavBar> {
                     }
 
                     if (_selectedIndex == 1) {
-                      BlocProvider.of<NavigationBloc>(context)
-                          .add(GoToFavourites(state: state, context: context));
+                      BlocProvider.of<NavigationBloc>(context).add(
+                        GoToFavourites(
+                          state: state,
+                          context: context,
+                          inheritedIndex: _selectedIndex, // Nepriskiria
+                        ),
+                      );
                     }
                   });
                 },

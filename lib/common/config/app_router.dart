@@ -15,7 +15,8 @@ class AppRouter {
       case articleDetailsRouteName:
         return ArticleDetailsScreen.route();
       case favouritesRouteName:
-        return FavouritesScreen.route();
+        return FavouritesScreen.route(
+            inheritedIndex: settings.arguments as int);
 
       default:
         return _errorRoute();

@@ -10,11 +10,19 @@ import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 
 class FavouritesScreen extends StatelessWidget {
   static const String routeName = favouritesRouteName;
+  int? inheritedIndex;
 
-  static Route route() {
+  FavouritesScreen({
+    this.inheritedIndex,
+  });
+
+  static Route route({int? inheritedIndex}) {
     return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => FavouritesScreen());
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => FavouritesScreen(
+        inheritedIndex: inheritedIndex,
+      ),
+    );
   }
 
   @override
@@ -26,7 +34,9 @@ class FavouritesScreen extends StatelessWidget {
         screen: favouritesRouteName,
         title: 'Favourite Articles',
       ),
-      bottomNavigationBar: const NavBar(),
+      bottomNavigationBar: NavBar(
+        inheritedIndex: inheritedIndex,
+      ),
       body: _buidBody(backColor),
     );
   }

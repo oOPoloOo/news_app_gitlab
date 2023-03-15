@@ -20,10 +20,12 @@ class GoToSources extends NavigationEvent {
 class GoToFavourites extends NavigationEvent {
   final NavigationState state;
   final BuildContext context;
+  final int? inheritedIndex;
 
   const GoToFavourites({
     required this.state,
     required this.context,
+    this.inheritedIndex,
   });
 }
 
