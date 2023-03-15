@@ -31,16 +31,15 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   @override
   void initState() {
     _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
-    _articlesBloc.add(
-      const FilterArticles(selectedIndex: 2),
-    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     Color backColor = Theme.of(context).colorScheme.background;
-
+    _articlesBloc.add(
+      const FilterArticles(selectedIndex: 2),
+    );
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         return WillPopScope(
