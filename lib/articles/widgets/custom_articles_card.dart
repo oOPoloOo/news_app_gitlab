@@ -183,7 +183,7 @@ class ArticleCard extends StatelessWidget {
             child: article.isFavourite!
                 ? FavoriteButton(
                     isFavorite: true,
-                    valueChanged: (_isFavorite) {
+                    valueChanged: (isFavorite) {
                       BlocProvider.of<FavouritesBloc>(context)
                           .add(RemoveFavourites(removeArticle: article));
                       BlocProvider.of<ArticlesBloc>(context)
@@ -192,7 +192,7 @@ class ArticleCard extends StatelessWidget {
                   )
                 : FavoriteButton(
                     isFavorite: false,
-                    valueChanged: (_isFavorite) {
+                    valueChanged: (isFavorite) {
                       BlocProvider.of<FavouritesBloc>(context)
                           .add(AddFavourites(addArticle: article));
                       BlocProvider.of<ArticlesBloc>(context)

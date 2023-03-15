@@ -20,8 +20,8 @@ class ArticleDetailsResponsiveness extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double _width = constraints.maxWidth;
-        if (_width >= largeScreenSize) {
+        double width = constraints.maxWidth;
+        if (width >= largeScreenSize) {
           return largeScreen;
         } else {
           return smallScreen;

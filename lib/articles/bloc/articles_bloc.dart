@@ -15,15 +15,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   ArticlesUseCase articlesUseCase;
   List<Articles> articleList = <Articles>[];
   List<Articles> articlesFilter = [];
-
-  // ArticlesScreen variables
   List<String> choiceChipsNames = ["Todays", "10 days old", "All"];
-  // bool onLoad = true;
-
-//  final DateTime now;
-
-//   DateTime nowToday;
-//   DateTime now_10d;
 
   ArticlesBloc({
     required this.articlesUseCase,
@@ -58,7 +50,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     emit(ArticlesLoaded(articles: event.articles));
   }
 
-  // Saves filtered and original data to Articles state.
+  // Filters and saves filtered and original data to Articles state.
   void _onFilterArticles(FilterArticles event, Emitter<ArticlesState> emit) {
     DateTime now = DateTime.now();
     DateTime nowToday = DateTime(now.year, now.month, now.day);
@@ -84,10 +76,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     if (event.selectedIndex == 2) {
       articlesFilter = articleList;
     }
-    // if (onLoad) {
-    //   articlesFilter = articleList;
-    //   onLoad = false;
-    // }
+
     emit(ArticlesLoaded(
       articlesFilter: articlesFilter,
       articles: articleList,

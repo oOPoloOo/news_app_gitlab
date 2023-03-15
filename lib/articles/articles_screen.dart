@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/helpers/article_responsiveness.dart';
-import 'package:news_app/articles/model/articles_model.dart';
-
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
@@ -27,12 +25,6 @@ class ArticlesScreen extends StatefulWidget {
 }
 
 class _ArticlesScreenState extends State<ArticlesScreen> {
-  //TODO Visi parametrai turi eiti i bloc (saugomas), galioja visiem bloc.
-  // pasiziuret bloc su kintamaisiais
-  // List<String> choiceChipsNames = ["Todays", "10 days old", "All"];
-
-  List<Articles> articlesFilter = [];
-  bool onLoad = true;
   late ArticlesBloc _articlesBloc;
   int _selectedIndex = 2;
 
@@ -81,13 +73,6 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         }
         if (state is ArticlesLoaded) {
           if (state.articles.isNotEmpty) {
-            // if (onLoad) {
-            //   _articlesBloc.add(
-            //     FilterArticles(selectedIndex: 0),
-            //   );
-            //   onLoad = false;
-            // }
-
             return Container(
               color: backColor,
               child: Column(
@@ -140,14 +125,8 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     );
   }
 
-  //TODO Irgi i bloc mest
   List<Widget> choiceChips() {
     List<Widget> chips = [];
-
-    // DateTime now = DateTime.now();
-    // var nowToday = DateTime(now.year, now.month, now.day);
-    // var now_10d = now.subtract(const Duration(days: 10));
-    // List<String> choiceChipsNames = _articlesBloc.choiceChipsNames;
 
     for (int i = 0; i < _articlesBloc.choiceChipsNames.length; i++) {
       Widget item = Padding(
@@ -162,36 +141,9 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           onSelected: (bool value) {
             _selectedIndex = i;
 
-            // if (_selectedIndex == 0) {
-            //   articlesFilter = originalArticles.where((article) {
-            //     DateTime publishedAt = article.publishedAt;
-            //     DateTime newPublishedAt = DateTime(
-            //       publishedAt.year,
-            //       publishedAt.month,
-            //       publishedAt.day,
-            //     );
-
-            //     return newPublishedAt.isAtSameMomentAs(nowToday);
-            //   }).toList();
-            // }
-            // if (_selectedIndex == 1) {
-            //   articlesFilter = originalArticles.where((article) {
-            //     return now_10d.isBefore(article.publishedAt);
-            //   }).toList();
-            // }
-            // if (_selectedIndex == 2) {
-            //   articlesFilter = originalArticles;
-            // }
-            // if (onLoad) {
-            //   _articlesBloc.add(
-            //     const FilterArticles(selectedIndex: 2),
-            //   );
-            //   onLoad = false;
-            // } else {
             _articlesBloc.add(
               FilterArticles(selectedIndex: _selectedIndex),
             );
-            // }
           },
         ),
       );
