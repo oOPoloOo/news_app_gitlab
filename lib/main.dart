@@ -10,6 +10,7 @@ import 'package:news_app/common/config/app_router.dart';
 import 'package:news_app/common/config/theme.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 import 'package:news_app/sources/sources_screen.dart';
+import 'package:news_app/splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,9 +30,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NavigationBloc>(
-          create: (context) => NavigationBloc(),
-        ),
         BlocProvider<FavouritesBloc>(
           lazy: false,
           create: (context) => FavouritesBloc(
@@ -43,6 +41,11 @@ class _MyAppState extends State<MyApp> {
             articlesUseCase: ArticlesUseCase(),
           ),
         ),
+        BlocProvider<NavigationBloc>(
+          create: (context) => NavigationBloc(
+            articlesBloc: context.read<ArticlesBloc>(),
+          )..add(GoToSplash()),
+        ),
         BlocProvider<ArticleDetailsBloc>(
           create: (context) => ArticleDetailsBloc(),
         ),
@@ -51,7 +54,7 @@ class _MyAppState extends State<MyApp> {
         title: 'News App',
         theme: theme(),
         onGenerateRoute: AppRouter.onGenerateRoute,
-        initialRoute: ScourcesScreen.routeName,
+        initialRoute: SplashScreen.routeName,
       ),
     );
   }

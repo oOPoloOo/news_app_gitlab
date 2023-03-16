@@ -7,6 +7,8 @@ abstract class NavigationEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class GoToSplash extends NavigationEvent {}
+
 class GoToSources extends NavigationEvent {
   final NavigationState state;
   final BuildContext context;

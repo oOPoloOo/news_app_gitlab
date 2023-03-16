@@ -32,8 +32,9 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       for (var source in event.sourceList) {
         await articlesUseCase.loadArticlesBySource(source.id);
       }
-    } on DioError catch (e) {
-      logger.d(e);
+      emit(ArticlesLoaded(articles: articleList)); // ??
+    } catch (error) {
+      logger.d(error);
     }
   }
 

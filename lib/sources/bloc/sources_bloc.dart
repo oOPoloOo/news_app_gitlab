@@ -14,7 +14,6 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   SourcesUseCase sourcesUseCase;
 
   List<Sources> sourcesList = <Sources>[];
-  late StreamSubscription networkStreamSubscription;
   late StreamSubscription watchStreamSubscription;
 
   @override
@@ -53,7 +52,6 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
 
   @override
   Future<void> close() async {
-    networkStreamSubscription.cancel();
     watchStreamSubscription.cancel();
     return await super.close();
   }

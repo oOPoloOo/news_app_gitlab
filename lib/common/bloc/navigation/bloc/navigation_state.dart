@@ -7,6 +7,10 @@ abstract class NavigationState extends Equatable {
   List<Object> get props => [];
 }
 
+class InSplash extends NavigationState {}
+
+class SplashToSources extends NavigationState {}
+
 class InSources extends NavigationState {}
 
 class InFavourites extends NavigationState {}
