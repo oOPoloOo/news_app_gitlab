@@ -16,7 +16,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
   List<Sources> sourcesList = <Sources>[];
   late StreamSubscription watchStreamSubscription;
 
-  @override
+  // @override
   SourcesBloc({
     required this.sourcesUseCase,
   }) : super(SourcesLoading()) {
@@ -39,8 +39,8 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
 
   //On local db changes updates list in Sources state.
   void _onWatchLocalSources(event, Emitter<SourcesState> emit) async {
-    watchStreamSubscription = sourcesUseCase.watch().listen((event) {
-      sourcesList = event;
+    watchStreamSubscription = sourcesUseCase.watch().listen((dbChange) {
+      sourcesList = dbChange;
       add(UpdateSources(sourcesList));
     });
   }

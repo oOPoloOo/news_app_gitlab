@@ -53,6 +53,7 @@ class CustomListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO : Negalima naudot appse
     var media = MediaQuery.of(context).size;
 
     if (isDetails) {

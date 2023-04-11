@@ -21,6 +21,7 @@ class _NavBarState extends State<NavBar> {
   late int _selectedIndex;
 
   _NavBarState({this.inheritedIndex});
+  // TODO : Paziuret ar iseina be inheritedIndex padaryt
   @override
   void initState() {
     inheritedIndex == null
@@ -29,6 +30,7 @@ class _NavBarState extends State<NavBar> {
     super.initState();
   }
 
+// TODO : use colors from class
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationState>(
@@ -46,7 +48,8 @@ class _NavBarState extends State<NavBar> {
           child: SafeArea(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              // TODO : remove gnav
               child: GNav(
                 rippleColor: Colors.grey,
                 hoverColor: Colors.grey[100]!,
@@ -70,23 +73,22 @@ class _NavBarState extends State<NavBar> {
                   ),
                 ],
                 selectedIndex: _selectedIndex,
+                // TODO : Nenaudojant index check turetu sauvaikciot i screen
+                //TODO : Use BottomNavigationBarWidget
+                //TODO :Navigacijai naudoti PageController
+                // TODO : fix all alerts from console
                 onTabChange: (index) {
                   setState(() {
                     _selectedIndex = index;
 
                     if (_selectedIndex == 0) {
                       BlocProvider.of<NavigationBloc>(context)
-                          .add(GoToSources(state: state, context: context));
+                          .goToSources(context, state);
                     }
 
                     if (_selectedIndex == 1) {
-                      BlocProvider.of<NavigationBloc>(context).add(
-                        GoToFavourites(
-                          state: state,
-                          context: context,
-                          inheritedIndex: _selectedIndex, // Nepriskiria
-                        ),
-                      );
+                      BlocProvider.of<NavigationBloc>(context)
+                          .goToFavourites(context, state, _selectedIndex);
                     }
                   });
                 },

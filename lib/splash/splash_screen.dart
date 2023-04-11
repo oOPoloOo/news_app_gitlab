@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -23,33 +25,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     _navigationBloc = BlocProvider.of<NavigationBloc>(context);
+    _navigationBloc.goFromSplash(context);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NavigationBloc, NavigationState>(
-      listener: (context, state) {
-        if (state is SplashToSources) {
-          _navigationBloc.add(
-            GoToSources(state: state, context: context),
-          );
-        }
-      },
-      child: Scaffold(
-        body: Container(
-          color: Colors.grey,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('Best news in town!'),
-                SizedBox(height: 15),
-                SpinKitFoldingCube(
-                  color: Colors.black,
-                )
-              ],
-            ),
+    return Scaffold(
+      body: Container(
+        color: Colors.grey,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text('Best news in town!'),
+              SizedBox(height: 16),
+              SpinKitFoldingCube(
+                color: Colors.black,
+                duration: Duration(milliseconds: 1000),
+              )
+            ],
           ),
         ),
       ),

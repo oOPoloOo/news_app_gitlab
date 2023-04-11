@@ -13,6 +13,8 @@ import 'package:news_app/common/widgets/nav_bar.dart';
 class ArticlesScreen extends StatefulWidget {
   static const String routeName = articlesRouteName;
 
+// TODO : dings, kai keisiu i route without name  static Route route() {
+  // Google : How to push navigation in flutter
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
@@ -26,6 +28,8 @@ class ArticlesScreen extends StatefulWidget {
 
 class _ArticlesScreenState extends State<ArticlesScreen> {
   late ArticlesBloc _articlesBloc;
+  // TODO : after remaking navbar not needed
+  // TODO : move to bloc
   int _selectedIndex = 2;
 
   @override
@@ -37,15 +41,13 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   @override
   Widget build(BuildContext context) {
     Color backColor = Theme.of(context).colorScheme.background;
-    _articlesBloc.add(
-      const FilterArticles(selectedIndex: 2),
-    );
+    _articlesBloc.filterArticles(2);
+
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () {
-            BlocProvider.of<NavigationBloc>(context)
-                .add(PopThePage(state: state, context: context));
+            BlocProvider.of<NavigationBloc>(context).popThePage(context, state);
             return Future(() => true);
           },
           child: Scaffold(
@@ -56,13 +58,14 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                     ArticleResponsiveness.isSmallScreen(context) ? false : true,
               ),
               bottomNavigationBar: const NavBar(),
-              body: _buidBody(backColor)),
+              // TODO : kaip parametro nepadavinet naudot kvieciant iskart metode
+              body: _buildBody(backColor)),
         );
       },
     );
   }
 
-  BlocBuilder<ArticlesBloc, ArticlesState> _buidBody(Color backColor) {
+  BlocBuilder<ArticlesBloc, ArticlesState> _buildBody(Color backColor) {
     return BlocBuilder<ArticlesBloc, ArticlesState>(
       builder: (context, state) {
         if (state is ArticlesLoading) {
@@ -77,32 +80,38 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
               child: Column(
                 children: [
                   Expanded(
+                    // TODO: Nereik nurodyt, nes defautl yra 1
                     flex: 1,
                     child: Wrap(
                       spacing: 6,
                       direction: Axis.horizontal,
+                      // TODO : pradet visad _build
                       children: choiceChips(),
                     ),
                   ),
                   const SizedBox(height: 15),
                   Expanded(
                     flex: 14,
-                    child: state.articlesFilter.isNotEmpty
-                        ? CustomListView.articles(
-                            articles: state.articlesFilter,
-                            isBig: false, // TODO LAIKINAS
-                          )
-                        : const Center(
-                            child: Text(
-                              'No articles meet requirements',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                    child:
+                        // TODO : if issikelt i atskira _build metoda
+                        state.articlesFilter.isNotEmpty
+                            ? CustomListView.articles(
+                                articles: state.articlesFilter,
+                                isBig: false, // TODO LAIKINAS
+                              )
+                            : const Center(
+                                child: Text(
+                                  'No articles meet requirements',
+                                  // TODO : naudot style is klases visur
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
                   ),
                 ],
               ),
             );
           } else {
+            // TODO : vietoj situ elsu det bloc dar viena error state su try catch ir jei jis tada rodyt.
             return Container(
               color: backColor,
               child: Center(
@@ -125,10 +134,13 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   }
 
   List<Widget> choiceChips() {
+    // TODO : istrint ir su map padaryt be jo
     List<Widget> chips = [];
 
+// TODO : for to map
     for (int i = 0; i < _articlesBloc.choiceChipsNames.length; i++) {
       Widget item = Padding(
+        // TODO : make paddings not odd
         padding: const EdgeInsets.only(left: 10, right: 5),
         child: ChoiceChip(
           label: Text(_articlesBloc.choiceChipsNames[i]),
@@ -140,9 +152,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           onSelected: (bool value) {
             _selectedIndex = i;
 
-            _articlesBloc.add(
-              FilterArticles(selectedIndex: _selectedIndex),
-            );
+            _articlesBloc.filterArticles(_selectedIndex);
           },
         ),
       );

@@ -49,8 +49,7 @@ class SourcesScreenState extends State<ScourcesScreen> {
       },
       listener: (context, state) {
         if (state is SourcesLoaded) {
-          BlocProvider.of<ArticlesBloc>(context)
-              .add(LoadArticles(sourceList: state.sources));
+          BlocProvider.of<ArticlesBloc>(context).loadArticles(state.sources);
         }
       },
       builder: (context, state) {

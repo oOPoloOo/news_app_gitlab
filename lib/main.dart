@@ -9,7 +9,6 @@ import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/app_router.dart';
 import 'package:news_app/common/config/theme.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
-import 'package:news_app/sources/sources_screen.dart';
 import 'package:news_app/splash/splash_screen.dart';
 
 void main() async {
@@ -42,10 +41,9 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         BlocProvider<NavigationBloc>(
-          create: (context) => NavigationBloc(
-            articlesBloc: context.read<ArticlesBloc>(),
-          )..add(GoToSplash()),
-        ),
+            create: (context) => NavigationBloc(
+                  articlesBloc: context.read<ArticlesBloc>(),
+                )),
         BlocProvider<ArticleDetailsBloc>(
           create: (context) => ArticleDetailsBloc(),
         ),

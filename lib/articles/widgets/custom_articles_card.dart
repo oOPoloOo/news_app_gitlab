@@ -20,7 +20,9 @@ import 'package:string_validator/string_validator.dart';
 
 class ArticleCard extends StatelessWidget {
   final Articles articleInfo;
+  // TODO : not needed
   final double cardWidth;
+  // TODO : not needed
   final double cardHeightAllElements;
   final double imgHeight;
 
@@ -34,8 +36,10 @@ class ArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isEmptyImg = true;
+    // TODO: reneme clearly
     bool isEmptyIDes = true;
 
+    //Delete Dead code
     if (articleInfo.imageUrl != null && isURL(articleInfo.imageUrl)) {
       isEmptyImg = false;
     }
@@ -49,12 +53,14 @@ class ArticleCard extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 BlocProvider.of<ArticleDetailsBloc>(context)
-                    .add(LoadArticleDetails(articleSelected: articleInfo));
+                    .loadArticlesDetails(articleInfo);
 
                 BlocProvider.of<NavigationBloc>(context)
-                    .add(GoToArticleDetails(state: state, context: context));
+                    .goToArticleDetails(context, state);
               },
-              child: SizedBox(
+              child:
+                  // TODO : delete sized box
+                  SizedBox(
                 width: cardWidth,
                 height: cardHeightAllElements,
                 child: Card(
@@ -63,12 +69,15 @@ class ArticleCard extends StatelessWidget {
                   margin: const EdgeInsets.all(10),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   shape: RoundedRectangleBorder(
+                    // TODO: in all code write 10.0 or 10
                     borderRadius: BorderRadius.circular(18.0),
                   ),
                   child: Column(
                     children: [
                       _buildImage(
                           context,
+                          // TODO : remove dead code
+                          // isEmptyImg remove -- check condition when using
                           !isEmptyImg ? articleInfo.imageUrl : noImgImage,
                           cardWidth,
                           imgHeight,
@@ -77,7 +86,9 @@ class ArticleCard extends StatelessWidget {
                       _buildTitleText(context, articleInfo),
                       !isEmptyIDes
                           ? _buildDescription(context, articleInfo)
-                          : const SizedBox(
+                          :
+                          // TODO : render only when not null
+                          const SizedBox(
                               height: 0,
                               width: 0,
                             ),
@@ -187,7 +198,7 @@ class ArticleCard extends StatelessWidget {
                       BlocProvider.of<FavouritesBloc>(context)
                           .add(RemoveFavourites(removeArticle: article));
                       BlocProvider.of<ArticlesBloc>(context)
-                          .add(LoadLocalArticles(source: article.idAndName.id));
+                          .watchLocalArticles(article.idAndName.id);
                     },
                   )
                 : FavoriteButton(
@@ -196,7 +207,7 @@ class ArticleCard extends StatelessWidget {
                       BlocProvider.of<FavouritesBloc>(context)
                           .add(AddFavourites(addArticle: article));
                       BlocProvider.of<ArticlesBloc>(context)
-                          .add(LoadLocalArticles(source: article.idAndName.id));
+                          .watchLocalArticles(article.idAndName.id);
                     },
                   ),
           );

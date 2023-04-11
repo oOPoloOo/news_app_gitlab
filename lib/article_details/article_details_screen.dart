@@ -17,7 +17,7 @@ class ArticleDetailsScreen extends StatelessWidget {
   const ArticleDetailsScreen({
     this.isBigSize = false,
   });
-
+//  TODO : remove and replace even if web
   const ArticleDetailsScreen.bigSize({
     this.isBigSize = true,
   });
@@ -38,8 +38,9 @@ class ArticleDetailsScreen extends StatelessWidget {
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () {
-            BlocProvider.of<NavigationBloc>(context)
-                .add(PopThePage(state: state, context: context));
+            BlocProvider.of<NavigationBloc>(context).popThePage(context, state);
+
+            // TODO : check what for and delet if possible Future
             return Future(() => true);
           },
           child: Scaffold(

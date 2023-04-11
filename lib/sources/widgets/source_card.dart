@@ -22,10 +22,10 @@ class SourceCard extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             BlocProvider.of<ArticlesBloc>(context)
-                .add(LoadLocalArticles(source: sourceInfo.id));
+                .watchLocalArticles(sourceInfo.id);
 
             BlocProvider.of<NavigationBloc>(context)
-                .add(GoToArticles(state: state, context: context));
+                .goToArticles(context, state);
           },
           child: Container(
             margin: const EdgeInsets.all(5.0),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const int largeScreenSize = 500;
 
+// TODO : remove because screen shoud be dynamic with dynamic widgets
 class ArticleDetailsResponsiveness extends StatelessWidget {
   final Widget largeScreen;
 
