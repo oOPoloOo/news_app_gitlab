@@ -33,6 +33,7 @@ class SourcesBloc extends Bloc<SourcesEvent, SourcesState> {
     try {
       await sourcesUseCase.loadSources();
     } catch (error) {
+      emit(SourcesError());
       logger.d(error);
     }
   }

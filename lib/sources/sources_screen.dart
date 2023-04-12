@@ -29,20 +29,24 @@ class ScourcesScreen extends StatefulWidget {
 class SourcesScreenState extends State<ScourcesScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(
-        screen: ScourcesScreen.routeName,
-        title: 'Sources Screen',
-      ),
-      bottomNavigationBar: const NavBar(),
-      body: _buildBody(
-        context,
-        Theme.of(context).colorScheme.background,
-      ),
+    return SourceDependencies(
+      child: _buildBody(context),
     );
+
+    // return Scaffold(
+    //   appBar: const CustomAppBar(
+    //     screen: ScourcesScreen.routeName,
+    //     title: 'Sources Screen',
+    //   ),
+    //   bottomNavigationBar: const NavBar(),
+    //   body: _buildBody(
+    //     context,
+    //     Theme.of(context).colorScheme.background,
+    //   ),
+    // );
   }
 
-  Widget _buildBody(BuildContext context, Color backColor) {
+  Widget _buildBody(BuildContext context) {
     return BlocConsumer<SourcesBloc, SourcesState>(
       listenWhen: (previous, current) {
         return previous is SourcesLoading && current is SourcesLoaded;
@@ -53,23 +57,24 @@ class SourcesScreenState extends State<ScourcesScreen> {
         }
       },
       builder: (context, state) {
-        if (state is SourcesLoading) {
-          BlocProvider.of<SourcesBloc>(context).add(WatchSources());
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
         if (state is SourcesLoaded) {
           return Container(
-            color: backColor,
+            color: Theme.of(context).colorScheme.background,
             child: SourceListView(
               sources: state.sources,
             ),
           );
         } else {
-          return const Center(
-            child: Text('Something went wrong!'),
-          );
+          if (state is SourcesError) {
+            return const Center(
+              child: Text('Something went wrong!'),
+            );
+          } else {
+            BlocProvider.of<SourcesBloc>(context).add(WatchSources());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         }
       },
     );

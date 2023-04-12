@@ -49,10 +49,11 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
       LoadFavourites event, Emitter<FavouritesState> emit) async {
     try {
       favArticleList = await articlesUseCase.readAllFavArticlesFromLocalDb();
+      add(UpdateFavourites(favArticleList));
     } catch (error) {
+      emit(FavouritesError());
       logger.d(error);
     }
-    add(UpdateFavourites(favArticleList));
   }
 
   //Update Favourites bloc state with list.

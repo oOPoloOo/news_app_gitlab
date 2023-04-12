@@ -19,3 +19,5 @@ class SourcesLoaded extends SourcesState {
   @override
   List<Object> get props => [sources];
 }
+
+class SourcesError extends SourcesState {}

@@ -31,7 +31,7 @@ class NavigationBloc extends Cubit<NavigationState> {
   //Unlike GoToSources event do not require state
   void goFromSplash(BuildContext context) {
     Future.delayed(const Duration(seconds: 4), () {
-      Navigator.pushNamed(context, sourcesRouteName);
+      Navigator.pushReplacementNamed(context, homeRouteName);
       emit(InSources());
     });
   }

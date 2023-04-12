@@ -27,3 +27,5 @@ class ArticlesLoaded extends ArticlesState {
         articlesFilter,
       ];
 }
+
+class ArticlesError extends ArticlesState {}

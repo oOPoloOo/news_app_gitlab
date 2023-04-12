@@ -67,11 +67,6 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   BlocBuilder<ArticlesBloc, ArticlesState> _buildBody() {
     return BlocBuilder<ArticlesBloc, ArticlesState>(
       builder: (context, state) {
-        if (state is ArticlesLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
         if (state is ArticlesLoaded) {
           if (state.articles.isNotEmpty) {
             return Container(
@@ -93,7 +88,6 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
               ),
             );
           } else {
-            // TODO : vietoj situ elsu det bloc dar viena error state su try catch ir jei jis tada rodyt.
             return Container(
               color: Theme.of(context).colorScheme.background,
               child: Center(
@@ -107,9 +101,15 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
             );
           }
         } else {
-          return const Center(
-            child: Text('Something went wrong!'),
-          );
+          if (state is ArticlesError) {
+            return const Center(
+              child: Text('Something went wrong!'),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         }
       },
     );

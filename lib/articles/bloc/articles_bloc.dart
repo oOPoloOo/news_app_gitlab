@@ -27,6 +27,7 @@ class ArticlesBloc extends Cubit<ArticlesState> {
       }
       emit(ArticlesLoaded(articles: articleList));
     } catch (error) {
+      emit(ArticlesError());
       logger.d(error);
     }
   }

@@ -19,3 +19,5 @@ class FavouritesLoaded extends FavouritesState {
   @override
   List<Object> get props => [favArticles];
 }
+
+class FavouritesError extends FavouritesState {}

@@ -27,16 +27,18 @@ class FavouritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(
-        screen: favouritesRouteName,
-        title: 'Favourite Articles',
-      ),
-      bottomNavigationBar: NavBar(
-        inheritedIndex: inheritedIndex,
-      ),
-      body: _buidBody(),
-    );
+    return _buidBody();
+
+    // return Scaffold(
+    //   appBar: const CustomAppBar(
+    //     screen: favouritesRouteName,
+    //     title: 'Favourite Articles',
+    //   ),
+    //   bottomNavigationBar: NavBar(
+    //     inheritedIndex: inheritedIndex,
+    //   ),
+    //   body: _buidBody(),
+    // );
   }
 
   BlocBuilder<FavouritesBloc, FavouritesState> _buidBody() {
@@ -44,11 +46,6 @@ class FavouritesScreen extends StatelessWidget {
       builder: (context, state) {
         var media = MediaQuery.of(context).size;
 
-        if (state is FavouritesLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
         if (state is FavouritesLoaded) {
           if (state.favArticles.isNotEmpty) {
             return Container(
@@ -72,9 +69,15 @@ class FavouritesScreen extends StatelessWidget {
             );
           }
         } else {
-          return const Center(
-            child: Text('Something went wrong!'),
-          );
+          if (state is FavouritesError) {
+            return const Center(
+              child: Text('Something went wrong!'),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         }
       },
     );

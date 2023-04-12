@@ -49,17 +49,14 @@ class ArticleDetailsScreen extends StatelessWidget {
               title: "",
               bigSize: isBigSize,
             ),
-            body: _buildBody(
-              context,
-              Theme.of(context).colorScheme.background,
-            ),
+            body: _buildBody(context),
           ),
         );
       },
     );
   }
 
-  Widget _buildBody(BuildContext context, Color backColor) {
+  Widget _buildBody(BuildContext context) {
     var media = MediaQuery.of(context).size;
 
     return BlocBuilder<ArticleDetailsBloc, ArticleDetailsState>(
@@ -73,7 +70,7 @@ class ArticleDetailsScreen extends StatelessWidget {
           return Container(
             height: media.height,
             width: media.width,
-            color: backColor,
+            color: Theme.of(context).colorScheme.background,
             child: ArticleDetailsView(
               articleDetails: state.articleDetails,
               isBig: isBigSize ? true : false,
