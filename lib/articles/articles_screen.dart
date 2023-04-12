@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/helpers/article_responsiveness.dart';
+import 'package:news_app/articles/model/articles_model.dart';
+import 'package:news_app/articles/widgets/articles_list_view.dart';
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
-import 'package:news_app/common/widgets/custom_list_view.dart';
 import 'package:news_app/common/widgets/nav_bar.dart';
 
 class ArticlesScreen extends StatefulWidget {
@@ -40,7 +41,6 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Color backColor = Theme.of(context).colorScheme.background;
     _articlesBloc.filterArticles(2);
 
     return BlocBuilder<NavigationBloc, NavigationState>(
@@ -58,14 +58,13 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                     ArticleResponsiveness.isSmallScreen(context) ? false : true,
               ),
               bottomNavigationBar: const NavBar(),
-              // TODO : kaip parametro nepadavinet naudot kvieciant iskart metode
-              body: _buildBody(backColor)),
+              body: _buildBody()),
         );
       },
     );
   }
 
-  BlocBuilder<ArticlesBloc, ArticlesState> _buildBody(Color backColor) {
+  BlocBuilder<ArticlesBloc, ArticlesState> _buildBody() {
     return BlocBuilder<ArticlesBloc, ArticlesState>(
       builder: (context, state) {
         if (state is ArticlesLoading) {
@@ -76,44 +75,27 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         if (state is ArticlesLoaded) {
           if (state.articles.isNotEmpty) {
             return Container(
-              color: backColor,
+              color: Theme.of(context).colorScheme.background,
               child: Column(
                 children: [
                   Expanded(
-                    // TODO: Nereik nurodyt, nes defautl yra 1
-                    flex: 1,
                     child: Wrap(
                       spacing: 6,
                       direction: Axis.horizontal,
-                      // TODO : pradet visad _build
-                      children: choiceChips(),
+                      children: _buildChoiceChips(),
                     ),
                   ),
                   const SizedBox(height: 15),
                   Expanded(
-                    flex: 14,
-                    child:
-                        // TODO : if issikelt i atskira _build metoda
-                        state.articlesFilter.isNotEmpty
-                            ? CustomListView.articles(
-                                articles: state.articlesFilter,
-                                isBig: false, // TODO LAIKINAS
-                              )
-                            : const Center(
-                                child: Text(
-                                  'No articles meet requirements',
-                                  // TODO : naudot style is klases visur
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                  ),
+                      flex: 14,
+                      child: _buildArticlesListView(state.articlesFilter)),
                 ],
               ),
             );
           } else {
             // TODO : vietoj situ elsu det bloc dar viena error state su try catch ir jei jis tada rodyt.
             return Container(
-              color: backColor,
+              color: Theme.of(context).colorScheme.background,
               child: Center(
                 child: Text(
                   "No data in local database about this source.",
@@ -133,15 +115,31 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     );
   }
 
-  List<Widget> choiceChips() {
+  Widget _buildArticlesListView(List<Articles> articlesFilter) {
+    if (articlesFilter.isNotEmpty) {
+      return ArticlesListView(
+        articles: articlesFilter,
+      );
+    } else {
+      return Center(
+        child: Text(
+          'No articles meet requirements',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Colors.white,
+              ),
+        ),
+      );
+    }
+  }
+
+  List<Widget> _buildChoiceChips() {
     // TODO : istrint ir su map padaryt be jo
     List<Widget> chips = [];
 
 // TODO : for to map
     for (int i = 0; i < _articlesBloc.choiceChipsNames.length; i++) {
       Widget item = Padding(
-        // TODO : make paddings not odd
-        padding: const EdgeInsets.only(left: 10, right: 5),
+        padding: const EdgeInsets.only(left: 10, right: 6),
         child: ChoiceChip(
           label: Text(_articlesBloc.choiceChipsNames[i]),
           labelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),

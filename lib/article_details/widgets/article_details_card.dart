@@ -5,16 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/articles/model/articles_model.dart';
-import 'package:news_app/common/config/constants.dart';
-import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ArticleDetailsCard extends StatelessWidget {
   final Articles articleInfo;
-
-  final double cardHeight;
-
-  final double cardWidth;
 
   final double imgHeight;
 
@@ -23,8 +17,6 @@ class ArticleDetailsCard extends StatelessWidget {
 
   const ArticleDetailsCard({
     required this.articleInfo,
-    required this.cardHeight,
-    required this.cardWidth,
     required this.imgHeight,
     this.cardBorderRadius = 40,
     this.cardMargin = 10,
@@ -32,8 +24,6 @@ class ArticleDetailsCard extends StatelessWidget {
 
   const ArticleDetailsCard.bigSize({
     required this.articleInfo,
-    required this.cardHeight,
-    required this.cardWidth,
     required this.imgHeight,
     this.cardBorderRadius = 0,
     this.cardMargin = 0,
@@ -41,151 +31,134 @@ class ArticleDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isEmptyImg = true;
-
-    if (articleInfo.imageUrl != null && isURL(articleInfo.imageUrl)) {
-      isEmptyImg = false;
-    }
-
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () {},
-          child: SizedBox(
-            height: cardHeight,
-            width: cardWidth,
-            child: Card(
-              elevation: 5,
-              margin: EdgeInsets.all(cardMargin),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(cardBorderRadius),
+    return GestureDetector(
+      onTap: () {},
+      child: SizedBox(
+        height: double.maxFinite,
+        width: double.maxFinite,
+        child: Card(
+          elevation: 5,
+          margin: EdgeInsets.all(cardMargin),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(cardBorderRadius),
+          ),
+          child: Column(
+            children: [
+              _buildImage(
+                context,
+                articleInfo.imageUrl,
+                imgHeight,
               ),
-              child: Column(
-                children: [
-                  _buildImage(
-                    context,
-                    !isEmptyImg ? articleInfo.imageUrl : noImgImage,
-                    cardWidth,
-                    imgHeight,
-                  ),
-                  Divider(
-                    thickness: 30,
-                    color: Theme.of(context).colorScheme.primary,
-                    height: 30,
-                  ),
-                  _buildDate(1, context, articleInfo),
-                  _buildTitle(2, context, articleInfo),
-                  _buildContent(6, context, articleInfo),
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 15.0,
-                        right: 8.0,
-                        top: 5.0,
-                        bottom: 5,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              "Link to original article:",
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                          ),
-                          Expanded(
-                            child: Linkify(
-                              onOpen: _onOpen,
-                              textScaleFactor: 1,
-                              text: articleInfo.articleUrl,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        ],
+              Divider(
+                thickness: 30,
+                color: Theme.of(context).colorScheme.primary,
+                height: 30,
+              ),
+              _buildDate(context, articleInfo),
+              _buildTitle(context, articleInfo),
+              _buildContent(context, articleInfo),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 15.0,
+                  right: 8.0,
+                  top: 5.0,
+                  bottom: 5,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Text(
+                        "Link to original article:",
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
-                  ),
-                ],
+                    Linkify(
+                      onOpen: _onOpen,
+                      textScaleFactor: 1,
+                      text: articleInfo.articleUrl,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 
   Widget _buildImage(
-      BuildContext context, String imageUrl, double iWidth, double iHeight) {
+    BuildContext context,
+    String? imageUrl,
+    double iHeight,
+  ) {
     return SizedBox(
-      width: iWidth,
+      width: double.infinity,
       height: iHeight,
       child: CachedNetworkImage(
         fit: BoxFit.fill,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl ?? '',
         placeholder: (context, url) => const CircularProgressIndicator(),
         errorWidget: (context, url, error) => Image.asset(
           'assets/no_nwtwork_egg.png',
+          fit: BoxFit.fill,
         ),
       ),
     );
   }
 
-  Widget _buildContent(int flex, BuildContext context, Articles articleInf) {
-    return Expanded(
-      flex: flex,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 15.0,
-          right: 10.0,
-          top: 10.0,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              articleInf.content,
-              textAlign: TextAlign.justify,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
-        ),
+  Widget _buildContent(BuildContext context, Articles articleInf) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 15.0,
+        right: 10.0,
+        top: 10.0,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            articleInf.content,
+            textAlign: TextAlign.justify,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildTitle(int flex, BuildContext context, Articles articleInf) {
-    return Expanded(
-      flex: flex,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 8.0,
-          top: 20.0,
-          right: 8.0,
-          bottom: 5.0,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              articleInf.title,
-              maxLines: 3,
-              overflow: TextOverflow.fade,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          ],
-        ),
+  Widget _buildTitle(BuildContext context, Articles articleInf) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 8.0,
+        top: 20.0,
+        right: 8.0,
+        bottom: 5.0,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            articleInf.title,
+            maxLines: 3,
+            overflow: TextOverflow.fade,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildDate(int flex, BuildContext context, Articles articleInf) {
-    return Expanded(
-      flex: flex,
+  Widget _buildDate(BuildContext context, Articles articleInf) {
+    return SizedBox(
+      height: 50,
       child: Padding(
         padding: const EdgeInsets.only(top: 15.0, left: 8.0, right: 8.0),
         child: Row(

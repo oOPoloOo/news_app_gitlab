@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
 import 'package:news_app/article_details/helpers/article_details_responsiveness.dart';
+import 'package:news_app/article_details/widgets/article_details_list_view.dart';
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
-import 'package:news_app/common/widgets/custom_list_view.dart';
 
 class ArticleDetailsScreen extends StatelessWidget {
   static const String routeName = articleDetailsRouteName;
@@ -17,7 +17,7 @@ class ArticleDetailsScreen extends StatelessWidget {
   const ArticleDetailsScreen({
     this.isBigSize = false,
   });
-//  TODO : remove and replace even if web
+
   const ArticleDetailsScreen.bigSize({
     this.isBigSize = true,
   });
@@ -39,8 +39,7 @@ class ArticleDetailsScreen extends StatelessWidget {
         return WillPopScope(
           onWillPop: () {
             BlocProvider.of<NavigationBloc>(context).popThePage(context, state);
-
-            // TODO : check what for and delet if possible Future
+            // Need to return something
             return Future(() => true);
           },
           child: Scaffold(
@@ -75,7 +74,7 @@ class ArticleDetailsScreen extends StatelessWidget {
             height: media.height,
             width: media.width,
             color: backColor,
-            child: CustomListView.details(
+            child: ArticleDetailsView(
               articleDetails: state.articleDetails,
               isBig: isBigSize ? true : false,
             ),

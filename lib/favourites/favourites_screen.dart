@@ -1,10 +1,10 @@
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/articles/widgets/articles_list_view.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
-import 'package:news_app/common/widgets/custom_list_view.dart';
 import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 
@@ -27,8 +27,6 @@ class FavouritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color backColor = Theme.of(context).colorScheme.background;
-
     return Scaffold(
       appBar: const CustomAppBar(
         screen: favouritesRouteName,
@@ -37,11 +35,11 @@ class FavouritesScreen extends StatelessWidget {
       bottomNavigationBar: NavBar(
         inheritedIndex: inheritedIndex,
       ),
-      body: _buidBody(backColor),
+      body: _buidBody(),
     );
   }
 
-  BlocBuilder<FavouritesBloc, FavouritesState> _buidBody(Color backColor) {
+  BlocBuilder<FavouritesBloc, FavouritesState> _buidBody() {
     return BlocBuilder<FavouritesBloc, FavouritesState>(
       builder: (context, state) {
         var media = MediaQuery.of(context).size;
@@ -54,16 +52,14 @@ class FavouritesScreen extends StatelessWidget {
         if (state is FavouritesLoaded) {
           if (state.favArticles.isNotEmpty) {
             return Container(
-              color: backColor,
-              height: media.height,
-              child: CustomListView.articles(
+              color: Theme.of(context).colorScheme.background,
+              child: ArticlesListView(
                 articles: state.favArticles,
-                isBig: false, //LAIKINAS
               ),
             );
           } else {
             return Container(
-              color: backColor,
+              color: Theme.of(context).colorScheme.background,
               height: media.height,
               child: Center(
                 child: Text(

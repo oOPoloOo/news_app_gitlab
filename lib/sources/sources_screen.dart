@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
-import 'package:news_app/common/widgets/custom_list_view.dart';
 import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
 import 'package:news_app/sources/dependencies/source_dependencies.dart';
+import 'package:news_app/sources/widgets/source_list_view.dart';
 
 class ScourcesScreen extends StatefulWidget {
   static const String routeName = sourcesRouteName;
@@ -62,9 +62,8 @@ class SourcesScreenState extends State<ScourcesScreen> {
         if (state is SourcesLoaded) {
           return Container(
             color: backColor,
-            child: CustomListView.source(
+            child: SourceListView(
               sources: state.sources,
-              isBig: false,
             ),
           );
         } else {

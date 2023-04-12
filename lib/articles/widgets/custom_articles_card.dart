@@ -8,43 +8,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
-
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
-
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
-import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
-
-import 'package:string_validator/string_validator.dart';
 
 class ArticleCard extends StatelessWidget {
   final Articles articleInfo;
-  // TODO : not needed
-  final double cardWidth;
-  // TODO : not needed
-  final double cardHeightAllElements;
   final double imgHeight;
 
   const ArticleCard({
     required this.articleInfo,
-    required this.cardWidth,
-    required this.cardHeightAllElements,
     required this.imgHeight,
   });
 
   @override
   Widget build(BuildContext context) {
-    bool isEmptyImg = true;
-    // TODO: reneme clearly
-    bool isEmptyIDes = true;
+    bool isEmptyDescription = true;
 
-    //Delete Dead code
-    if (articleInfo.imageUrl != null && isURL(articleInfo.imageUrl)) {
-      isEmptyImg = false;
-    }
-
-    if (articleInfo.description != null) isEmptyIDes = false;
+    if (articleInfo.description != null) isEmptyDescription = false;
 
     return Column(
       children: [
@@ -58,40 +40,29 @@ class ArticleCard extends StatelessWidget {
                 BlocProvider.of<NavigationBloc>(context)
                     .goToArticleDetails(context, state);
               },
-              child:
-                  // TODO : delete sized box
-                  SizedBox(
-                width: cardWidth,
-                height: cardHeightAllElements,
+              child: Container(
+                constraints: const BoxConstraints(minHeight: 300),
                 child: Card(
                   color: Theme.of(context).colorScheme.secondary,
                   elevation: 5,
                   margin: const EdgeInsets.all(10),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   shape: RoundedRectangleBorder(
-                    // TODO: in all code write 10.0 or 10
-                    borderRadius: BorderRadius.circular(18.0),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   child: Column(
                     children: [
                       _buildImage(
-                          context,
-                          // TODO : remove dead code
-                          // isEmptyImg remove -- check condition when using
-                          !isEmptyImg ? articleInfo.imageUrl : noImgImage,
-                          cardWidth,
-                          imgHeight,
-                          articleInfo),
+                        context,
+                        articleInfo.imageUrl,
+                        imgHeight,
+                        articleInfo,
+                      ),
                       _buildDateText(context, articleInfo),
                       _buildTitleText(context, articleInfo),
-                      !isEmptyIDes
-                          ? _buildDescription(context, articleInfo)
-                          :
-                          // TODO : render only when not null
-                          const SizedBox(
-                              height: 0,
-                              width: 0,
-                            ),
+                      if (!isEmptyDescription)
+                        _buildDescription(context, articleInfo),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),
@@ -104,41 +75,35 @@ class ArticleCard extends StatelessWidget {
   }
 
   Widget _buildTitleText(BuildContext context, Articles articleInf) {
-    return Expanded(
-      flex: 1,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 5.0,
-          right: 5.0,
-          top: 8,
-        ),
-        child: AutoSizeText(
-          articleInf.title,
-          style: Theme.of(context).textTheme.titleSmall,
-          maxLines: 3,
-          minFontSize: 16,
-          overflow: TextOverflow.fade,
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 5.0,
+        right: 5.0,
+        top: 8,
+      ),
+      child: AutoSizeText(
+        articleInf.title,
+        style: Theme.of(context).textTheme.titleSmall,
+        maxLines: 3,
+        minFontSize: 16,
+        overflow: TextOverflow.fade,
       ),
     );
   }
 
   Widget _buildDescription(BuildContext context, Articles articleInf) {
-    return Expanded(
-      flex: 2,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 10.0,
-          right: 10.0,
-          top: 10.0,
-        ),
-        child: Text(
-          articleInf.description,
-          textAlign: TextAlign.justify,
-          style: Theme.of(context).textTheme.bodyMedium,
-          overflow: TextOverflow.fade,
-          softWrap: true,
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 10.0,
+        right: 10.0,
+        top: 10.0,
+      ),
+      child: Text(
+        articleInf.description,
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.bodyMedium,
+        overflow: TextOverflow.fade,
+        softWrap: true,
       ),
     );
   }
@@ -168,51 +133,53 @@ class ArticleCard extends StatelessWidget {
 
   Widget _buildImage(
     BuildContext context,
-    String imageUrl,
-    double cWidth,
+    String? imageUrl,
     double iHeight,
     Articles article,
   ) {
-    return Stack(children: [
-      SizedBox(
-        width: cWidth,
-        height: iHeight,
-        child: CachedNetworkImage(
-          fit: BoxFit.fill,
-          imageUrl: imageUrl,
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => Image.asset(
-            'assets/no_nwtwork_egg.png',
+    return Stack(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: iHeight,
+          child: CachedNetworkImage(
+            fit: BoxFit.fill,
+            imageUrl: imageUrl ?? '',
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Image.asset(
+              'assets/no_nwtwork_egg.png',
+              fit: BoxFit.fill,
+            ),
           ),
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Builder(builder: (context) {
-          return Container(
-            alignment: Alignment.topRight,
-            child: article.isFavourite!
-                ? FavoriteButton(
-                    isFavorite: true,
-                    valueChanged: (isFavorite) {
-                      BlocProvider.of<FavouritesBloc>(context)
-                          .add(RemoveFavourites(removeArticle: article));
-                      BlocProvider.of<ArticlesBloc>(context)
-                          .watchLocalArticles(article.idAndName.id);
-                    },
-                  )
-                : FavoriteButton(
-                    isFavorite: false,
-                    valueChanged: (isFavorite) {
-                      BlocProvider.of<FavouritesBloc>(context)
-                          .add(AddFavourites(addArticle: article));
-                      BlocProvider.of<ArticlesBloc>(context)
-                          .watchLocalArticles(article.idAndName.id);
-                    },
-                  ),
-          );
-        }),
-      ),
-    ]);
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Builder(builder: (context) {
+            return Container(
+              alignment: Alignment.topRight,
+              child: article.isFavourite!
+                  ? FavoriteButton(
+                      isFavorite: true,
+                      valueChanged: (isFavorite) {
+                        BlocProvider.of<FavouritesBloc>(context)
+                            .add(RemoveFavourites(removeArticle: article));
+                        BlocProvider.of<ArticlesBloc>(context)
+                            .watchLocalArticles(article.idAndName.id);
+                      },
+                    )
+                  : FavoriteButton(
+                      isFavorite: false,
+                      valueChanged: (isFavorite) {
+                        BlocProvider.of<FavouritesBloc>(context)
+                            .add(AddFavourites(addArticle: article));
+                        BlocProvider.of<ArticlesBloc>(context)
+                            .watchLocalArticles(article.idAndName.id);
+                      },
+                    ),
+            );
+          }),
+        ),
+      ],
+    );
   }
 }

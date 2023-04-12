@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 
-part 'article_details_event.dart';
 part 'article_details_state.dart';
 
 class ArticleDetailsBloc extends Cubit<ArticleDetailsState> {
