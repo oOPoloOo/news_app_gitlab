@@ -11,9 +11,7 @@ class InSplash extends NavigationState {}
 
 class SplashToSources extends NavigationState {}
 
-class InSources extends NavigationState {}
-
-class InFavourites extends NavigationState {}
+class InFavouritesOrSources extends NavigationState {}
 
 class InArticles extends NavigationState {}
 

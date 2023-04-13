@@ -1,6 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/favourites/favourites_screen.dart';
@@ -9,20 +11,13 @@ import 'package:news_app/sources/sources_screen.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static const String routeName = homeRouteName;
-
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => const HomePage());
-  }
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int bottomSelectedIndex = 0;
+  late NavigationBloc _navigationBloc;
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
@@ -57,6 +52,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    _navigationBloc = BlocProvider.of<NavigationBloc>(context);
     super.initState();
   }
 
@@ -76,20 +72,32 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        screen:
-            bottomSelectedIndex == 0 ? sourcesRouteName : favouritesRouteName,
-        title: bottomSelectedIndex == 0 ? 'Sources' : 'Favourite Articles',
-      ),
-      body: buildPageView(),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: bottomSelectedIndex,
-        onTap: (index) {
-          bottomTapped(index);
-        },
-        items: buildBottomNavBarItems(),
-      ),
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return WillPopScope(
+          onWillPop: () {
+            // Made so dont pop in HomeScreen
+            return Future(() => false);
+          },
+          child: Scaffold(
+            appBar: CustomAppBar(
+              screen: bottomSelectedIndex == 0
+                  ? sourcesRouteName
+                  : favouritesRouteName,
+              title:
+                  bottomSelectedIndex == 0 ? 'Sources' : 'Favourite Articles',
+            ),
+            body: buildPageView(),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: bottomSelectedIndex,
+              onTap: (index) {
+                bottomTapped(index);
+              },
+              items: buildBottomNavBarItems(),
+            ),
+          ),
+        );
+      },
     );
   }
 }

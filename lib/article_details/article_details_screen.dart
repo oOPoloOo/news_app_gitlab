@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
-import 'package:news_app/article_details/helpers/article_details_responsiveness.dart';
 import 'package:news_app/article_details/widgets/article_details_list_view.dart';
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
@@ -22,16 +21,6 @@ class ArticleDetailsScreen extends StatelessWidget {
     this.isBigSize = true,
   });
 
-  static Route route() {
-    return MaterialPageRoute(
-      settings: const RouteSettings(name: routeName),
-      builder: (_) => ArticleDetailsResponsiveness(
-        largeScreen: ArticleDetailsScreen.bigSize(),
-        smallScreen: ArticleDetailsScreen(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationState>(
@@ -39,7 +28,7 @@ class ArticleDetailsScreen extends StatelessWidget {
         return WillPopScope(
           onWillPop: () {
             BlocProvider.of<NavigationBloc>(context).popThePage(context, state);
-            // Need to return something
+            // If return true will pop
             return Future(() => true);
           },
           child: Scaffold(

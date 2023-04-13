@@ -9,19 +9,9 @@ import 'package:news_app/articles/widgets/articles_list_view.dart';
 import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
-import 'package:news_app/common/widgets/nav_bar.dart';
 
 class ArticlesScreen extends StatefulWidget {
   static const String routeName = articlesRouteName;
-
-// TODO : dings, kai keisiu i route without name  static Route route() {
-  // Google : How to push navigation in flutter
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) =>
-            ArticleResponsiveness(customSizeScreen: ArticlesScreen()));
-  }
 
   @override
   State<ArticlesScreen> createState() => _ArticlesScreenState();
@@ -29,7 +19,7 @@ class ArticlesScreen extends StatefulWidget {
 
 class _ArticlesScreenState extends State<ArticlesScreen> {
   late ArticlesBloc _articlesBloc;
-  // TODO : after remaking navbar not needed
+
   // TODO : move to bloc
   int _selectedIndex = 2;
 
@@ -57,7 +47,6 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                 bigSize:
                     ArticleResponsiveness.isSmallScreen(context) ? false : true,
               ),
-              // bottomNavigationBar: const NavBar(),
               body: _buildBody()),
         );
       },

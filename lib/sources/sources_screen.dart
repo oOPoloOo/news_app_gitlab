@@ -3,25 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
-import 'package:news_app/common/config/constants.dart';
-import 'package:news_app/common/widgets/custom_appbar.dart';
-import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/sources/bloc/sources_bloc.dart';
 import 'package:news_app/sources/dependencies/source_dependencies.dart';
 import 'package:news_app/sources/widgets/source_list_view.dart';
 
 class ScourcesScreen extends StatefulWidget {
-  static const String routeName = sourcesRouteName;
-
-  static Route route() {
-    return MaterialPageRoute(
-      settings: const RouteSettings(name: routeName),
-      builder: (_) => SourceDependencies(
-        child: ScourcesScreen(),
-      ),
-    );
-  }
-
   @override
   State<ScourcesScreen> createState() => SourcesScreenState();
 }
@@ -45,6 +31,12 @@ class SourcesScreenState extends State<ScourcesScreen> {
         }
       },
       builder: (context, state) {
+        if (state is SourcesLoading) {
+          BlocProvider.of<SourcesBloc>(context).add(WatchSources());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         if (state is SourcesLoaded) {
           return Container(
             color: Theme.of(context).colorScheme.background,
@@ -53,16 +45,9 @@ class SourcesScreenState extends State<ScourcesScreen> {
             ),
           );
         } else {
-          if (state is SourcesError) {
-            return const Center(
-              child: Text('Something went wrong!'),
-            );
-          } else {
-            BlocProvider.of<SourcesBloc>(context).add(WatchSources());
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+          return const Center(
+            child: Text('Something went wrong!'),
+          );
         }
       },
     );

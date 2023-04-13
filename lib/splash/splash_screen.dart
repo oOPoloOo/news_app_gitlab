@@ -9,12 +9,6 @@ import 'package:news_app/common/config/constants.dart';
 class SplashScreen extends StatefulWidget {
   static const String routeName = splashRouteName;
 
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => SplashScreen());
-  }
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }

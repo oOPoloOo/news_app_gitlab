@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/article_details/article_details_screen.dart';
+import 'package:news_app/article_details/helpers/article_details_responsiveness.dart';
+import 'package:news_app/articles/articles_screen.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
-import 'package:news_app/common/config/constants.dart';
+import 'package:news_app/home/home_page.dart';
 
 part 'navigation_state.dart';
 
@@ -16,60 +19,40 @@ class NavigationBloc extends Cubit<NavigationState> {
 
   void popThePage(BuildContext context, NavigationState state) {
     if (state is InArticleDetails) {
-      Navigator.pop(context);
       emit(InArticles());
     }
     if (state is InArticles) {
-      Navigator.pop(context);
-      emit(InSources());
+      emit(InFavouritesOrSources());
     }
   }
 
-// TODO : if state do not needed in other  events use same method
-//for _onGoFromSplash and _onGoToSources
-
-  //Unlike GoToSources event do not require state
   void goFromSplash(BuildContext context) {
-    Future.delayed(const Duration(seconds: 4), () {
-      Navigator.pushReplacementNamed(context, homeRouteName);
-      emit(InSources());
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+          (Route<dynamic> route) => false);
     });
   }
 
-  void goToSources(BuildContext context, NavigationState state) {
-    if (state is InSources) {
-    } else {
-      Navigator.pushNamed(context, sourcesRouteName);
-      emit(InSources());
-    }
-  }
-
-  void goToFavourites(BuildContext context, NavigationState state) {
-    if (state is InFavourites) {
-    } else {
-      Navigator.pushNamed(
-        context,
-        favouritesRouteName,
-      );
-      emit(InFavourites());
-    }
-  }
-
   void goToArticles(BuildContext context, NavigationState state) {
-    if (state is InArticles) {
-    } else {
-      Navigator.pushNamed(context, articlesRouteName);
-
-      emit(InArticles());
-    }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ArticlesScreen(),
+      ),
+    );
   }
 
   void goToArticleDetails(BuildContext context, NavigationState state) {
-    if (state is InArticleDetails) {
-    } else {
-      Navigator.pushNamed(context, articleDetailsRouteName);
-      emit(InArticleDetails());
-    }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ArticleDetailsResponsiveness(
+          largeScreen: ArticleDetailsScreen.bigSize(),
+          smallScreen: ArticleDetailsScreen(),
+        ),
+      ),
+    );
   }
 
   @override
