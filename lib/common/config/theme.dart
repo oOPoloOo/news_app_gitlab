@@ -15,13 +15,14 @@ final ColorScheme colorScheme = ColorScheme(
   secondary: Color(0xFFFFFFFF),
   background: Colors.black,
   surface: Color(0xFFFFFFFF),
-  onBackground: Colors.black,
+  onBackground: Colors.transparent,
   error: Colors.redAccent,
   onError: Colors.redAccent,
-  onPrimary: Colors.redAccent,
+  onPrimary: Colors.grey,
   onSecondary: Color(0xFF322942),
   onSurface: Color(0xFF241E30),
   brightness: Brightness.light,
+  primaryContainer: Colors.grey[400],
 );
 
 textTheme() {

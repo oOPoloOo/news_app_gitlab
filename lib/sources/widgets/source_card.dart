@@ -32,8 +32,7 @@ class SourceCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(20.0)),
               child: Container(
-                color: Colors.grey[400],
-                // TODO : Check how to change media query
+                color: Theme.of(context).colorScheme.primaryContainer,
                 height: media.height * 0.15,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),

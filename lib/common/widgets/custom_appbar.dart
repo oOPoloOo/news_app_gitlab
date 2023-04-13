@@ -86,7 +86,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             leadingWidth: 60,
             automaticallyImplyLeading: bigSize ? false : true,
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Theme.of(context).colorScheme.onBackground,
             iconTheme:
                 IconThemeData(color: Theme.of(context).colorScheme.secondary),
             title: Text(
@@ -103,7 +103,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           return AppBar(
             toolbarHeight: 70,
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Theme.of(context).colorScheme.onBackground,
             title: Text(
               "",
               maxLines: 3,

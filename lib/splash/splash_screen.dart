@@ -28,16 +28,16 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.grey,
+        color: Theme.of(context).colorScheme.onPrimary,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Best news in town!'),
-              SizedBox(height: 16),
+            children: [
+              const Text('Best news in town!'),
+              const SizedBox(height: 16),
               SpinKitFoldingCube(
-                color: Colors.black,
-                duration: Duration(milliseconds: 1000),
+                color: Theme.of(context).colorScheme.background,
+                duration: const Duration(milliseconds: 1000),
               )
             ],
           ),

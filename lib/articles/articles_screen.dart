@@ -123,6 +123,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
 
   List<Widget> _buildChoiceChips() {
     // TODO : istrint ir su map padaryt be jo
+    // TODO : Kodel reikia sito ir kuo geriau?
     List<Widget> chips = [];
 
 // TODO : for to map
@@ -134,7 +135,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           labelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
           backgroundColor: Theme.of(context).colorScheme.primary,
           selected: _selectedIndex == i,
-          selectedColor: Colors.black,
+          selectedColor: Theme.of(context).colorScheme.background,
           side: BorderSide(color: Theme.of(context).colorScheme.secondary),
           onSelected: (bool value) {
             _selectedIndex = i;
@@ -145,6 +146,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       );
       chips.add(item);
     }
+
     return chips;
   }
 }
