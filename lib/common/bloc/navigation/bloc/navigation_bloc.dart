@@ -44,12 +44,13 @@ class NavigationBloc extends Cubit<NavigationState> {
     }
   }
 
-  void goToFavourites(
-      BuildContext context, NavigationState state, int? inheritedIndex) {
+  void goToFavourites(BuildContext context, NavigationState state) {
     if (state is InFavourites) {
     } else {
-      Navigator.pushNamed(context, favouritesRouteName,
-          arguments: inheritedIndex);
+      Navigator.pushNamed(
+        context,
+        favouritesRouteName,
+      );
       emit(InFavourites());
     }
   }

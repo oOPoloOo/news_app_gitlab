@@ -4,41 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/widgets/articles_list_view.dart';
 import 'package:news_app/common/config/constants.dart';
-import 'package:news_app/common/widgets/custom_appbar.dart';
-import 'package:news_app/common/widgets/nav_bar.dart';
 import 'package:news_app/favourites/bloc/bloc/favourites_bloc.dart';
 
 class FavouritesScreen extends StatelessWidget {
   static const String routeName = favouritesRouteName;
-  int? inheritedIndex;
 
-  FavouritesScreen({
-    this.inheritedIndex,
-  });
+  const FavouritesScreen();
 
-  static Route route({int? inheritedIndex}) {
+  static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => FavouritesScreen(
-        inheritedIndex: inheritedIndex,
-      ),
+      builder: (_) => const FavouritesScreen(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return _buidBody();
-
-    // return Scaffold(
-    //   appBar: const CustomAppBar(
-    //     screen: favouritesRouteName,
-    //     title: 'Favourite Articles',
-    //   ),
-    //   bottomNavigationBar: NavBar(
-    //     inheritedIndex: inheritedIndex,
-    //   ),
-    //   body: _buidBody(),
-    // );
   }
 
   BlocBuilder<FavouritesBloc, FavouritesState> _buidBody() {

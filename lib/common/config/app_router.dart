@@ -17,8 +17,7 @@ class AppRouter {
       case articleDetailsRouteName:
         return ArticleDetailsScreen.route();
       case favouritesRouteName:
-        return FavouritesScreen.route(
-            inheritedIndex: settings.arguments as int);
+        return FavouritesScreen.route();
       case splashRouteName:
         return SplashScreen.route();
       case homeRouteName:

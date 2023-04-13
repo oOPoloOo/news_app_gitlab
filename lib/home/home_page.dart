@@ -1,18 +1,20 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:news_app/common/config/constants.dart';
+import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/favourites/favourites_screen.dart';
 import 'package:news_app/sources/sources_screen.dart';
 
 class HomePage extends StatefulWidget {
-  //  String title;
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   static const String routeName = homeRouteName;
 
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
-        builder: (_) => HomePage());
+        builder: (_) => const HomePage());
   }
 
   @override
@@ -68,15 +70,17 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       bottomSelectedIndex = index;
       pageController.animateToPage(index,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
+          duration: const Duration(milliseconds: 500), curve: Curves.ease);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Belekas'),
+      appBar: CustomAppBar(
+        screen:
+            bottomSelectedIndex == 0 ? sourcesRouteName : favouritesRouteName,
+        title: bottomSelectedIndex == 0 ? 'Sources' : 'Favourite Articles',
       ),
       body: buildPageView(),
       bottomNavigationBar: BottomNavigationBar(

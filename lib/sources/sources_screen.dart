@@ -32,18 +32,6 @@ class SourcesScreenState extends State<ScourcesScreen> {
     return SourceDependencies(
       child: _buildBody(context),
     );
-
-    // return Scaffold(
-    //   appBar: const CustomAppBar(
-    //     screen: ScourcesScreen.routeName,
-    //     title: 'Sources Screen',
-    //   ),
-    //   bottomNavigationBar: const NavBar(),
-    //   body: _buildBody(
-    //     context,
-    //     Theme.of(context).colorScheme.background,
-    //   ),
-    // );
   }
 
   Widget _buildBody(BuildContext context) {

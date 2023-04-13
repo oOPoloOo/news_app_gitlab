@@ -57,7 +57,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                 bigSize:
                     ArticleResponsiveness.isSmallScreen(context) ? false : true,
               ),
-              bottomNavigationBar: const NavBar(),
+              // bottomNavigationBar: const NavBar(),
               body: _buildBody()),
         );
       },
