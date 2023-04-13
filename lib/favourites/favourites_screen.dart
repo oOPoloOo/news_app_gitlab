@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/widgets/articles_list_view.dart';
@@ -32,18 +33,18 @@ class FavouritesScreen extends StatelessWidget {
               height: media.height,
               child: Center(
                 child: Text(
-                  "No favourite articles.",
+                  "noFavourite",
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Colors.white,
                       ),
-                ),
+                ).tr(),
               ),
             );
           }
         } else {
           if (state is FavouritesError) {
-            return const Center(
-              child: Text('Something went wrong!'),
+            return Center(
+              child: const Text('wentWrong').tr(),
             );
           } else {
             return const Center(

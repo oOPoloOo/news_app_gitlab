@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
@@ -43,7 +44,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           child: Scaffold(
               appBar: CustomAppBar(
                 screen: ArticlesScreen.routeName,
-                title: "Articles Screen",
+                title: "articlesScreen",
                 bigSize:
                     ArticleResponsiveness.isSmallScreen(context) ? false : true,
               ),
@@ -81,18 +82,18 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
               color: Theme.of(context).colorScheme.background,
               child: Center(
                 child: Text(
-                  "No data in local database about this source.",
+                  "noDataInDb",
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Colors.white,
                       ),
-                ),
+                ).tr(),
               ),
             );
           }
         } else {
           if (state is ArticlesError) {
-            return const Center(
-              child: Text('Something went wrong!'),
+            return Center(
+              child: const Text('wentWrong').tr(),
             );
           } else {
             return const Center(
@@ -131,7 +132,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       Widget item = Padding(
         padding: const EdgeInsets.only(left: 10, right: 6),
         child: ChoiceChip(
-          label: Text(_articlesBloc.choiceChipsNames[i]),
+          label: Text(_articlesBloc.choiceChipsNames[i]).tr(),
           labelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
           backgroundColor: Theme.of(context).colorScheme.primary,
           selected: _selectedIndex == i,

@@ -1,0 +1,15 @@
+{
+    "english": "Anglų",
+    "lietuviu": "Lietuvių",
+    "bestNews": "Geriausios naujienos mieste!",
+    "wentWrong": "Atsirado problema!",
+    "sources": "Šaltiniai",
+    "favouriteArticles": "Mėgstamiausi",
+    "locales": "Kalbos",
+    "noFavourite": "Nėra nei vieno mėgstamo straipsnio.",
+    "articlesScreen": "Straipsniai",
+    "noDataInDb": "Apie šį šalltinį nėra duomenų vietinėje duomenų bazėje",
+    "todays": "Šiandienos",
+    "10DaysOld": "10 dienų senumo",
+    "all": "Visi"
+}

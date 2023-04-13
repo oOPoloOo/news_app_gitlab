@@ -6,6 +6,7 @@ import 'package:news_app/common/bloc/navigation/bloc/navigation_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
 import 'package:news_app/common/widgets/custom_appbar.dart';
 import 'package:news_app/favourites/favourites_screen.dart';
+import 'package:news_app/locales/locales_screen.dart';
 import 'package:news_app/sources/sources_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,6 +30,10 @@ class _HomePageState extends State<HomePage> {
         icon: Icon(Icons.favorite),
         label: 'Favourites',
       ),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.abc),
+        label: 'Locales',
+      ),
     ];
   }
 
@@ -46,6 +51,7 @@ class _HomePageState extends State<HomePage> {
       children: <Widget>[
         ScourcesScreen(),
         const FavouritesScreen(),
+        const LocalesScreen(),
       ],
     );
   }
@@ -81,11 +87,12 @@ class _HomePageState extends State<HomePage> {
           },
           child: Scaffold(
             appBar: CustomAppBar(
-              screen: bottomSelectedIndex == 0
-                  ? sourcesRouteName
-                  : favouritesRouteName,
-              title:
-                  bottomSelectedIndex == 0 ? 'Sources' : 'Favourite Articles',
+              screen: homeRouteName,
+              title: bottomSelectedIndex == 0
+                  ? 'sources'
+                  : bottomSelectedIndex == 1
+                      ? 'favouriteArticles'
+                      : 'locales',
             ),
             body: buildPageView(),
             bottomNavigationBar: BottomNavigationBar(

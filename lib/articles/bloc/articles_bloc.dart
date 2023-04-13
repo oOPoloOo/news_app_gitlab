@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/articles/use_case/articles_use_case.dart';
@@ -13,7 +14,11 @@ class ArticlesBloc extends Cubit<ArticlesState> {
   List<Articles> articleList = <Articles>[];
   List<Articles> articlesFilter = [];
   late StreamSubscription localDbSubscription;
-  List<String> choiceChipsNames = ["Todays", "10 days old", "All"];
+  List<String> choiceChipsNames = [
+    "todays",
+    "10DaysOld",
+    "all",
+  ];
 
   ArticlesBloc({
     required this.articlesUseCase,

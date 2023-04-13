@@ -1,0 +1,15 @@
+{
+    "english": "English",
+    "lietuviu": "Lithuanian",
+    "bestNews": "Best news in town!",
+    "wentWrong": "Something went wrong!",
+    "sources": "Sources",
+    "favouriteArticles": "Favourite Articles",
+    "locales": "Locales",
+    "noFavourite": "No favourite articles.",
+    "articlesScreen": "Articles Screen",
+    "noDataInDb": "No data in local database about this source.",
+    "todays": "Todays",
+    "10DaysOld": "10 days old",
+    "all": "All"
+}

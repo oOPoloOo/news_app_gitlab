@@ -1,7 +1,9 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:news_app/article_details/bloc/article_details_bloc.dart';
 import 'package:news_app/articles/bloc/articles_bloc.dart';
 import 'package:news_app/common/config/constants.dart';
@@ -57,7 +59,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Colors.white,
                   ),
-            ),
+            ).tr(),
           );
         } else {
           return AppBar(
@@ -129,7 +131,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
               color: Colors.white,
             ),
-      ),
+      ).tr(),
     );
   }
 }
