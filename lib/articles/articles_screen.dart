@@ -21,18 +21,18 @@ class ArticlesScreen extends StatefulWidget {
 class _ArticlesScreenState extends State<ArticlesScreen> {
   late ArticlesBloc _articlesBloc;
 
-  // TODO : move to bloc
-  int _selectedIndex = 2;
+  late int _selectedIndex;
 
   @override
   void initState() {
     _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
+    _selectedIndex = _articlesBloc.startFilterIndex;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _articlesBloc.filterArticles(2);
+    _articlesBloc.filterArticles('all');
 
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
@@ -64,11 +64,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
               child: Column(
                 children: [
                   Expanded(
-                    child: Wrap(
-                      spacing: 6,
-                      direction: Axis.horizontal,
-                      children: _buildChoiceChips(),
-                    ),
+                    child: _buildChoiceChips(),
                   ),
                   const SizedBox(height: 15),
                   Expanded(
@@ -113,41 +109,44 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     } else {
       return Center(
         child: Text(
-          'No articles meet requirements',
+          'noArticleMeetRequirements',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Colors.white,
               ),
-        ),
+        ).tr(),
       );
     }
   }
 
-  List<Widget> _buildChoiceChips() {
-    // TODO : istrint ir su map padaryt be jo
-    // TODO : Kodel reikia sito ir kuo geriau?
-    List<Widget> chips = [];
+  Widget _buildChoiceChips() {
+    int i = 0;
+    return Wrap(
+        spacing: 6,
+        direction: Axis.horizontal,
+        children: _articlesBloc.choiceChipsNames.keys.map((choiceKey) {
+          var chip = Padding(
+            padding: const EdgeInsets.only(left: 10, right: 6),
+            child: ChoiceChip(
+              label: Text(_articlesBloc.choiceChipsNames[choiceKey]!).tr(),
+              labelStyle:
+                  TextStyle(color: Theme.of(context).colorScheme.secondary),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              selected: _selectedIndex == i,
+              selectedColor: Theme.of(context).colorScheme.background,
+              side: BorderSide(color: Theme.of(context).colorScheme.secondary),
+              onSelected: (bool value) {
+                choiceKey == 'todays'
+                    ? _selectedIndex = 0
+                    : choiceKey == 'tenDays'
+                        ? _selectedIndex = 1
+                        : _selectedIndex = 2;
 
-// TODO : for to map
-    for (int i = 0; i < _articlesBloc.choiceChipsNames.length; i++) {
-      Widget item = Padding(
-        padding: const EdgeInsets.only(left: 10, right: 6),
-        child: ChoiceChip(
-          label: Text(_articlesBloc.choiceChipsNames[i]).tr(),
-          labelStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          selected: _selectedIndex == i,
-          selectedColor: Theme.of(context).colorScheme.background,
-          side: BorderSide(color: Theme.of(context).colorScheme.secondary),
-          onSelected: (bool value) {
-            _selectedIndex = i;
-
-            _articlesBloc.filterArticles(_selectedIndex);
-          },
-        ),
-      );
-      chips.add(item);
-    }
-
-    return chips;
+                _articlesBloc.filterArticles(choiceKey);
+              },
+            ),
+          );
+          i++;
+          return chip;
+        }).toList());
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
@@ -61,10 +62,10 @@ class ArticleDetailsCard extends StatelessWidget {
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 15.0,
+                  left: 16.0,
                   right: 8.0,
-                  top: 5.0,
-                  bottom: 5,
+                  top: 6.0,
+                  bottom: 6,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -73,7 +74,7 @@ class ArticleDetailsCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                        "Link to original article:",
+                        "${"linkToOriginalArticle".tr()}: ",
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),

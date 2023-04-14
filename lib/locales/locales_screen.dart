@@ -19,7 +19,12 @@ class LocalesScreen extends StatelessWidget {
             onTap: () => context.setLocale(const Locale('lt')),
             title: const Text('lietuviu').tr(),
           ),
-          Text('Current Locale: ' + context.locale.toString()),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child:
+                Text('currentLocale'.tr() + ": " + context.locale.toString()),
+          ),
         ],
       ),
     );

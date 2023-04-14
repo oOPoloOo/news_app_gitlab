@@ -11,5 +11,8 @@
     "noDataInDb": "Apie šį šalltinį nėra duomenų vietinėje duomenų bazėje",
     "todays": "Šiandienos",
     "10DaysOld": "10 dienų senumo",
-    "all": "Visi"
+    "all": "Visi",
+    "currentLocale": "Naudojama kalba",
+    "noArticleMeetRequirements": "Nėra straipsnių atitinkančių filtrą",
+    "linkToOriginalArticle": "Nuoroda į orginalų straipsnį"
 }

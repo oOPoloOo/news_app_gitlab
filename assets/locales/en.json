@@ -11,5 +11,9 @@
     "noDataInDb": "No data in local database about this source.",
     "todays": "Todays",
     "10DaysOld": "10 days old",
-    "all": "All"
+    "all": "All",
+    "currentLocale": "Current Locale",
+    "noArticleMeetRequirements": "No article meet requirements",
+    "linkToOriginalArticle": "Link to original article"
 }
+// Link to original article

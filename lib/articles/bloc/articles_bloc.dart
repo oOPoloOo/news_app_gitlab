@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:news_app/articles/use_case/articles_use_case.dart';
@@ -14,11 +13,12 @@ class ArticlesBloc extends Cubit<ArticlesState> {
   List<Articles> articleList = <Articles>[];
   List<Articles> articlesFilter = [];
   late StreamSubscription localDbSubscription;
-  List<String> choiceChipsNames = [
-    "todays",
-    "10DaysOld",
-    "all",
-  ];
+  int startFilterIndex = 2;
+  Map<String, String> choiceChipsNames = {
+    "todays": "todays",
+    "tenDays": "10DaysOld",
+    "all": "all",
+  };
 
   ArticlesBloc({
     required this.articlesUseCase,
@@ -52,14 +52,14 @@ class ArticlesBloc extends Cubit<ArticlesState> {
   }
 
   // Filters and saves filtered and original data to Articles state.
-  void filterArticles(int selectedIndex) {
+  // void filterArticles(int selectedIndex) {
+  void filterArticles(String selectedValue) {
     DateTime now = DateTime.now();
 
     DateTime nowFormatted = DateTime(now.year, now.month, now.day);
     var fomNow10Days = now.subtract(const Duration(days: 10));
 
-// TODO : if change names of chips or order still needs to work
-    if (selectedIndex == 0) {
+    if (selectedValue == choiceChipsNames['todays']) {
       articlesFilter = articleList.where((article) {
         DateTime publishedAt = article.publishedAt;
         DateTime newPublishedAt = DateTime(
@@ -71,12 +71,14 @@ class ArticlesBloc extends Cubit<ArticlesState> {
         return newPublishedAt.isAtSameMomentAs(nowFormatted);
       }).toList();
     }
-    if (selectedIndex == 1) {
+
+    if (selectedValue == choiceChipsNames['tenDays']) {
       articlesFilter = articleList.where((article) {
         return fomNow10Days.isBefore(article.publishedAt);
       }).toList();
     }
-    if (selectedIndex == 2) {
+
+    if (selectedValue == choiceChipsNames['all']) {
       articlesFilter = articleList;
     }
 
