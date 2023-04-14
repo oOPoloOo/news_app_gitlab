@@ -35,7 +35,7 @@ class SourceCard extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primaryContainer,
                 height: media.height * 0.15,
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
                       Text(

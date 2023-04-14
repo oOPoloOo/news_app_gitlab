@@ -23,7 +23,7 @@ class LocalesScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child:
-                Text('currentLocale'.tr() + ": " + context.locale.toString()),
+                Text("${'currentLocale'.tr()}: " + context.locale.toString()),
           ),
         ],
       ),

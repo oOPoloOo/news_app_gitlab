@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:intl/intl.dart';
 import 'package:news_app/articles/model/articles_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -58,31 +57,38 @@ class ArticleDetailsCard extends StatelessWidget {
               ),
               _buildDate(context, articleInfo),
               _buildTitle(context, articleInfo),
-              _buildContent(context, articleInfo),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16.0,
-                  right: 8.0,
-                  top: 6.0,
-                  bottom: 6,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
                   children: [
+                    _buildContent(context, articleInfo),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                        "${"linkToOriginalArticle".tr()}: ",
-                        style: Theme.of(context).textTheme.headlineSmall,
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 8,
+                        top: 30,
+                        bottom: 6,
                       ),
-                    ),
-                    Linkify(
-                      onOpen: _onOpen,
-                      textScaleFactor: 1,
-                      text: articleInfo.articleUrl,
-                      overflow: TextOverflow.fade,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Text(
+                              "${"linkToOriginalArticle".tr()}: ",
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                          ),
+                          Linkify(
+                            onOpen: _onOpen,
+                            textScaleFactor: 1,
+                            text: articleInfo.articleUrl,
+                            overflow: TextOverflow.fade,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -117,9 +123,9 @@ class ArticleDetailsCard extends StatelessWidget {
   Widget _buildContent(BuildContext context, Articles articleInf) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 15.0,
-        right: 10.0,
-        top: 10.0,
+        left: 16,
+        right: 10,
+        top: 10,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -138,18 +144,16 @@ class ArticleDetailsCard extends StatelessWidget {
   Widget _buildTitle(BuildContext context, Articles articleInf) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 8.0,
-        top: 20.0,
-        right: 8.0,
-        bottom: 5.0,
+        left: 8,
+        top: 20,
+        right: 8,
+        bottom: 6,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             articleInf.title,
-            maxLines: 3,
-            overflow: TextOverflow.fade,
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ],
@@ -161,7 +165,7 @@ class ArticleDetailsCard extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: Padding(
-        padding: const EdgeInsets.only(top: 15.0, left: 8.0, right: 8.0),
+        padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

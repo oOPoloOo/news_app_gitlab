@@ -77,8 +77,8 @@ class ArticleCard extends StatelessWidget {
   Widget _buildTitleText(BuildContext context, Articles articleInf) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 5.0,
-        right: 5.0,
+        left: 6,
+        right: 6,
         top: 8,
       ),
       child: AutoSizeText(
@@ -94,9 +94,9 @@ class ArticleCard extends StatelessWidget {
   Widget _buildDescription(BuildContext context, Articles articleInf) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 10.0,
-        right: 10.0,
-        top: 10.0,
+        left: 10,
+        right: 10,
+        top: 10,
       ),
       child: Text(
         articleInf.description,
@@ -110,17 +110,17 @@ class ArticleCard extends StatelessWidget {
 
   Widget _buildDateText(BuildContext context, Articles articleInf) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, left: 7.0, right: 8.0),
+      padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            height: 25,
+            height: 26,
             width: 10,
             child: Container(color: Theme.of(context).colorScheme.background),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8),
             child: Text(
               DateFormat('yyyy-MM-dd hh:mm').format(articleInf.publishedAt),
               style: Theme.of(context).textTheme.labelMedium,
@@ -153,7 +153,7 @@ class ArticleCard extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Builder(builder: (context) {
             return Container(
               alignment: Alignment.topRight,
